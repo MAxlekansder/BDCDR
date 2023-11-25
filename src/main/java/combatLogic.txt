@@ -1,0 +1,241 @@
+        /*
+        new dicitonary combatlist<string, int>
+
+        foreach monster in monsterlist{
+            combatlist.add("monster", monster.initiative)
+
+            combatList tabell
+            playerlist tabell
+            join playerlist on combatlist on playerid = playerid
+
+            playerlist.get(i).setDamage -> playerList faktiskt dmg
+        }
+
+        foreach player in playerlist{
+            combatlist.add("player", player.initiative)
+            "Player1", List<Player>
+
+            "Monster3" 80
+            "player1" 20
+
+            Collections.Sort(combatList, new combatInitivatieComperator)
+
+            while(!combatlist.isEmpty)
+
+            if ( && !combatlist.isDead
+            combat ->
+            "player1" 20
+            "monster3" 80
+
+            fight == över
+
+            combatlist.remove(monster) == isDead
+            playlist = combatlist -> player 2 isDead
+            palylist == if (isdead)
+            writeline (player.get(isDead)
+
+
+        }
+
+        init = 1, går först
+        1 monster 2
+        2 monster 3
+        3 monster 1
+
+        monsterFightIndex == attack mot monster på plats 1
+
+        monster 1 - 80
+        monster 2 - 20
+        player 1 - 40
+        player 2- 60
+
+        sorterar:
+
+       1. monster 2 - 20 MonsterList
+       2. player 1 - 40 PlayerList
+       3. player 2- 60 PlayerList
+       4. monster 1 - 80 MonsterList
+
+        sortera eller iterera över combatList
+
+        playerListan har värden -> om de förändras i fight, stannar som de blev satta.
+        player 1 tar 20 dmg -> play1 50 hp, play1 30hp
+
+        combatList -> spelaren i combatListan player1 tar -20 hp
+        playerListan -> spelaren 1  inte tar -20hp
+
+        när combaten är över, värderna kan vara kvar och sen skrivas över till playerListan?
+
+
+        combatList = monsterlist, playerlist
+
+        Gå igenom monsterListan -> gå igenom initiative
+
+        String, List
+
+
+
+        Dictionary<String, List<T>> dict= new Hashtable<>();
+        for (player: playerList) {
+            combatlist.add("Player", playerList)
+        }
+         for (monster : monsterlist) {
+            combatlist.add("Monster", monsterList)
+        }
+
+
+
+        combatlist.listOf<T>
+
+
+
+        //fight startar
+        //sorterar initiative
+        // fighten går i turordning baserat på lägst initiative
+
+        player hasPlayed
+
+        playerResetHP() <- om spelaren ska få tillbaka sitt HP efter fighten
+
+        //lambda
+        while(monsterlist != dead || playerlist != dead)
+
+            Collections.sort(playerList, new PlayerInitiativeComperator());
+            Collections.sort(monsterList, new MonsterInitiativeComperator());
+
+
+             //sort before start playing
+
+            player init 1 -> går först
+                                        monster init 1 ->
+            player init 2 -> går andra
+
+            find a way to filter out player that hasPlayed = true
+
+
+            if (player.init > monster.init) {
+                switch menu for all attacks and spells
+                player attack -> monster, spells allt tjena
+                checkMonsterDead()
+                setPlayerCurrencyIfMonsterDead
+                ...
+                player.get(i).hasPlayed = true;
+            }
+            else
+                monster, monster figting logic ->
+                          monster 20% chans att stunna dig
+                          checkPlayerIfDead()
+
+
+            countRounds++;
+
+            //insert fight here as well, so we can use both attack and spells...
+
+            //my lists are sorted...
+            //compare initiative and use that
+            //add it into two lists? i'd rather not...
+
+        } */
+
+
+
+                // false
+                /*
+                if (!(playerList.get(paIT).isHasPlayed())) {
+
+
+                    if (playerList.get(paIT).getInitiative() < monsterList.get(moIT).getInitiative()) {
+
+                        System.out.printf("Player %s turn: \n", playerList.get(paIT).getName());
+                        System.out.println(playerChoice.fightSequence());
+
+                        combatMenu.combatSwitch(playerList, paIT, monsterList);
+
+                        playerList.get(paIT).setHasPlayed(true);
+                        System.out.println(playerList.get(paIT).isHasPlayed());
+                        if (paIT < playerList.size() - 1) paIT++;
+
+                    } else {
+
+                        System.out.printf("Monster %s:", monsterList.get(moIT).getMonsterName());
+
+                        //IntStream.range(0,monsterList).filter(index -> index == moIT).forEach();
+                        for (Monster monster : monsterList) {
+                            if (monster.getMonsterId() == moIT) {
+                                monster.setHasPlayed(true);
+                            }
+                        }
+
+                        System.out.println(monsterList.get(paIT).isHasPlayed());
+                        if (moIT < monsterList.size() - 1) moIT++;
+                    }
+                }
+
+            }
+        }
+
+
+
+        // reset initiativeTracker here??? as thing dies, list will shrink
+        // tracker might be a dumb idea here...
+        // how do i by the best find the index...
+
+    }
+
+
+}
+
+
+
+
+    // while (!playerList.isEmpty() || !monsterList.isEmpty()) -> combat över, återställa spelares hp, börja om från noll -> level += 1 / spelet över
+
+        // while (!(checkPlayerHasPLayed(playerList) && checkMonsterHasPLayed(monsterList))) -> rundor, false, runda +1, set tillbaka paIT moIT
+
+            // if ((paIT < playerList.size() && moIT < monsterList.size())) -> combat loop, slåss man
+
+        }
+            slåss vi, tills alla har slagits
+        }
+            nollställ hasPlayed, runda +1
+        }
+            räkna poäng, level -> tillbaka huvudmenyn
+
+
+  if (!currentPlayer.isHasPlayed() && (currentPlayer.getInitiative()) < currentMonster.getInitiative()) {
+
+                        System.out.printf("Player %s turn:\n", currentPlayer.getName());
+                        System.out.println(playerChoice.fightSequence()); // move out?
+                        combatMenu.combatSwitch(playerList, paIT, monsterList);
+
+                        currentPlayer.setHasPlayed(true);
+                        if (paIT < playerList.size()) paIT++;
+
+                    } else if (!currentMonster.isHasPlayed()) {
+
+                        System.out.printf("Monster %s turn:\n", currentMonster.getMonsterName());
+                        // Perform monster actions here
+
+                        monsterAttack.monsterStrikePlayer(moIT, monsterList, playerList);
+                        checkPlayerhasDied(playerList);
+                        currentMonster.setHasPlayed(true);
+
+                        if (moIT < monsterList.size()) moIT++;
+
+                    } else {
+
+                        System.out.printf("Player %s turn:\n", currentPlayer.getName());
+                        System.out.println(playerChoice.fightSequence());
+                        combatMenu.combatSwitch(playerList, paIT, monsterList);
+
+                        checkMonsterhasDied(monsterList, playerList);
+                        if (paIT < playerList.size()) paIT++;
+                    }
+
+
+
+player 1 har spelat sant()
+player 2 inte har spelat ej sant() <-
+
+monster 1
+monster 2

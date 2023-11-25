@@ -1,0 +1,127 @@
+/* TODO
+
+   implementera bossar
+
+   Fixa save file
+
+   Fixa Logik
+   Fixa fler bossar
+   Balansera monster mot spelare - ska vara svårt men inte för svårt
+   Fixa tester
+   Fixa hur man presenterar att en spelare levelar - vad ska mer hända när en spelare levelar?
+
+
+
+
+
+
+ // SAVE PRINCESS BENNY
+
+ //Look up system design in files...
+ // souf -> system out format , %s för att ta in värden
+ // if there's a lot of monsters, sum the entire HP pool and use that as a check condition
+ // lambda for that or just count monsterArraylist... 3 enemys 10 / 20 / 40 = 70;
+ // use index to fight different enemies and reduce that monsters health
+
+    //find a formula for exp? <- no need now
+
+
+ // how do you balance a game like this? if 1 is stronger and 3 spawns?
+    // based on how many players and exp rounded down? <- new game plus should have rounded up.
+    // Should I use interface for players and return the value or put it into a separate java class?
+
+    // make sure that only 3 players can play
+        //limit the player pool
+
+    // how should they fight? Random within restriction based on classes best attribute?
+            // agi => fights with agi but gets more armor from str <- look inte what int gives
+            // str => fights with str but gets more evasion from agi <- look inte what int gives
+            // int => fights with int but gets more armor from str and more evasion from agi
+                                        // or that cheat code is playing int-hero?
+                                        // less scaling on AGI and STR compared to agi and str hero
+                                        // Colors for each attribute
+                                        // HP from classes?
+
+            // how should initative work?
+                    // should do a sort and use that with who goes first
+            // based on weapon and?
+            // implement logic on arraylist when leveling-> use base as structure
+
+            // implement rewards / playercount
+            // hur ska jag få in initiativ på ett bra sätt?
+
+        // Player
+            // name
+            // experience
+            // stats - agility / intellect / strength
+                        // rage / energy / mana <- belong to Classes
+            // HP
+            // Currency
+            // Initiative?
+            // Damage
+                // List for items
+                // List for talent tree
+                // List for inventory slots
+                        // getters and setters for item list in classes?
+
+        // Monster
+            // stats - agility / intellect / strength
+                   // rage / energy / mana <- belong to Classes
+            // HP
+            // Initiative?
+            // Damage
+
+        // Classes
+            // Barb
+            // Rogue <- extra loot? Everyone should have its own trait
+            // Warlock
+
+            // Blood mage <- uses HP to fight and regenerates when something dies?
+            // Tinker <- Traps and fire over time?
+            // Monk <- Shield, like disc priest but with fists
+
+        // Inventory
+            // have at least 5 slots
+            // main hand ( can be two-handed and that would fil the slot up ) <- look into it
+            // offhand
+            // armour (counts everything)
+            // ring
+            // boots? <- see over last alternative
+
+        // Items
+            // Base item
+                // Sword
+                // Shield
+                // Potion
+
+            // mid-tier item
+            // late-game item
+            // divine item
+            // random out stats? <- reroll item?
+
+        // Levels
+            // random per map
+            // harder each level
+            // new game + when game over
+
+        // Shop
+            // secret shop / per level
+            // unlock tiers per exp or level reached
+
+        // Rewards
+
+        // Talent tree
+
+        // ICombat
+            //fighting
+                // attack
+                // flee
+                // getStatus
+                // win or loose
+                // check when HP == 0, if?
+
+        //write to file
+            // save game - but when its over, it's over
+            // save to file when game ends, include date and build scoreboard for longest lasting
+                    // base on EXP? easiest way to do it?
+            // be able to 'continue'
