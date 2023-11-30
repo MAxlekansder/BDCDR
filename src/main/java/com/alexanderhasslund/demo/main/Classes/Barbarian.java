@@ -1,6 +1,7 @@
 package com.alexanderhasslund.demo.main.Classes;
 import com.alexanderhasslund.demo.main.Combat.ICombat;
 import com.alexanderhasslund.demo.main.Engine.Color;
+import com.alexanderhasslund.demo.main.Engine.DatabaseWriter;
 import com.alexanderhasslund.demo.main.Engine.Input;
 import com.alexanderhasslund.demo.main.Monster.Monster;
 import com.alexanderhasslund.demo.main.Player.Player;
@@ -38,7 +39,7 @@ public class Barbarian extends Player implements IClasses, ICombat, Serializable
     public Barbarian() {
         //Player barbarian = new Player(getName(),getTalentTreeList(),getInventoryList(),0,0,"BARBARIAN",115,20,100,22,8,0,0,10,55);
         //return barbarian;
-        this.className = Color.RED + "BARBARIAN" + Color.RESET;
+        this.className = "BARBARIAN";
         this.maxHp = 115;
         this.hp = 115;
         this.id = 0;
@@ -65,6 +66,7 @@ public class Barbarian extends Player implements IClasses, ICombat, Serializable
 
     @Override
     public void setLevelUp(Player currentPlayer) {
+        DatabaseWriter databaseWriter = new DatabaseWriter();
 
         int PlayerCurrentExperienceExperince = currentPlayer.getExperience();
         currentPlayer.setExperience(0);
@@ -78,6 +80,7 @@ public class Barbarian extends Player implements IClasses, ICombat, Serializable
                 System.out.printf("%s %s just leveled up to level %s! \n", currentPlayer.getClassName(), currentPlayer.getName(), currentPlayer.getLevel());
                 currentPlayer.setExperience(0);
                 addStatsToPlayer(currentPlayer);
+                databaseWriter.updatePlayerLevelDatabase(currentPlayer);
 
             }
         }
@@ -289,6 +292,10 @@ public class Barbarian extends Player implements IClasses, ICombat, Serializable
 
     @Override
     public String getClassName() {
+        return Color.RED + className + Color.RESET;
+    }
+
+    public String getClassNameSQL() {
         return className;
     }
 

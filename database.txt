@@ -1,0 +1,5 @@
+How to solve entire party reco? PartyID?
+Count players and have that set to a partyID? So that every round has the same PartyID?
+How to solve logic depending on how many players are playing.
+
+Maybe merge player and class in same table? Avoid redundancy?

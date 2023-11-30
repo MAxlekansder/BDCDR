@@ -39,7 +39,7 @@ public class Rogue extends Player implements IClasses, ICombat, Serializable {
 
 
     public Rogue() {
-        this.className = Color.GREEN + "ROGUE" + Color.RESET;
+        this.className = "ROGUE";
         this.maxHp = 100;
         this.hp = 100; // change here and check all control values
         this.id = 0;
@@ -288,6 +288,10 @@ public class Rogue extends Player implements IClasses, ICombat, Serializable {
 
     @Override
     public String getClassName() {
+        return Color.GREEN + className + Color.RESET;
+    }
+
+    public String getClassNameSQL() {
         return className;
     }
 

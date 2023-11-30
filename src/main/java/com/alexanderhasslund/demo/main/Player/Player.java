@@ -106,6 +106,10 @@ public class Player implements Serializable {
         return className;
     }
 
+    public String getClassNameSQL() {
+        return className;
+    }
+
     public int getHp() {
         return hp;
     }

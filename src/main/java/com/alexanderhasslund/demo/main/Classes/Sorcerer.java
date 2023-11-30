@@ -37,7 +37,7 @@ public class Sorcerer extends Player implements IClasses, ICombat, Serializable 
     private int baseDamage;
 
     public Sorcerer() {
-        this.className = Color.BLUE + "SORCERER" + Color.RESET;
+        this.className = "SORCERER";
         this.hp = 90;
         this.id = 0;
         this.damage = 10; //find a good formula;
@@ -274,6 +274,9 @@ public class Sorcerer extends Player implements IClasses, ICombat, Serializable 
 
     @Override
     public String getClassName() {
+        return Color.BLUE + className + Color.RESET;
+    }
+    public String getClassNameSQL() {
         return className;
     }
 

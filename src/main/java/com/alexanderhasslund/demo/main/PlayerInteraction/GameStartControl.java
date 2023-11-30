@@ -4,6 +4,7 @@ import com.alexanderhasslund.demo.main.Classes.Barbarian;
 import com.alexanderhasslund.demo.main.Classes.Rogue;
 import com.alexanderhasslund.demo.main.Classes.Sorcerer;
 import com.alexanderhasslund.demo.main.Combat.FirstCombatEncounter;
+import com.alexanderhasslund.demo.main.Engine.DatabaseGetter;
 import com.alexanderhasslund.demo.main.Engine.Input;
 import com.alexanderhasslund.demo.main.Engine.StringManipulator;
 import com.alexanderhasslund.demo.main.File.SaveFile;
@@ -22,9 +23,9 @@ public class GameStartControl {
         StringLore stringLore = new StringLore();
 
 
-        stringManipulator.manipulateString(stringLore.intro());
+        //stringManipulator.manipulateString(stringLore.intro());
         stringLore.gameTitle();
-        System.out.println(stringLore.gameIntroductionClasses());
+        //System.out.println(stringLore.gameIntroductionClasses());
 
         Barbarian barbarian = new Barbarian();
         System.out.println(barbarian);
@@ -33,8 +34,8 @@ public class GameStartControl {
         Sorcerer sorcerer = new Sorcerer();
         System.out.println(sorcerer);
 
-        System.out.println(stringLore.ultimateClassPresentation());
-        stringManipulator.manipulateString(stringLore.gameIntroductionRules());
+        //System.out.println(stringLore.ultimateClassPresentation());
+        //stringManipulator.manipulateString(stringLore.gameIntroductionRules());
         System.out.println("Press enter to continue, where you start the game and choose class");
 
         String enter = Input.stringInput();
@@ -44,6 +45,7 @@ public class GameStartControl {
 
     public void startUpMenu() {
         PlayerChoice playerChoice = new PlayerChoice();
+        DatabaseGetter databaseGetter = new DatabaseGetter();
         SaveFile saveFile = new SaveFile();
         boolean isPlaying = true;
 
@@ -73,6 +75,7 @@ public class GameStartControl {
                 }
                 case 3 -> {
                     System.out.println("Feature comming soon!");
+                    databaseGetter.gettingPlayersFromDatabase();
                 }
                 case 4 -> {
                     isPlaying = false;
@@ -96,8 +99,8 @@ public class GameStartControl {
         MainGameControl mainGameControl = new MainGameControl(playerController.getPlayerList(), playerController.getCountPlayers());
 
 
-        stringManipulator.manipulateString(playerChoice.firstFightIntroduction());
-        firstCombatEncounter.firstPlayerFight();
+        //stringManipulator.manipulateString(playerChoice.firstFightIntroduction());
+        //firstCombatEncounter.firstPlayerFight();
         mainGameControl.mainSwitch();
     }
 

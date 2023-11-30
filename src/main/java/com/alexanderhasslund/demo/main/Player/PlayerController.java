@@ -2,15 +2,24 @@ package com.alexanderhasslund.demo.main.Player;
 import com.alexanderhasslund.demo.main.Classes.Barbarian;
 import com.alexanderhasslund.demo.main.Classes.Rogue;
 import com.alexanderhasslund.demo.main.Classes.Sorcerer;
+import com.alexanderhasslund.demo.main.Engine.DatabaseConnector;
+import com.alexanderhasslund.demo.main.Engine.DatabaseWriter;
 import com.alexanderhasslund.demo.main.Engine.Input;
 import com.alexanderhasslund.demo.main.Inventory.Inventory;
 import com.alexanderhasslund.demo.main.PlayerInteraction.PlayerChoice;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
 public class PlayerController {
+    DatabaseWriter databaseWriter = new DatabaseWriter();
     private List<Player> playerList;
     private int countPlayers;
 
@@ -48,7 +57,6 @@ public class PlayerController {
                 isMany = false;
             }
         }
-
     }
 
 
@@ -93,6 +101,8 @@ public class PlayerController {
                 playerList.get(i).getInventoryList().add(j,new Inventory("",0,0,0,0,0));
             }
         }
+
+        databaseWriter.writtingPlayersToDatabase(playerList);
     }
 
 
@@ -112,6 +122,7 @@ public class PlayerController {
         }
         return playerList;
     }
+
 
 
 }
