@@ -100,7 +100,7 @@ public class GameStartControl {
 
 
         //stringManipulator.manipulateString(playerChoice.firstFightIntroduction());
-        //firstCombatEncounter.firstPlayerFight();
+        firstCombatEncounter.firstPlayerFight();
         mainGameControl.mainSwitch();
     }
 

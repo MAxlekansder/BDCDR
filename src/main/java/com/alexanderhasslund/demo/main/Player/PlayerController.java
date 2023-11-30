@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 
 public class PlayerController {
@@ -101,7 +102,8 @@ public class PlayerController {
                 playerList.get(i).getInventoryList().add(j,new Inventory("",0,0,0,0,0));
             }
         }
-
+        String partyId = generatePartyId();
+        playerList.forEach(player -> {player.setPartyId(partyId);});
         databaseWriter.writtingPlayersToDatabase(playerList);
     }
 
@@ -124,6 +126,16 @@ public class PlayerController {
     }
 
 
+    public String generatePartyId() {
+
+        int leftLimit = 97;
+        int rightLimit = 122;
+        int targetStringLength = 10;
+        Random random = new Random();
+
+         String generator = random.ints(leftLimit, rightLimit +1 ).limit(targetStringLength).collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
+         return generator;
+    }
 
 }
 

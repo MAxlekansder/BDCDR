@@ -3,6 +3,7 @@ package com.alexanderhasslund.demo.main.Classes;
 import com.alexanderhasslund.demo.main.Combat.ResetCombat;
 import com.alexanderhasslund.demo.main.Combat.ICombat;
 import com.alexanderhasslund.demo.main.Engine.Color;
+import com.alexanderhasslund.demo.main.Engine.DatabaseWriter;
 import com.alexanderhasslund.demo.main.Engine.Input;
 import com.alexanderhasslund.demo.main.Monster.Monster;
 import com.alexanderhasslund.demo.main.Player.Player;
@@ -66,6 +67,7 @@ public class Rogue extends Player implements IClasses, ICombat, Serializable {
 
     @Override
     public void setLevelUp(Player currentPlayer) {
+        DatabaseWriter databaseWriter = new DatabaseWriter();
 
         int PlayerCurrentExperienceExperince = currentPlayer.getExperience();
         currentPlayer.setExperience(0);
@@ -79,6 +81,7 @@ public class Rogue extends Player implements IClasses, ICombat, Serializable {
                 currentPlayer.setExperience(0);
 
                 addStatsToPlayer(currentPlayer);
+                databaseWriter.updatePlayerLevelDatabase(currentPlayer);
             }
         }
     }
@@ -103,7 +106,7 @@ public class Rogue extends Player implements IClasses, ICombat, Serializable {
 
         if (currentPlayer.getResource() >= 100) {
             System.out.println("The rogue strikes in a quick sequence, dealing double damage to: ");
-            int calcRogueUltimate = (currentPlayer.getInventoryList().get(0).getDamage() + currentPlayer.getDamage() - 4);
+            int calcRogueUltimate = (currentPlayer.getInventoryList().get(0).getDamage() + currentPlayer.getDamage() + 1000);
 
             for (Monster monster : monsterList) {
 

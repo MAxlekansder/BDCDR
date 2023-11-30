@@ -36,7 +36,15 @@ public class Player implements Serializable {
     private int baseAgility;
     private int baseIntellect;
     private int baseDefence;
+    private String partyId;
 
+    public String getPartyId() {
+        return partyId;
+    }
+
+    public void setPartyId(String partyId) {
+        this.partyId = partyId;
+    }
 
     public int getBaseStrength() {
         return baseStrength;

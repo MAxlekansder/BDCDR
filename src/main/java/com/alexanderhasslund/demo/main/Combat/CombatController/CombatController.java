@@ -1,10 +1,15 @@
 package com.alexanderhasslund.demo.main.Combat.CombatController;
 import com.alexanderhasslund.demo.main.Combat.CombatMenu;
 import com.alexanderhasslund.demo.main.Combat.ResetCombat;
+import com.alexanderhasslund.demo.main.Engine.DatabaseConnector;
 import com.alexanderhasslund.demo.main.Engine.Input;
 import com.alexanderhasslund.demo.main.Monster.Monster;
 import com.alexanderhasslund.demo.main.Player.Player;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -173,5 +178,8 @@ public class CombatController {
 
 
     }
+
+
+
 }
 

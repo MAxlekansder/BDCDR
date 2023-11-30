@@ -1,6 +1,7 @@
 package com.alexanderhasslund.demo.main.Classes;
 import com.alexanderhasslund.demo.main.Combat.ICombat;
 import com.alexanderhasslund.demo.main.Engine.Color;
+import com.alexanderhasslund.demo.main.Engine.DatabaseWriter;
 import com.alexanderhasslund.demo.main.Engine.Input;
 import com.alexanderhasslund.demo.main.Monster.Monster;
 import com.alexanderhasslund.demo.main.Player.Player;
@@ -63,6 +64,7 @@ public class Sorcerer extends Player implements IClasses, ICombat, Serializable 
 
     @Override
     public void setLevelUp(Player currentPlayer) {
+        DatabaseWriter databaseWriter = new DatabaseWriter();
 
         int PlayerCurrentExperienceExperince = currentPlayer.getExperience();
         currentPlayer.setExperience(0);
@@ -74,7 +76,9 @@ public class Sorcerer extends Player implements IClasses, ICombat, Serializable 
                 currentPlayer.setLevel(currentPlayer.getLevel() +1);
                 System.out.printf("%s %s just leveled up to level %s! \n", currentPlayer.getClassName(), currentPlayer.getName(), currentPlayer.getLevel());
                 currentPlayer.setExperience(0);
+
                 addStatsToPlayer(currentPlayer);
+                databaseWriter.updatePlayerLevelDatabase(currentPlayer);
             }
         }
     }
@@ -110,6 +114,7 @@ public class Sorcerer extends Player implements IClasses, ICombat, Serializable 
             System.out.printf("The %s %s doesnt have enough mana to perform dragons breath!", currentPlayer.getClassName(), currentPlayer.getName());
         }
     }
+
 
     @Override
     public void spells(List<Player> playerList, Player currentPlayer, List<Monster> monsterList) {

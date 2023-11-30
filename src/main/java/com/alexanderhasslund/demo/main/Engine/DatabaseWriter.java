@@ -25,7 +25,7 @@ public class DatabaseWriter {
                     preparedStatement.setInt(4, player.getCurrency());
                     preparedStatement.setInt(5, player.getLevel());
                     preparedStatement.setString(6, player.getClassNameSQL());
-                    preparedStatement.setString(7, "PARTY" + playerList.size() + LocalDateTime.now());
+                    preparedStatement.setString(7, player.getPartyId());
 
                     int rowsAffected = preparedStatement.executeUpdate();
 
@@ -39,19 +39,24 @@ public class DatabaseWriter {
         }
     }
 
-    public void updatePlayerLevelDatabase(Player player ) {
+    public void updatePlayerLevelDatabase(Player player) {
 
         try (Connection connection = DatabaseConnector.getConnection()) {
-            String updatePlayer = "UPDATE dungeonrun.player SET Level = ? WHERE "+ "playerId = ?";
-
-
+            String updatePlayer = "UPDATE dungeonrun.player SET Level = ? WHERE " + "playerId = ? " + "and BelongsToPartyId = ?";
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(updatePlayer)) {
+
+                        preparedStatement.setInt(1, player.getLevel());
+                        preparedStatement.setInt(2,player.getId());
+                        preparedStatement.setString(3,player.getPartyId());
+                        preparedStatement.executeUpdate();
+
             } catch (SQLException e) {
                 DatabaseConnector.handleSQL(e);
             }
         } catch (SQLException e) {
             DatabaseConnector.handleSQL(e);
         }
+
     }
 }
