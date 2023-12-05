@@ -2,13 +2,12 @@ package com.alexanderhasslund.demo.main.Combat.CombatController;
 
 import com.alexanderhasslund.demo.main.Classes.IClasses;
 import com.alexanderhasslund.demo.main.Combat.ICombat;
-import com.alexanderhasslund.demo.main.Engine.DatabaseWriter;
+import com.alexanderhasslund.demo.main.Engine.DatabasePlayerWriter;
 import com.alexanderhasslund.demo.main.Engine.Input;
 import com.alexanderhasslund.demo.main.Monster.Monster;
 import com.alexanderhasslund.demo.main.Player.Player;
 import com.alexanderhasslund.demo.main.PlayerInteraction.PlayerChoice;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -71,7 +70,7 @@ public class PlayerAttack {
 
 
     public void checkMonsterhasDied(List<Monster> monsterList, List<Player> playerList, Player currentPlayer) {
-
+        DatabasePlayerWriter databasePlayerWriter = new DatabasePlayerWriter();
 
         //for (int i = 0; i < monsterList.size(); i++) {
         for (int i = monsterList.size() -1; i >=0; i--) {
@@ -86,6 +85,7 @@ public class PlayerAttack {
                     playerList.get(j).setCurrency(playerList.get(j).getCurrency() + monsterList.get(i).getGivesCurrency());
                     playerList.get(j).setExperience( playerList.get(j).getExperience() +monsterList.get(i).getGivesExperience());
                 }
+                databasePlayerWriter.updateMonsterKilledByPlayer(currentPlayer, 1);
                 monsterList.remove(monsterList.get(i));
             }
 

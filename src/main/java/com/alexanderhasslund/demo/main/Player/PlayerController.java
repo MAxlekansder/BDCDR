@@ -2,25 +2,20 @@ package com.alexanderhasslund.demo.main.Player;
 import com.alexanderhasslund.demo.main.Classes.Barbarian;
 import com.alexanderhasslund.demo.main.Classes.Rogue;
 import com.alexanderhasslund.demo.main.Classes.Sorcerer;
-import com.alexanderhasslund.demo.main.Engine.DatabaseConnector;
-import com.alexanderhasslund.demo.main.Engine.DatabaseWriter;
+import com.alexanderhasslund.demo.main.Engine.DatabaseClassWriter;
+import com.alexanderhasslund.demo.main.Engine.DatabasePlayerWriter;
 import com.alexanderhasslund.demo.main.Engine.Input;
 import com.alexanderhasslund.demo.main.Inventory.Inventory;
 import com.alexanderhasslund.demo.main.PlayerInteraction.PlayerChoice;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.text.DateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
 
 public class PlayerController {
-    DatabaseWriter databaseWriter = new DatabaseWriter();
+    DatabasePlayerWriter databasePlayerWriter = new DatabasePlayerWriter();
+    DatabaseClassWriter databaseClassWriter = new DatabaseClassWriter();
     private List<Player> playerList;
     private int countPlayers;
 
@@ -104,7 +99,8 @@ public class PlayerController {
         }
         String partyId = generatePartyId();
         playerList.forEach(player -> {player.setPartyId(partyId);});
-        databaseWriter.writtingPlayersToDatabase(playerList);
+        databasePlayerWriter.writtingPlayersToDatabase(playerList);
+        databaseClassWriter.writeClassToDatabase(playerList);
     }
 
 

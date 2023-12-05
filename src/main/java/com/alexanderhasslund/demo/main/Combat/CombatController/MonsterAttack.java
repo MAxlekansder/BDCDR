@@ -1,6 +1,7 @@
 package com.alexanderhasslund.demo.main.Combat.CombatController;
 
 import com.alexanderhasslund.demo.main.Combat.ICombat;
+import com.alexanderhasslund.demo.main.Engine.DatabasePlayerWriter;
 import com.alexanderhasslund.demo.main.Engine.Input;
 import com.alexanderhasslund.demo.main.Monster.Monster;
 import com.alexanderhasslund.demo.main.Player.Player;
@@ -36,10 +37,13 @@ public class MonsterAttack {
 
     // check if this boolean is needed?
     public void checkPlayerhasDied(List<Player> playerList) {
+        DatabasePlayerWriter databasePlayerWriter = new DatabasePlayerWriter();
         for (int i = 0; i < playerList.size(); i++) {
             if (playerList.get(i).getHp() <= 0) {
                 System.out.printf("Seems like player %s didnt, survive... to bad...", playerList.get(i).getName());
                 playerList.get(i).setHasPlayed(true);
+                Player currentPlayer = playerList.get(i);
+                databasePlayerWriter.updatePlayerhasDied(currentPlayer);
                 playerList.remove(i);
             }
         }

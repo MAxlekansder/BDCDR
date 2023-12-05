@@ -1,7 +1,7 @@
 package com.alexanderhasslund.demo.main.Classes;
 import com.alexanderhasslund.demo.main.Combat.ICombat;
 import com.alexanderhasslund.demo.main.Engine.Color;
-import com.alexanderhasslund.demo.main.Engine.DatabaseWriter;
+import com.alexanderhasslund.demo.main.Engine.DatabasePlayerWriter;
 import com.alexanderhasslund.demo.main.Engine.Input;
 import com.alexanderhasslund.demo.main.Monster.Monster;
 import com.alexanderhasslund.demo.main.Player.Player;
@@ -66,7 +66,7 @@ public class Barbarian extends Player implements IClasses, ICombat, Serializable
 
     @Override
     public void setLevelUp(Player currentPlayer) {
-        DatabaseWriter databaseWriter = new DatabaseWriter();
+        DatabasePlayerWriter databasePlayerWriter = new DatabasePlayerWriter();
 
         int PlayerCurrentExperienceExperince = currentPlayer.getExperience();
         currentPlayer.setExperience(0);
@@ -80,7 +80,7 @@ public class Barbarian extends Player implements IClasses, ICombat, Serializable
                 System.out.printf("%s %s just leveled up to level %s! \n", currentPlayer.getClassName(), currentPlayer.getName(), currentPlayer.getLevel());
                 currentPlayer.setExperience(0);
                 addStatsToPlayer(currentPlayer);
-                databaseWriter.updatePlayerLevelDatabase(currentPlayer);
+                databasePlayerWriter.updatePlayerLevelDatabase(currentPlayer);
 
             }
         }
