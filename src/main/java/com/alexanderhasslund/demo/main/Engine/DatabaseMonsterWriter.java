@@ -4,48 +4,19 @@ import com.alexanderhasslund.demo.main.Player.Player;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class DatabaseClassWriter {
-
-
-    public int getPlayerId(Player player) {
-        int playerId = 0;
-        try (Connection connection = DatabaseConnector.getConnection()) {
-            String selectPlayerId = "SELECT playerId from dungeonrun.player where PlayerClassId = ?" + " and BelongsToPartyId = ?";
-
-            try (PreparedStatement statement = connection.prepareStatement(selectPlayerId)) {
-
-                statement.setInt(1, player.getId());
-                statement.setString(2, player.getPartyId());
-
-                ResultSet resultSet = statement.executeQuery();
-
-                while(resultSet.next()) {
-                    playerId = resultSet.getInt("PlayerId");
-                }
-
-            } catch (SQLException e) {
-                DatabaseConnector.handleSQL(e);
-            }
-
-        } catch (SQLException e) {
-            DatabaseConnector.handleSQL(e);
-        }
-
-        return playerId;
-    }
+public class DatabaseMonsterWriter {
 
     public void writeClassToDatabase(List<Player> playerList) {
         try (Connection connection = DatabaseConnector.getConnection()) {
-            String addDataToClasses = "INSERT INTO dungeonrun.classes (playerId, PlayerClassId, ClassName, MaxHP, Damage, MaxResource, BaseStrength, BaseAgility, BaseIntellect, BaseDefence, Initiative, isDead, BelongsToPartyId) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            String addDataToClasses = "INSERT INTO dungeonrun.monster ( PlayerClassId, ClassName, MaxHP, Damage, MaxResource, BaseStrength, BaseAgility, BaseIntellect, BaseDefence, Initiative, isDead, BelongsToPartyId) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 
             try (PreparedStatement statement = connection.prepareStatement(addDataToClasses)) {
 
                 for (Player player : playerList) {
-                    statement.setInt(1, getPlayerId(player));
+
                     statement.setInt(2, player.getId());
                     statement.setString(3, player.getClassNameSQL());
                     statement.setInt(4, player.getMaxHp());
@@ -70,4 +41,3 @@ public class DatabaseClassWriter {
         }
     }
 }
-

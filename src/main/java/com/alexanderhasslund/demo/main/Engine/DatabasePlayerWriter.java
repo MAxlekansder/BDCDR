@@ -5,6 +5,7 @@ import com.alexanderhasslund.demo.main.Player.Player;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 public class DatabasePlayerWriter {
@@ -14,18 +15,19 @@ public class DatabasePlayerWriter {
         try (Connection connection = DatabaseConnector.getConnection()) {
             String addDataToPlayer = "INSERT INTO dungeonrun.player (PlayerClassId, PlayerName, Experience, Currency, Level, BelongsToPartyId, MonsterKilled) VALUES (?,?,?,?,?,?,?)";
 
-            try (PreparedStatement preparedStatement = connection.prepareStatement(addDataToPlayer)) {
+
+            try (PreparedStatement statement = connection.prepareStatement(addDataToPlayer)) {
 
                 for (Player player : playerList) {
-                    preparedStatement.setInt(1, player.getId());
-                    preparedStatement.setString(2, player.getName());
-                    preparedStatement.setInt(3, player.getExperience());
-                    preparedStatement.setInt(4, player.getCurrency());
-                    preparedStatement.setInt(5, player.getLevel());
-                    preparedStatement.setString(6, player.getPartyId());
-                    preparedStatement.setInt(7,0);
+                    statement.setInt(1, player.getId());
+                    statement.setString(2, player.getName());
+                    statement.setInt(3, player.getExperience());
+                    statement.setInt(4, player.getCurrency());
+                    statement.setInt(5, player.getLevel());
+                    statement.setString(6, player.getPartyId());
+                    statement.setInt(7,0);
 
-                    int rowsAffected = preparedStatement.executeUpdate();
+                    int rowsAffected = statement.executeUpdate();
 
                     //System.out.println(rowsAffected + "row(s) inserted successfully");
                 }
