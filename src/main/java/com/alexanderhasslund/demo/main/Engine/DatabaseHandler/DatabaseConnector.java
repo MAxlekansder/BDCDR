@@ -1,4 +1,4 @@
-package com.alexanderhasslund.demo.main.Engine;
+package com.alexanderhasslund.demo.main.Engine.DatabaseHandler;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

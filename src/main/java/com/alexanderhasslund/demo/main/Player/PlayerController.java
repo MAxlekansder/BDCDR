@@ -2,8 +2,8 @@ package com.alexanderhasslund.demo.main.Player;
 import com.alexanderhasslund.demo.main.Classes.Barbarian;
 import com.alexanderhasslund.demo.main.Classes.Rogue;
 import com.alexanderhasslund.demo.main.Classes.Sorcerer;
-import com.alexanderhasslund.demo.main.Engine.DatabaseClassWriter;
-import com.alexanderhasslund.demo.main.Engine.DatabasePlayerWriter;
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabaseClassWriter;
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabasePlayerWriter;
 import com.alexanderhasslund.demo.main.Engine.Input;
 import com.alexanderhasslund.demo.main.Inventory.Inventory;
 import com.alexanderhasslund.demo.main.PlayerInteraction.PlayerChoice;
@@ -101,6 +101,8 @@ public class PlayerController {
         playerList.forEach(player -> {player.setPartyId(partyId);});
         databasePlayerWriter.writtingPlayersToDatabase(playerList);
         databaseClassWriter.writeClassToDatabase(playerList);
+
+
     }
 
 

@@ -1,4 +1,6 @@
-package com.alexanderhasslund.demo.main.Engine;
+package com.alexanderhasslund.demo.main.Engine.DatabaseHandler;
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabaseConnector;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

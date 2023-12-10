@@ -1,5 +1,7 @@
 package com.alexanderhasslund.demo.main.Shop;
 
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabaseClassWriter;
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabasePlayerWriter;
 import com.alexanderhasslund.demo.main.Engine.Input;
 import com.alexanderhasslund.demo.main.Player.Player;
 import com.alexanderhasslund.demo.main.PlayerInteraction.PlayerChoice;
@@ -23,8 +25,9 @@ public class ShopMenu {
         PotionsShop potionsShop = new PotionsShop(playerList);
         PlayerChoice playerChoice = new PlayerChoice();
 
+
         System.out.println(playerChoice.mainShop());
-        //choosePlayerShop();
+        DatabasePlayerWriter databasePlayerWriter = new DatabasePlayerWriter();
         int playerIndex = choosePlayerShop();
 
         System.out.println("\nName: " + playerList.get(playerIndex).getName() + " Current currency: " + playerList.get(playerIndex).getCurrency());
@@ -50,6 +53,7 @@ public class ShopMenu {
                 }
             }
         } while (isBuying);
+
     }
 
     // build a safety check here to make sure wrong name isnt put in ->

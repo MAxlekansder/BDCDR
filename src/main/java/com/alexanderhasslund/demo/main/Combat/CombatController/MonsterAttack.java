@@ -1,15 +1,13 @@
 package com.alexanderhasslund.demo.main.Combat.CombatController;
 
 import com.alexanderhasslund.demo.main.Combat.ICombat;
-import com.alexanderhasslund.demo.main.Engine.DatabasePlayerWriter;
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabasePlayerWriter;
 import com.alexanderhasslund.demo.main.Engine.Input;
 import com.alexanderhasslund.demo.main.Monster.Monster;
 import com.alexanderhasslund.demo.main.Player.Player;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
-import java.util.stream.IntStream;
 
 public class MonsterAttack {
 

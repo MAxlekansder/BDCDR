@@ -2,7 +2,7 @@ package com.alexanderhasslund.demo.main.Combat.CombatController;
 
 import com.alexanderhasslund.demo.main.Classes.IClasses;
 import com.alexanderhasslund.demo.main.Combat.ICombat;
-import com.alexanderhasslund.demo.main.Engine.DatabasePlayerWriter;
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabasePlayerWriter;
 import com.alexanderhasslund.demo.main.Engine.Input;
 import com.alexanderhasslund.demo.main.Monster.Monster;
 import com.alexanderhasslund.demo.main.Player.Player;

@@ -1,4 +1,6 @@
 package com.alexanderhasslund.demo.main.Shop.Weapon;
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabaseItemCollector;
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabasePlayerWriter;
 import com.alexanderhasslund.demo.main.Engine.Input;
 import com.alexanderhasslund.demo.main.Player.Player;
 import com.alexanderhasslund.demo.main.PlayerInteraction.PlayerChoice;
@@ -14,7 +16,10 @@ public class SwordsShop {
 
 
     public int swordsShopSwitch (int playerIndex) {
+        DatabaseItemCollector databaseItemCollector = new DatabaseItemCollector();
+        DatabasePlayerWriter databasePlayerWriter = new DatabasePlayerWriter();
         Swords swords = new Swords();
+        databaseItemCollector.writingItemSword(swords);
         PlayerChoice playerChoice = new PlayerChoice();
         int swordPrice = 0;
 
@@ -27,6 +32,8 @@ public class SwordsShop {
                 case 1 -> {
                     if (playerList.get(playerIndex).getLevel() >= 0 && playerList.get(playerIndex).getCurrency() >= 200) {
                         playerList.get(playerIndex).getInventoryList().set(0,swords.standardSword());
+                        Player  currentPlayer = playerList.get(playerIndex);
+                        databasePlayerWriter.addingPlayerInventory(currentPlayer);
 
                         swordPrice = 200;
                         isShop = false;

@@ -4,7 +4,7 @@ import com.alexanderhasslund.demo.main.Classes.Barbarian;
 import com.alexanderhasslund.demo.main.Classes.Rogue;
 import com.alexanderhasslund.demo.main.Classes.Sorcerer;
 import com.alexanderhasslund.demo.main.Combat.FirstCombatEncounter;
-import com.alexanderhasslund.demo.main.Engine.DatabaseGetter;
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabaseGetter;
 import com.alexanderhasslund.demo.main.Engine.Input;
 import com.alexanderhasslund.demo.main.Engine.StringManipulator;
 import com.alexanderhasslund.demo.main.File.SaveFile;

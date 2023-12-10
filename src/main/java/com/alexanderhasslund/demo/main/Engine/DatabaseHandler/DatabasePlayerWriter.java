@@ -1,11 +1,12 @@
-package com.alexanderhasslund.demo.main.Engine;
+package com.alexanderhasslund.demo.main.Engine.DatabaseHandler;
 
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabaseConnector;
 import com.alexanderhasslund.demo.main.Player.Player;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
 public class DatabasePlayerWriter {
@@ -98,4 +99,87 @@ public class DatabasePlayerWriter {
             DatabaseConnector.handleSQL(e);
         }
     }
+
+
+    public void addingPlayerInventory(Player player) {
+        DatabaseClassWriter databaseClassWriter = new DatabaseClassWriter();
+        DatabaseItemCollector databaseItemCollector = new DatabaseItemCollector();
+        try (Connection connection = DatabaseConnector.getConnection()) {
+            String addDataToPlayer = "INSERT INTO dungeonrun.playerInventory (PlayerId, ItemId, PlayerClassId, ItemSlot, BelongsToPartyId) VALUES (?,?,?,?,?)";
+
+
+            try (PreparedStatement statement = connection.prepareStatement(addDataToPlayer)) {
+
+                    statement.setInt(1, databaseClassWriter.getPlayerId(player));
+                    statement.setInt(2, 1);
+                    statement.setInt(3, player.getId());
+                    statement.setInt(4, 0);
+                    statement.setString(5, player.getPartyId());
+
+                    int rowsAffected = statement.executeUpdate();
+
+            } catch (SQLException e) {
+                DatabaseConnector.handleSQL(e);
+            }
+        } catch (SQLException e) {
+            DatabaseConnector.handleSQL(e);
+        }
+    }
+
+    public void writingCombatLog(List<Player> playerList) {
+        try (Connection connection = DatabaseConnector.getConnection()) {
+            String addDataToPlayer = "INSERT INTO dungeonrun.player (PlayerClassId, PlayerName, Experience, Currency, Level, BelongsToPartyId, MonsterKilled) VALUES (?,?,?,?,?,?,?)";
+
+
+            try (PreparedStatement statement = connection.prepareStatement(addDataToPlayer)) {
+
+                for (Player player : playerList) {
+                    statement.setInt(1, player.getId());
+                    statement.setString(2, player.getName());
+                    statement.setInt(3, player.getExperience());
+                    statement.setInt(4, player.getCurrency());
+                    statement.setInt(5, player.getLevel());
+                    statement.setString(6, player.getPartyId());
+                    statement.setInt(7,0);
+
+                    int rowsAffected = statement.executeUpdate();
+
+                    //System.out.println(rowsAffected + "row(s) inserted successfully");
+                }
+            } catch (SQLException e) {
+                DatabaseConnector.handleSQL(e);
+            }
+        } catch (SQLException e) {
+            DatabaseConnector.handleSQL(e);
+        }
+    }
+
+    public int getPlayerId(Player player) {
+        int playerId = 0;
+        try (Connection connection = DatabaseConnector.getConnection()) {
+            String selectPlayerId = "SELECT ItemId from dungeonrun.item where PlayerClassId = ?" + " and BelongsToPartyId = ?";
+
+            try (PreparedStatement statement = connection.prepareStatement(selectPlayerId)) {
+
+                statement.setInt(1, player.getId());
+                statement.setString(2, player.getPartyId());
+
+                ResultSet resultSet = statement.executeQuery();
+
+                while(resultSet.next()) {
+                    playerId = resultSet.getInt("PlayerId");
+                }
+
+            } catch (SQLException e) {
+                DatabaseConnector.handleSQL(e);
+            }
+
+        } catch (SQLException e) {
+            DatabaseConnector.handleSQL(e);
+        }
+
+        return playerId;
+    }
+
+
 }
