@@ -1,5 +1,7 @@
 package com.alexanderhasslund.demo.main.Shop.Potions;
 
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabaseItemCollector;
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabasePlayerWriter;
 import com.alexanderhasslund.demo.main.Engine.Input;
 import com.alexanderhasslund.demo.main.Player.Player;
 import com.alexanderhasslund.demo.main.PlayerInteraction.PlayerChoice;
@@ -15,7 +17,10 @@ public class PotionsShop {
     }
 
     public int potionsMenuSwitch(int playerIndex) {
+        DatabaseItemCollector databaseItemCollector = new DatabaseItemCollector();
+        DatabasePlayerWriter databasePlayerWriter = new DatabasePlayerWriter();
         Potion potion = new Potion();
+        databaseItemCollector.writingItemPotion(potion);
         PlayerChoice playerChoice = new PlayerChoice();
         int potionPrice = 0;
 
@@ -31,6 +36,11 @@ public class PotionsShop {
                         playerList.get(playerIndex).getInventoryList().set(2, potion.potionOfHealth());
                         potionPrice= 50;
                         isShop = false;
+
+                        Player currentPlayer = playerList.get(playerIndex);
+                        databaseItemCollector.checkItemId(currentPlayer, 2);
+                        databasePlayerWriter.addingPlayerInventory(currentPlayer, 2, potionPrice, 2);
+
                     }
                 }
                 case 2 -> {
@@ -38,6 +48,12 @@ public class PotionsShop {
                         playerList.get(playerIndex).getInventoryList().set(2, potion.potionOfDefence());
                         potionPrice = 70;
                         isShop = false;
+
+
+                        Player currentPlayer = playerList.get(playerIndex);
+                        databaseItemCollector.checkItemId(currentPlayer, 2);
+                        databasePlayerWriter.addingPlayerInventory(currentPlayer, 2, potionPrice, 2);
+
                     }
                 }
                 case 3 -> {
@@ -45,6 +61,12 @@ public class PotionsShop {
                         playerList.get(playerIndex).getInventoryList().set(2, potion.potionOfHaste());
                         potionPrice = 200;
                         isShop = false;
+
+
+                        Player currentPlayer = playerList.get(playerIndex);
+                        databaseItemCollector.checkItemId(currentPlayer, 2);
+                        databasePlayerWriter.addingPlayerInventory(currentPlayer, 2, potionPrice, 2);
+
                     }
                 }
                  case 5 -> { isShop = false;

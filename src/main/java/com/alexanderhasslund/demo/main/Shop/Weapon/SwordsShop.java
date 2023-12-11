@@ -32,11 +32,12 @@ public class SwordsShop {
                 case 1 -> {
                     if (playerList.get(playerIndex).getLevel() >= 0 && playerList.get(playerIndex).getCurrency() >= 200) {
                         playerList.get(playerIndex).getInventoryList().set(0,swords.standardSword());
-                        Player  currentPlayer = playerList.get(playerIndex);
-                        databasePlayerWriter.addingPlayerInventory(currentPlayer);
-
                         swordPrice = 200;
                         isShop = false;
+
+                        Player currentPlayer = playerList.get(playerIndex);
+                        databaseItemCollector.checkItemId(currentPlayer, 0);
+                        databasePlayerWriter.addingPlayerInventory(currentPlayer, 0, swordPrice, 0);
 
                     } else {
                         System.out.println("... ah, you're not really there yet...");
@@ -46,9 +47,13 @@ public class SwordsShop {
                 case 2 -> {
                     if (playerList.get(playerIndex).getLevel() >= 2 && playerList.get(playerIndex).getCurrency() >= 500) {
                         playerList.get(playerIndex).getInventoryList().set(0,swords.fastSword());
-
                         swordPrice = 500;
                         isShop = false;
+
+                        Player currentPlayer = playerList.get(playerIndex);
+                        databaseItemCollector.checkItemId(currentPlayer, 0);
+                        databasePlayerWriter.addingPlayerInventory(currentPlayer, 0, swordPrice, 0);
+
                     } else {
                         System.out.println("With haste hero!! as far as you come for now, just hold on a bit more...");
                         isShop = false;
@@ -58,9 +63,13 @@ public class SwordsShop {
                 case 3 -> {
                     if (playerList.get(playerIndex).getLevel() >= 5 && playerList.get(playerIndex).getCurrency() >= 1000) {
                         playerList.get(playerIndex).getInventoryList().set(0,swords.sharpSword());
-
                         swordPrice = 1000;
                         isShop = false;
+
+                        Player currentPlayer = playerList.get(playerIndex);
+                        databaseItemCollector.checkItemId(currentPlayer, 0);
+                        databasePlayerWriter.addingPlayerInventory(currentPlayer, 0, swordPrice, 0);
+
                     } else {
                         System.out.println("ah, the sword of thousands truths... A gift from the crouching tiger, hidden dragon");
                         isShop = false;
@@ -70,9 +79,13 @@ public class SwordsShop {
                 case 4 -> {
                     if (playerList.get(playerIndex).getLevel() >= 10 && playerList.get(playerIndex).getCurrency() >= 3000) {
                         playerList.get(playerIndex).getInventoryList().set(0,swords.divineSword());
-
-                        swordPrice = 15000;
+                        swordPrice = 3000;
                         isShop = false;
+
+                        Player currentPlayer = playerList.get(playerIndex);
+                        databaseItemCollector.checkItemId(currentPlayer, 0);
+                        databasePlayerWriter.addingPlayerInventory(currentPlayer, 0, swordPrice, 0);
+
                     } else {
                         System.out.println("... only a fool would reach for divinity...");
                         isShop = false;

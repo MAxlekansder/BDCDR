@@ -101,20 +101,23 @@ public class DatabasePlayerWriter {
     }
 
 
-    public void addingPlayerInventory(Player player) {
+
+
+    public void addingPlayerInventory(Player player, int itemSlot, int itemPrice, int itemIndex) {
         DatabaseClassWriter databaseClassWriter = new DatabaseClassWriter();
         DatabaseItemCollector databaseItemCollector = new DatabaseItemCollector();
         try (Connection connection = DatabaseConnector.getConnection()) {
-            String addDataToPlayer = "INSERT INTO dungeonrun.playerInventory (PlayerId, ItemId, PlayerClassId, ItemSlot, BelongsToPartyId) VALUES (?,?,?,?,?)";
+            String addDataToPlayer = "INSERT INTO dungeonrun.playerInventory (PlayerId, ItemId, PlayerClassId, ItemSlot, ItemPrice, BelongsToPartyId) VALUES (?,?,?,?,?,?)";
 
 
             try (PreparedStatement statement = connection.prepareStatement(addDataToPlayer)) {
 
                     statement.setInt(1, databaseClassWriter.getPlayerId(player));
-                    statement.setInt(2, 1);
+                    statement.setInt(2, databaseItemCollector.checkItemId(player, itemIndex));
                     statement.setInt(3, player.getId());
-                    statement.setInt(4, 0);
-                    statement.setString(5, player.getPartyId());
+                    statement.setInt(4, itemSlot);
+                    statement.setInt(5,itemPrice);
+                    statement.setString(6, player.getPartyId());
 
                     int rowsAffected = statement.executeUpdate();
 

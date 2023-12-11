@@ -1,4 +1,6 @@
 package com.alexanderhasslund.demo.main.Shop.Defence;
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabaseItemCollector;
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabasePlayerWriter;
 import com.alexanderhasslund.demo.main.Engine.Input;
 import com.alexanderhasslund.demo.main.Player.Player;
 import com.alexanderhasslund.demo.main.PlayerInteraction.PlayerChoice;
@@ -15,7 +17,10 @@ public class ShieldsShop {
 
 
     public int shieldsShopSwitch (int playerIndex) {
+        DatabaseItemCollector databaseItemCollector = new DatabaseItemCollector();
+        DatabasePlayerWriter databasePlayerWriter = new DatabasePlayerWriter();
         Shields shields = new Shields();
+        databaseItemCollector.writingItemShiled(shields);
         PlayerChoice playerChoice = new PlayerChoice();
         int shieldPrice = 0;
 
@@ -29,9 +34,12 @@ public class ShieldsShop {
                 case 1 -> {
                     if (playerList.get(playerIndex).getLevel() >= 0 && playerList.get(playerIndex).getCurrency() >= 200) {
                         playerList.get(playerIndex).getInventoryList().set(1,shields.standardShield());
-
                         shieldPrice = 200;
                         isShop = false;
+
+                        Player currentPlayer = playerList.get(playerIndex);
+                        databaseItemCollector.checkItemId(currentPlayer, 1);
+                        databasePlayerWriter.addingPlayerInventory(currentPlayer, 1, shieldPrice, 1);
 
                     } else {
                         System.out.println("... ah, you're not really there yet...");
@@ -41,9 +49,13 @@ public class ShieldsShop {
                 case 2 -> {
                     if (playerList.get(playerIndex).getLevel() >= 2 && playerList.get(playerIndex).getCurrency() >= 500) {
                         playerList.get(playerIndex).getInventoryList().set(1,shields.bulkShield());
-
                         shieldPrice = 500;
                         isShop = false;
+
+                        Player currentPlayer = playerList.get(playerIndex);
+                        databaseItemCollector.checkItemId(currentPlayer, 1);
+                        databasePlayerWriter.addingPlayerInventory(currentPlayer, 1, shieldPrice,1);
+
                     } else {
                         System.out.println("looks a bit to heavy for now hero, but with experience and some money of course...");
                         isShop = false;
@@ -53,9 +65,13 @@ public class ShieldsShop {
                 case 3 -> {
                     if (playerList.get(playerIndex).getLevel() >= 5 && playerList.get(playerIndex).getCurrency() >= 1000) {
                         playerList.get(playerIndex).getInventoryList().set(1,shields.spikedShield());
-
                         shieldPrice = 1000;
                         isShop = false;
+
+                        Player currentPlayer = playerList.get(playerIndex);
+                        databaseItemCollector.checkItemId(currentPlayer, 1);
+                        databasePlayerWriter.addingPlayerInventory(currentPlayer, 1, shieldPrice,1);
+
                     } else {
                         System.out.println("...HAH, this shield wouldn't just bite the enemies! It would bite you too!");
                         isShop = false;
@@ -65,9 +81,13 @@ public class ShieldsShop {
                 case 4 -> {
                     if (playerList.get(playerIndex).getLevel() >= 10 && playerList.get(playerIndex).getCurrency() >= 3000) {
                         playerList.get(playerIndex).getInventoryList().set(1,shields.divineShield());
-
                         shieldPrice = 15000;
                         isShop = false;
+
+                        Player currentPlayer = playerList.get(playerIndex);
+                        databaseItemCollector.checkItemId(currentPlayer, 1);
+                        databasePlayerWriter.addingPlayerInventory(currentPlayer, 1, shieldPrice,1);
+
                     } else {
                         System.out.println("... if the weight of the world doesnt kill you, the fire would ...");
                         isShop = false;

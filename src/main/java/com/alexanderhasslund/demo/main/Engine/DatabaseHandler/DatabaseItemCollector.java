@@ -37,8 +37,6 @@ public class DatabaseItemCollector {
             } catch (SQLException e) {
                 DatabaseConnector.handleSQL(e);
             }
-        } else {
-            System.out.println("Item already exists " + inventory.getItemName());
         }
     }
 
@@ -69,6 +67,33 @@ public class DatabaseItemCollector {
 
         return countTotalItem;
 
+    }
+
+    public int checkItemId (Player player, int itemIndex) {
+
+        int checkSword = 0;
+        try (Connection connection = DatabaseConnector.getConnection()) {
+            String checkEmpty = "SELECT ItemId FROM dungeonrun.Item where ItemName = ?";
+
+            try (PreparedStatement statement = connection.prepareStatement(checkEmpty)) {
+
+                statement.setString(1, player.getInventoryList().get(itemIndex).getItemName());
+
+                ResultSet resultSet = statement.executeQuery();
+
+                while(resultSet.next()) {
+                    checkSword = resultSet.getInt("ItemId");
+                }
+
+            } catch (SQLException e) {
+                DatabaseConnector.handleSQL(e);
+            }
+
+        } catch (SQLException e) {
+            DatabaseConnector.handleSQL(e);
+        }
+
+        return checkSword;
     }
 
     public void writingItemSword(Swords swords) {
