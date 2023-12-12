@@ -5,6 +5,7 @@ import com.alexanderhasslund.demo.main.Classes.Rogue;
 import com.alexanderhasslund.demo.main.Classes.Sorcerer;
 import com.alexanderhasslund.demo.main.Combat.FirstCombatEncounter;
 import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabaseGetter;
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabaseMonsterWriter;
 import com.alexanderhasslund.demo.main.Engine.Input;
 import com.alexanderhasslund.demo.main.Engine.StringManipulator;
 import com.alexanderhasslund.demo.main.File.SaveFile;
@@ -20,6 +21,7 @@ public class GameStartControl {
 
     public void startIntroductionGame() {
         StringManipulator stringManipulator = new StringManipulator();
+        DatabaseMonsterWriter databaseMonsterWriter = new DatabaseMonsterWriter();
         StringLore stringLore = new StringLore();
 
 
@@ -33,8 +35,10 @@ public class GameStartControl {
         System.out.println(rogue);
         Sorcerer sorcerer = new Sorcerer();
         System.out.println(sorcerer);
+        databaseMonsterWriter.writingBoss();
+        databaseMonsterWriter.writingBasicMonster();
 
-        //System.out.println(stringLore.ultimateClassPresentation());
+        System.out.println(stringLore.ultimateClassPresentation());
         //stringManipulator.manipulateString(stringLore.gameIntroductionRules());
         System.out.println("Press enter to continue, where you start the game and choose class");
 

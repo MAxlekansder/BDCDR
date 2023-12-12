@@ -101,7 +101,7 @@ public class PlayerController {
         playerList.forEach(player -> {player.setPartyId(partyId);});
         databasePlayerWriter.writtingPlayersToDatabase(playerList);
         databaseClassWriter.writeClassToDatabase(playerList);
-
+        databasePlayerWriter.writingPlayerToParty(playerList);
 
     }
 

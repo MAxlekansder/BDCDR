@@ -41,7 +41,6 @@ public class DatabaseItemCollector {
     }
 
     public int checkItemExists(Inventory inventory) {
-
         int countTotalItem = 0;
 
         try (Connection connection = DatabaseConnector.getConnection()) {
@@ -53,25 +52,20 @@ public class DatabaseItemCollector {
 
                 ResultSet resultSet = statement.executeQuery();
 
-                while(resultSet.next()) {
-                    countTotalItem = resultSet.getInt("count(*)");
-                }
+                while(resultSet.next()) { countTotalItem = resultSet.getInt("count(*)");}
 
             } catch (SQLException e) {
                 DatabaseConnector.handleSQL(e);
             }
-
         } catch (SQLException e) {
             DatabaseConnector.handleSQL(e);
         }
-
         return countTotalItem;
-
     }
 
     public int checkItemId (Player player, int itemIndex) {
 
-        int checkSword = 0;
+        int checkItem = 0;
         try (Connection connection = DatabaseConnector.getConnection()) {
             String checkEmpty = "SELECT ItemId FROM dungeonrun.Item where ItemName = ?";
 
@@ -82,7 +76,7 @@ public class DatabaseItemCollector {
                 ResultSet resultSet = statement.executeQuery();
 
                 while(resultSet.next()) {
-                    checkSword = resultSet.getInt("ItemId");
+                    checkItem = resultSet.getInt("ItemId");
                 }
 
             } catch (SQLException e) {
@@ -93,7 +87,7 @@ public class DatabaseItemCollector {
             DatabaseConnector.handleSQL(e);
         }
 
-        return checkSword;
+        return checkItem;
     }
 
     public void writingItemSword(Swords swords) {

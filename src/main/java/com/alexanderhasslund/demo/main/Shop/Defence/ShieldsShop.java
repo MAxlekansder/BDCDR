@@ -81,7 +81,7 @@ public class ShieldsShop {
                 case 4 -> {
                     if (playerList.get(playerIndex).getLevel() >= 10 && playerList.get(playerIndex).getCurrency() >= 3000) {
                         playerList.get(playerIndex).getInventoryList().set(1,shields.divineShield());
-                        shieldPrice = 15000;
+                        shieldPrice = 3000;
                         isShop = false;
 
                         Player currentPlayer = playerList.get(playerIndex);

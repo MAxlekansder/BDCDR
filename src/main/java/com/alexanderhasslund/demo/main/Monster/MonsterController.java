@@ -61,9 +61,8 @@ public class MonsterController {
 
             firstMonster.setMonsterId(i);
             monsterList.add(firstMonster);
-        }
 
-        databaseMonsterWriter.writeMonsterToDatabase(monsterList);
+        }
     }
 
     public void chooseBossFight(int calculateLevels) {
@@ -82,20 +81,18 @@ public class MonsterController {
     public void generateThall() {
 
         monsterList.add(new Thaal());
-        databaseMonsterWriter.writeMonsterToDatabase(monsterList);
+
     }
 
     public void generateTheInquisition() {
 
         monsterList.add(new theInquisition());
-        databaseMonsterWriter.writeMonsterToDatabase(monsterList);
+
     }
 
     public void generateTagTeamBoss() {
 
         monsterList.add(new TagTeam());
-        databaseMonsterWriter.writeMonsterToDatabase(monsterList);
-
 
     }
 
@@ -103,7 +100,7 @@ public class MonsterController {
 
         monsterList.add(new Bram());
         monsterList.add(new Ohrum());
-        databaseMonsterWriter.writeMonsterToDatabase(monsterList);
+
 
         for (Monster monster : monsterList) {
             monster.setMonsterId(+1);

@@ -11,41 +11,15 @@ import java.util.List;
 public class DatabaseClassWriter {
 
 
-    public int getPlayerId(Player player) {
-        int playerId = 0;
-        try (Connection connection = DatabaseConnector.getConnection()) {
-            String selectPlayerId = "SELECT playerId from dungeonrun.player where PlayerClassId = ?" + " and BelongsToPartyId = ?";
-
-            try (PreparedStatement statement = connection.prepareStatement(selectPlayerId)) {
-
-                statement.setInt(1, player.getId());
-                statement.setString(2, player.getPartyId());
-
-                ResultSet resultSet = statement.executeQuery();
-
-                while(resultSet.next()) {
-                    playerId = resultSet.getInt("PlayerId");
-                }
-
-            } catch (SQLException e) {
-                DatabaseConnector.handleSQL(e);
-            }
-
-        } catch (SQLException e) {
-            DatabaseConnector.handleSQL(e);
-        }
-
-        return playerId;
-    }
-
     public void writeClassToDatabase(List<Player> playerList) {
+        DatabasePlayerWriter databasePlayerWriter = new DatabasePlayerWriter();
         try (Connection connection = DatabaseConnector.getConnection()) {
-            String addDataToClasses = "INSERT INTO dungeonrun.classes (playerId, PlayerClassId, ClassName, MaxHP, Damage, MaxResource, BaseStrength, BaseAgility, BaseIntellect, BaseDefence, Initiative, isDead, BelongsToPartyId) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            String addDataToClasses = "INSERT INTO dungeonrun.classes (playerId, PlayerClassId, ClassName, MaxHP, Damage, MaxResource, BaseStrength, BaseAgility, BaseIntellect, BaseDefence, Initiative, isDead) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 
             try (PreparedStatement statement = connection.prepareStatement(addDataToClasses)) {
 
                 for (Player player : playerList) {
-                    statement.setInt(1, getPlayerId(player));
+                    statement.setInt(1, databasePlayerWriter.getPlayerId(player));
                     statement.setInt(2, player.getId());
                     statement.setString(3, player.getClassNameSQL());
                     statement.setInt(4, player.getMaxHp());
@@ -57,7 +31,6 @@ public class DatabaseClassWriter {
                     statement.setInt(10, player.getBaseDefence());
                     statement.setInt(11, player.getInitiative());
                     statement.setInt(12, 0);
-                    statement.setString(13, player.getPartyId());
 
                     int rowsAffected = statement.executeUpdate();
 

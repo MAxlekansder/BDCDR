@@ -14,7 +14,7 @@ public class DatabasePlayerWriter {
 
     public void writtingPlayersToDatabase(List<Player> playerList) {
         try (Connection connection = DatabaseConnector.getConnection()) {
-            String addDataToPlayer = "INSERT INTO dungeonrun.player (PlayerClassId, PlayerName, Experience, Currency, Level, BelongsToPartyId, MonsterKilled) VALUES (?,?,?,?,?,?,?)";
+            String addDataToPlayer = "INSERT INTO dungeonrun.player (PlayerClassId, PlayerName, Experience, Currency, Level, MonsterKilled) VALUES (?,?,?,?,?,?)";
 
 
             try (PreparedStatement statement = connection.prepareStatement(addDataToPlayer)) {
@@ -25,8 +25,31 @@ public class DatabasePlayerWriter {
                     statement.setInt(3, player.getExperience());
                     statement.setInt(4, player.getCurrency());
                     statement.setInt(5, player.getLevel());
-                    statement.setString(6, player.getPartyId());
-                    statement.setInt(7,0);
+                    statement.setInt(6,0);
+
+                    int rowsAffected = statement.executeUpdate();
+
+                    //System.out.println(rowsAffected + "row(s) inserted successfully");
+                }
+            } catch (SQLException e) {
+                DatabaseConnector.handleSQL(e);
+            }
+        } catch (SQLException e) {
+            DatabaseConnector.handleSQL(e);
+        }
+    }
+
+
+    public void writingPlayerToParty(List<Player> playerList) {
+        try (Connection connection = DatabaseConnector.getConnection()) {
+            String addDataToPlayer = "INSERT INTO dungeonrun.playerParty (PlayerId, BelongsToPartyId) VALUES (?,?)";
+
+
+            try (PreparedStatement statement = connection.prepareStatement(addDataToPlayer)) {
+
+                for(Player player : playerList) {
+                    statement.setInt(1, getPlayerId(player));
+                    statement.setString(2, player.getPartyId());
 
                     int rowsAffected = statement.executeUpdate();
 
@@ -62,8 +85,8 @@ public class DatabasePlayerWriter {
     public void updatePlayerLevelDatabase(Player player) {
 
         try (Connection connection = DatabaseConnector.getConnection()) {
-            String updatePlayer = "UPDATE dungeonrun.player SET Level = ? WHERE " + "playerId = ? " + "and BelongsToPartyId = ?";
 
+            String updatePlayer =  "UPDATE dungeonrun.player p join dungeonrun.playerparty p2 on p.PlayerId = p2.PlayerId SET Level = ? WHERE " + "p.playerClassId = ? " + "and p2.BelongsToPartyId = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(updatePlayer)) {
 
                         preparedStatement.setInt(1, player.getLevel());
@@ -83,7 +106,7 @@ public class DatabasePlayerWriter {
     public void updateMonsterKilledByPlayer(Player player,int monsterKilled) {
 
         try (Connection connection = DatabaseConnector.getConnection()) {
-            String updatePlayer = "UPDATE dungeonrun.player SET MonsterKilled = MonsterKilled + ? WHERE " + "playerClassId = ? " + "and BelongsToPartyId = ?";
+            String updatePlayer = "UPDATE dungeonrun.player p join dungeonrun.playerparty p2 on p.PlayerId = p2.PlayerId SET MonsterKilled = MonsterKilled + ? WHERE " + "p.playerClassId = ? " + "and p2.BelongsToPartyId = ?";
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(updatePlayer)) {
 
@@ -107,17 +130,17 @@ public class DatabasePlayerWriter {
         DatabaseClassWriter databaseClassWriter = new DatabaseClassWriter();
         DatabaseItemCollector databaseItemCollector = new DatabaseItemCollector();
         try (Connection connection = DatabaseConnector.getConnection()) {
-            String addDataToPlayer = "INSERT INTO dungeonrun.playerInventory (PlayerId, ItemId, PlayerClassId, ItemSlot, ItemPrice, BelongsToPartyId) VALUES (?,?,?,?,?,?)";
+            String addDataToPlayer = "INSERT INTO dungeonrun.playerInventory (PlayerId, ItemId, PlayerClassId, ItemSlot, ItemPrice) VALUES (?,?,?,?,?)";
 
 
             try (PreparedStatement statement = connection.prepareStatement(addDataToPlayer)) {
 
-                    statement.setInt(1, databaseClassWriter.getPlayerId(player));
+                    statement.setInt(1, getPlayerId(player));
                     statement.setInt(2, databaseItemCollector.checkItemId(player, itemIndex));
                     statement.setInt(3, player.getId());
                     statement.setInt(4, itemSlot);
-                    statement.setInt(5,itemPrice);
-                    statement.setString(6, player.getPartyId());
+                    statement.setInt(5, itemPrice);
+
 
                     int rowsAffected = statement.executeUpdate();
 
@@ -131,7 +154,7 @@ public class DatabasePlayerWriter {
 
     public void writingCombatLog(List<Player> playerList) {
         try (Connection connection = DatabaseConnector.getConnection()) {
-            String addDataToPlayer = "INSERT INTO dungeonrun.player (PlayerClassId, PlayerName, Experience, Currency, Level, BelongsToPartyId, MonsterKilled) VALUES (?,?,?,?,?,?,?)";
+            String addDataToPlayer = "INSERT INTO dungeonrun.player (PlayerClassId, PlayerName, Experience, Currency, Level, MonsterKilled) VALUES (?,?,?,?,?,?)";
 
 
             try (PreparedStatement statement = connection.prepareStatement(addDataToPlayer)) {
@@ -142,8 +165,7 @@ public class DatabasePlayerWriter {
                     statement.setInt(3, player.getExperience());
                     statement.setInt(4, player.getCurrency());
                     statement.setInt(5, player.getLevel());
-                    statement.setString(6, player.getPartyId());
-                    statement.setInt(7,0);
+                    statement.setInt(6,0);
 
                     int rowsAffected = statement.executeUpdate();
 
@@ -160,7 +182,7 @@ public class DatabasePlayerWriter {
     public int getPlayerId(Player player) {
         int playerId = 0;
         try (Connection connection = DatabaseConnector.getConnection()) {
-            String selectPlayerId = "SELECT ItemId from dungeonrun.item where PlayerClassId = ?" + " and BelongsToPartyId = ?";
+            String selectPlayerId = "select PlayerId from dungeonrun.player p where PlayerClassId  = ?" + " and RegistrationDate in (select max(RegistrationDate) from dungeonrun.player p2 where PlayerClassId  = ? )";
 
             try (PreparedStatement statement = connection.prepareStatement(selectPlayerId)) {
 
