@@ -1,6 +1,7 @@
 package com.alexanderhasslund.demo.main.Combat.CombatController;
 import com.alexanderhasslund.demo.main.Combat.CombatMenu;
 import com.alexanderhasslund.demo.main.Combat.ResetCombat;
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabaseCombatWriter;
 import com.alexanderhasslund.demo.main.Engine.Input;
 import com.alexanderhasslund.demo.main.Monster.Monster;
 import com.alexanderhasslund.demo.main.Player.Player;
@@ -22,9 +23,11 @@ public class CombatController {
 
 
     public boolean initiateFight() {
+        DatabaseCombatWriter databaseCombatWriter = new DatabaseCombatWriter();
         CombatMenu combatMenu = new CombatMenu();
         MonsterAttack monsterAttack = new MonsterAttack();
         boolean isGameOver = false;
+
 
 
         System.out.println("Enter to start combat ");
@@ -105,7 +108,7 @@ public class CombatController {
             return true;
         }
 
-
+        // write battleId here?
     }
 
 

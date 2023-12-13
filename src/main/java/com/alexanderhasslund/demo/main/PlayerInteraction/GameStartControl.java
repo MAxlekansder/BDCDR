@@ -4,6 +4,7 @@ import com.alexanderhasslund.demo.main.Classes.Barbarian;
 import com.alexanderhasslund.demo.main.Classes.Rogue;
 import com.alexanderhasslund.demo.main.Classes.Sorcerer;
 import com.alexanderhasslund.demo.main.Combat.FirstCombatEncounter;
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabaseClassWriter;
 import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabaseGetter;
 import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabaseMonsterWriter;
 import com.alexanderhasslund.demo.main.Engine.Input;
@@ -22,6 +23,7 @@ public class GameStartControl {
     public void startIntroductionGame() {
         StringManipulator stringManipulator = new StringManipulator();
         DatabaseMonsterWriter databaseMonsterWriter = new DatabaseMonsterWriter();
+        DatabaseClassWriter databaseClassWriter = new DatabaseClassWriter();
         StringLore stringLore = new StringLore();
 
 
@@ -37,6 +39,7 @@ public class GameStartControl {
         System.out.println(sorcerer);
         databaseMonsterWriter.writingBoss();
         databaseMonsterWriter.writingBasicMonster();
+        databaseClassWriter.getClassInformation();
 
         System.out.println(stringLore.ultimateClassPresentation());
         //stringManipulator.manipulateString(stringLore.gameIntroductionRules());

@@ -30,8 +30,8 @@ public class MonsterAttack {
       checkPlayerhasDied(playerList);
       System.out.println("Press enter to continue: ");
       String enter = Input.stringInput();
-
     }
+
 
     // check if this boolean is needed?
     public void checkPlayerhasDied(List<Player> playerList) {

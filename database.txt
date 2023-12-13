@@ -3,3 +3,11 @@ Count players and have that set to a partyID? So that every round has the same P
 How to solve logic depending on how many players are playing.
 
 Maybe merge player and class in same table? Avoid redundancy?
+
+
+Initiative int not null,
+    level int not null,
+    Experience int not null,
+            #Currency int not null
+    MonsterKilled int not null,
+    isDead boolean not null,

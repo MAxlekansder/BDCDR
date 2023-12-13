@@ -98,9 +98,10 @@ public class PlayerController {
             }
         }
         String partyId = generatePartyId();
+
         playerList.forEach(player -> {player.setPartyId(partyId);});
         databasePlayerWriter.writtingPlayersToDatabase(playerList);
-        databaseClassWriter.writeClassToDatabase(playerList);
+        databaseClassWriter.writeActivePlayerClass(playerList);
         databasePlayerWriter.writingPlayerToParty(playerList);
 
     }

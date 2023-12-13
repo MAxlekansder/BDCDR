@@ -1,6 +1,7 @@
 package com.alexanderhasslund.demo.main.Classes;
 import com.alexanderhasslund.demo.main.Combat.ICombat;
 import com.alexanderhasslund.demo.main.Engine.Color;
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabaseCombatWriter;
 import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabasePlayerWriter;
 import com.alexanderhasslund.demo.main.Engine.Input;
 import com.alexanderhasslund.demo.main.Monster.Monster;
@@ -173,6 +174,7 @@ public class Barbarian extends Player implements IClasses, ICombat, Serializable
 
     @Override
     public void attack(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster monster) {
+        DatabaseCombatWriter databaseCombatWriter = new DatabaseCombatWriter();
         int monsterChoice = 1;
 
         for (Monster monster1 : monsterList) {
@@ -186,7 +188,9 @@ public class Barbarian extends Player implements IClasses, ICombat, Serializable
         monsterList.get(monsterIndex).setHp(monsterList.get(monsterIndex).getHp() -  barbarianDamage);
 
         System.out.printf("\nThe barbarian attacks with a hard hitting strike, Dealing %s to monster %s \n", barbarianDamage, monsterList.get(monsterIndex).getMonsterName());
+        databaseCombatWriter.playerAttackMonster(currentPlayer, monsterList, monsterIndex, barbarianDamage);
     }
+
 
     public int calculateDamage(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, int monsterIndex) {
         int calculateHeroDamage =

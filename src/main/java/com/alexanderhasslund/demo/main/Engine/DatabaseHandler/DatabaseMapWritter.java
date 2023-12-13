@@ -1,7 +1,6 @@
 package com.alexanderhasslund.demo.main.Engine.DatabaseHandler;
 
-public class DatabaseFightWriter {
+public class DatabaseMapWritter {
 
 
-    
 }

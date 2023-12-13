@@ -43,8 +43,7 @@ public class DatabaseMonsterWriter {
                     statement.setInt(11, 0);
                     statement.setInt(12, monster.getGivesExperience());
                     statement.setInt(13, monster.getGivesCurrency());
-
-                    int rowsAffected = statement.executeUpdate();
+                    statement.executeUpdate();
 
 
                 } catch (SQLException e) {
@@ -77,7 +76,7 @@ public class DatabaseMonsterWriter {
         return monsterExists;
     }
 
-    public int checkMonsterId (Monster monster) {
+    public int getMonsterId (Monster monster) {
         int checkMonster = 0;
 
         try(Connection connection = DatabaseConnector.getConnection()) {
