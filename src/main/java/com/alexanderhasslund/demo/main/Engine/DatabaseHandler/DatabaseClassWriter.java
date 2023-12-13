@@ -16,7 +16,7 @@ public class DatabaseClassWriter {
     public void writeActivePlayerClass(List<Player> playerList) {
         DatabasePlayerWriter databasePlayerWriter = new DatabasePlayerWriter();
         try (Connection connection = DatabaseConnector.getConnection()) {
-            String addPlayerActiveClass = "INSERT INTO dungeonrun.PlayerActiveClass (playerId, PlayerClassId, ClassId, MaxHP, Damage, MaxResource, BaseStrength, BaseAgility, BaseIntellect, BaseDefence, Initiative, Level, Experience, MonsterKilled, isDead) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            String addPlayerActiveClass = "INSERT INTO dungeonrun.PlayerActiveClass (playerId, PlayerClassId, ClassId, HP, Damage, Resource, Strength, Agility, Intellect, Defence, Initiative, Level, Experience, MonsterKilled, isDead) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
             try (PreparedStatement statement = connection.prepareStatement(addPlayerActiveClass)) {
 

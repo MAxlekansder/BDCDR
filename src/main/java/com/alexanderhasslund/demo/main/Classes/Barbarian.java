@@ -188,7 +188,7 @@ public class Barbarian extends Player implements IClasses, ICombat, Serializable
         monsterList.get(monsterIndex).setHp(monsterList.get(monsterIndex).getHp() -  barbarianDamage);
 
         System.out.printf("\nThe barbarian attacks with a hard hitting strike, Dealing %s to monster %s \n", barbarianDamage, monsterList.get(monsterIndex).getMonsterName());
-        databaseCombatWriter.playerAttackMonster(currentPlayer, monsterList, monsterIndex, barbarianDamage);
+        databaseCombatWriter.playerAttackMonster(currentPlayer, monsterList, monsterIndex, barbarianDamage, "x");
     }
 
 

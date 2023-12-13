@@ -26,10 +26,8 @@ public class DatabasePlayerWriter {
                     statement.setInt(4, player.getCurrency());
                     statement.setInt(5, player.getLevel());
                     statement.setInt(6,0);
+                    statement.executeUpdate();
 
-                    int rowsAffected = statement.executeUpdate();
-
-                    //System.out.println(rowsAffected + "row(s) inserted successfully");
                 }
             } catch (SQLException e) {
                 DatabaseConnector.handleSQL(e);
@@ -50,8 +48,7 @@ public class DatabasePlayerWriter {
                 for(Player player : playerList) {
                     statement.setInt(1, getPlayerId(player));
                     statement.setString(2, player.getPartyId());
-
-                    int rowsAffected = statement.executeUpdate();
+                    statement.executeUpdate();
 
                     //System.out.println(rowsAffected + "row(s) inserted successfully");
                 }
@@ -124,10 +121,7 @@ public class DatabasePlayerWriter {
     }
 
 
-
-
     public void addingPlayerInventory(Player player, int itemSlot, int itemPrice, int itemIndex) {
-        DatabaseClassWriter databaseClassWriter = new DatabaseClassWriter();
         DatabaseItemCollector databaseItemCollector = new DatabaseItemCollector();
         try (Connection connection = DatabaseConnector.getConnection()) {
             String addDataToPlayer = "INSERT INTO dungeonrun.playerInventory (PlayerId, ItemId, PlayerClassId, ItemSlot, ItemPrice) VALUES (?,?,?,?,?)";
@@ -140,9 +134,7 @@ public class DatabasePlayerWriter {
                     statement.setInt(3, player.getId());
                     statement.setInt(4, itemSlot);
                     statement.setInt(5, itemPrice);
-
-
-                    int rowsAffected = statement.executeUpdate();
+                    statement.executeUpdate();
 
             } catch (SQLException e) {
                 DatabaseConnector.handleSQL(e);
@@ -152,32 +144,6 @@ public class DatabasePlayerWriter {
         }
     }
 
-    public void writingCombatLog(List<Player> playerList) {
-        try (Connection connection = DatabaseConnector.getConnection()) {
-            String addDataToPlayer = "INSERT INTO dungeonrun.player (PlayerClassId, PlayerName, Experience, Currency, Level, MonsterKilled) VALUES (?,?,?,?,?,?)";
-
-
-            try (PreparedStatement statement = connection.prepareStatement(addDataToPlayer)) {
-
-                for (Player player : playerList) {
-                    statement.setInt(1, player.getId());
-                    statement.setString(2, player.getName());
-                    statement.setInt(3, player.getExperience());
-                    statement.setInt(4, player.getCurrency());
-                    statement.setInt(5, player.getLevel());
-                    statement.setInt(6,0);
-
-                    int rowsAffected = statement.executeUpdate();
-
-                    //System.out.println(rowsAffected + "row(s) inserted successfully");
-                }
-            } catch (SQLException e) {
-                DatabaseConnector.handleSQL(e);
-            }
-        } catch (SQLException e) {
-            DatabaseConnector.handleSQL(e);
-        }
-    }
 
     public int getPlayerId(Player player) {
         int playerId = 0;
@@ -205,6 +171,4 @@ public class DatabasePlayerWriter {
 
         return playerId;
     }
-
-
 }

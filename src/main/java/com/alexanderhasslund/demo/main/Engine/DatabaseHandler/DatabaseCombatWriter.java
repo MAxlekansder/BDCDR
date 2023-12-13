@@ -19,7 +19,7 @@ public class DatabaseCombatWriter {
         Monster monster = monsterList.get(monsterIndex);
 
         try (Connection connection = DatabaseConnector.getConnection()) {
-            String addFight = "INSERT INTO dungeonrun.monsterplayerfight (playerId, monsterId, MapId, AttackingUnit, Attacked, MonsterFightId, DamageDone, DamageTaken BattleId) VALUES(?,?,?,?,?)";
+            String addFight = "INSERT INTO dungeonrun.monsterplayerfight (playerId, monsterId, MapId, AttackingUnit, Attacked, MonsterFightId, DamageDone, DamageTaken, BattleId) VALUES(?,?,?,?,?,?,?,?,?)";
             try (PreparedStatement statement = connection.prepareStatement(addFight)) {
 
                 statement.setInt(1, databasePlayerWriter.getPlayerId(player));
@@ -30,7 +30,7 @@ public class DatabaseCombatWriter {
                 statement.setInt(6,monster.getMonsterId());
                 statement.setInt(7, playerDamageDone);
                 statement.setInt(8,monster.getHp() - playerDamageDone);
-                statement.setString(9, "x");
+                statement.setString(9, battleId);
                 statement.executeUpdate();
 
             } catch (SQLException e) {
@@ -42,8 +42,35 @@ public class DatabaseCombatWriter {
         }
     }
 
-    public void playerAttackManyMonster(Player player, List<Monster> monsterList) {
+    public void playerAttackManyMonster(Player player, List<Monster> monsterList, int playerDamageDone,  String battleId) {
+        DatabasePlayerWriter databasePlayerWriter = new DatabasePlayerWriter();
+        DatabaseMonsterWriter databaseMonsterWriter = new DatabaseMonsterWriter();
 
+        try (Connection connection = DatabaseConnector.getConnection()) {
+            String addFight = "INSERT INTO dungeonrun.monsterplayerfight (playerId, monsterId, MapId, AttackingUnit, Attacked, MonsterFightId, DamageDone, DamageTaken, HasFled, BattleId) VALUES(?,?,?,?,?,?,?,?,?,?)";
+            try (PreparedStatement statement = connection.prepareStatement(addFight)) {
+
+                for (Monster monster : monsterList) {
+                    statement.setInt(1, databasePlayerWriter.getPlayerId(player));
+                    statement.setInt(2, databaseMonsterWriter.getMonsterId(monster));
+                    statement.setInt(3, 0);
+                    statement.setString(4, player.getClassName());
+                    statement.setString(5, monster.getMonsterName());
+                    statement.setInt(6, monster.getMonsterId());
+                    statement.setInt(7, playerDamageDone);
+                    statement.setInt(8, monster.getHp() - playerDamageDone);
+                    statement.setInt(9,0);
+                    statement.setString(10, battleId);
+                    statement.executeUpdate();
+                }
+
+            } catch (SQLException e) {
+                DatabaseConnector.handleSQL(e);
+            }
+
+        } catch (SQLException e) {
+            DatabaseConnector.handleSQL(e);
+        }
 
     }
 
@@ -54,7 +81,7 @@ public class DatabaseCombatWriter {
         Player player = playerList.get(playerIndex);
 
         try (Connection connection = DatabaseConnector.getConnection()) {
-            String addFight = "INSERT INTO dungeonrun.monsterplayerfight (playerId, monsterId, MapId, AttackingUnit, Attacked, MonsterFightId, DamageDone, DamageTaken, BattleId) VALUES(?,?,?,?,?)";
+            String addFight = "INSERT INTO dungeonrun.monsterplayerfight (playerId, monsterId, MapId, AttackingUnit, Attacked, MonsterFightId, DamageDone, DamageTaken, BattleId) VALUES(?,?,?,?,?,?,?,?,?)";
             try (PreparedStatement statement = connection.prepareStatement(addFight)) {
 
                 statement.setInt(1, databasePlayerWriter.getPlayerId(player));
@@ -65,7 +92,7 @@ public class DatabaseCombatWriter {
                 statement.setInt(6,monster.getMonsterId());
                 statement.setInt(7, monsterDamageDone);
                 statement.setInt(8,player.getHp() - monsterDamageDone);
-                statement.setString(9, "x");
+                statement.setString(9, battleId);
                 statement.executeUpdate();
 
             } catch (SQLException e) {
@@ -77,8 +104,35 @@ public class DatabaseCombatWriter {
         }
     }
 
-    public void monsterAttackManyPlayer(Monster monster, List<Player> playerList) {
+    public void monsterAttackManyPlayer(Monster monster, List<Player> playerList, int monsterDamageDone) {
+        DatabasePlayerWriter databasePlayerWriter = new DatabasePlayerWriter();
+        DatabaseMonsterWriter databaseMonsterWriter = new DatabaseMonsterWriter();
 
+
+        try (Connection connection = DatabaseConnector.getConnection()) {
+            String addFight = "INSERT INTO dungeonrun.monsterplayerfight (playerId, monsterId, MapId, AttackingUnit, Attacked, MonsterFightId, DamageDone, DamageTaken, BattleId) VALUES(?,?,?,?,?,?,?,?,?)";
+            try (PreparedStatement statement = connection.prepareStatement(addFight)) {
+
+                for(Player player : playerList) {
+                    statement.setInt(1, databasePlayerWriter.getPlayerId(player));
+                    statement.setInt(2, databaseMonsterWriter.getMonsterId(monster));
+                    statement.setInt(3, 0);
+                    statement.setInt(4, databaseMonsterWriter.getMonsterId(monster));
+                    statement.setInt(5, databasePlayerWriter.getPlayerId(player));
+                    statement.setInt(6, monster.getMonsterId());
+                    statement.setInt(7, monsterDamageDone);
+                    statement.setInt(8, player.getHp() - monsterDamageDone);
+                    statement.setString(9, "x");
+                    statement.executeUpdate();
+                }
+
+            } catch (SQLException e) {
+                DatabaseConnector.handleSQL(e);
+            }
+
+        } catch (SQLException e) {
+            DatabaseConnector.handleSQL(e);
+        }
     }
 
 

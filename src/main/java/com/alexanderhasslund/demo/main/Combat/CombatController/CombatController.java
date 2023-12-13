@@ -60,7 +60,7 @@ public class CombatController {
 
                     } else if (currentPlayer == null) {
 
-                        monsterAttack.monsterStrikePlayer( monsterList, playerList, currentMonster, currentPlayer);
+                        monsterAttack.monsterStrikePlayer(monsterList, playerList, currentMonster, currentPlayer);
                         //break;
 
                     } else {
