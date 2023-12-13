@@ -45,7 +45,7 @@ public class FirstCombatEncounter {
 
 
         CombatController combatController = new CombatController(playerList, firstMonsterList);
-        boolean isPlaying = combatController.initiateFight();
+        boolean isPlaying = combatController.initiateFight(5);
 
         if (!isPlaying) {
 
@@ -56,7 +56,7 @@ public class FirstCombatEncounter {
             firstMonsterList.get(0).setHp(10);
             firstMonsterList.get(0).setInitiative(1);
             firstMonsterList.get(0).setGivesExperience(5);
-            combatControllerif.initiateFight();
+            combatControllerif.initiateFight(5);
 
         } else {
 
@@ -71,8 +71,7 @@ public class FirstCombatEncounter {
 
             for (Player player : playerList) {
                 System.out.println(player.getName() + "\033[1;32m gets 200 coins! and some exp\033[0m");
-                player.setCurrency(150000);
-                player.setLevel(20);
+
             }
 
             ResetCombat resetCombat = new ResetCombat();

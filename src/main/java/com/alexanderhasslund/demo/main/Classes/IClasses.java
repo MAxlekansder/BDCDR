@@ -7,8 +7,8 @@ import java.util.List;
 public interface IClasses {
 
     public int calculateDamage(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, int monsterIndex);
-    public void ultimate(List<Player> playerList, Player player, List<Monster> monsterList);
-    public void spells(List<Player> playerList, Player player, List<Monster> monsterList);
+    public void ultimate(List<Player> playerList, Player player, List<Monster> monsterList, int calculateLevel, int countRounds);
+    public void spells(List<Player> playerList, Player player, List<Monster> monsterList,  int calculateLevel, int countRounds);
     public void setLevelUp(Player player);
     public void addStatsToPlayer(Player player);
 

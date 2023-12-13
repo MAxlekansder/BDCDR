@@ -35,7 +35,7 @@ public class TagTeam extends Monster implements IMonster, ICombat {
 
 
     @Override
-    public void attack(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster currentMonster) {
+    public void attack(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster currentMonster, int calculateLevel, int countRounds) {
         Random random = new Random();
         int chanceOfSpell = random.nextInt(10);
 

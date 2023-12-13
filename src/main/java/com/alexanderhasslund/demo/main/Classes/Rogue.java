@@ -2,6 +2,7 @@ package com.alexanderhasslund.demo.main.Classes;
 
 import com.alexanderhasslund.demo.main.Combat.ICombat;
 import com.alexanderhasslund.demo.main.Engine.Color;
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabaseCombatWriter;
 import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabasePlayerWriter;
 import com.alexanderhasslund.demo.main.Engine.Input;
 import com.alexanderhasslund.demo.main.Monster.Monster;
@@ -101,8 +102,8 @@ public class Rogue extends Player implements IClasses, ICombat, Serializable {
 
 
     @Override
-    public void ultimate(List<Player> playerList, Player currentPlayer, List<Monster> monsterList) {
-
+    public void ultimate(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, int calculateLevel, int countRounds) {
+        DatabaseCombatWriter databaseCombatWriter = new DatabaseCombatWriter();
         if (currentPlayer.getResource() >= 100) {
             System.out.println("The rogue strikes in a quick sequence, dealing double damage to: ");
             int calcRogueUltimate = (currentPlayer.getInventoryList().get(0).getDamage() + currentPlayer.getDamage() + 1000);
@@ -111,6 +112,7 @@ public class Rogue extends Player implements IClasses, ICombat, Serializable {
 
                 monster.setHp(monster.getHp() - calcRogueUltimate); // based on sword damage
                 System.out.println(monster.getMonsterName() + " lost " + calcRogueUltimate + " hp!");
+                databaseCombatWriter.playerAttackMonster(currentPlayer, monsterList, monster.getMonsterId(), calcRogueUltimate, calculateLevel,"x", "ULTIMATE", countRounds);
 
             }
             currentPlayer.setResource(currentPlayer.getResource() - 100);
@@ -121,7 +123,8 @@ public class Rogue extends Player implements IClasses, ICombat, Serializable {
 
 
     @Override
-    public void spells(List<Player> playerList, Player currentPlayer, List<Monster> monsterList) {
+    public void spells(List<Player> playerList, Player currentPlayer, List<Monster> monsterList,  int calculateLevel, int countRounds) {
+        DatabaseCombatWriter databaseCombatWriter = new DatabaseCombatWriter();
         System.out.println(PlayerChoice.spellsRogue());
         int rogueSpells = Input.intInput();
         Random random = new Random();
@@ -135,6 +138,9 @@ public class Rogue extends Player implements IClasses, ICombat, Serializable {
                     System.out.printf("Backstabs a random target, dealing: %s extra damage and gaining: %s extra defence \n", 3, 2);
                     monsterList.get(randomMonster).setHp(monsterList.get(randomMonster).getHp() - currentPlayer.getDamage() + 3);
                     currentPlayer.setDefence(currentPlayer.getDefence() + 3);
+
+                    databaseCombatWriter.playerAttackMonster(currentPlayer, monsterList, randomMonster, currentPlayer.getDamage() + 3, calculateLevel,"x", "SPELL", countRounds);
+
                 } else {
                     System.out.println("The rogue doesnt have enough energy");
                 }
@@ -143,6 +149,8 @@ public class Rogue extends Player implements IClasses, ICombat, Serializable {
                 if (currentPlayer.getResource() >= 30) {
                     System.out.printf("Pick pockets the target gaining: %s gold", randomCurrency);
                     currentPlayer.setResource(currentPlayer.getResource() - 30);
+                    databaseCombatWriter.playerAttackMonster(currentPlayer, monsterList, 0, 0, calculateLevel,"x", "SPELL", countRounds);
+
                 } else {
                     System.out.println("The rogue doesnt have enough energy");
                 }
@@ -155,7 +163,8 @@ public class Rogue extends Player implements IClasses, ICombat, Serializable {
 
 
     @Override
-    public void attack(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster monster) {
+    public void attack(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster monster, int calculateLevel,int countRounds) {
+        DatabaseCombatWriter databaseCombatWriter = new DatabaseCombatWriter();
         int monsterChoice = 1;
 
         for (Monster monster1 : monsterList) {
@@ -169,6 +178,7 @@ public class Rogue extends Player implements IClasses, ICombat, Serializable {
         monsterList.get(monsterIndex).setHp(monsterList.get(monsterIndex).getHp() - rogueDamage);
 
         System.out.printf("The rogue attacks with a swift slash, Dealing %s to monster %s \n\n", rogueDamage, monsterList.get(monsterIndex).getMonsterName());
+        databaseCombatWriter.playerAttackMonster(currentPlayer, monsterList, monsterIndex, rogueDamage, calculateLevel,"x", "ATTACK", countRounds);
     }
 
 

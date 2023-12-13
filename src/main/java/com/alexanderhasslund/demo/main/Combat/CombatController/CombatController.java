@@ -22,7 +22,7 @@ public class CombatController {
     }
 
 
-    public boolean initiateFight() {
+    public boolean initiateFight(int calculatelevel) {
         DatabaseCombatWriter databaseCombatWriter = new DatabaseCombatWriter();
         CombatMenu combatMenu = new CombatMenu();
         MonsterAttack monsterAttack = new MonsterAttack();
@@ -55,23 +55,23 @@ public class CombatController {
 
                     if (currentMonster == null) {
 
-                        combatMenu.combatSwitch(playerList, monsterList, currentPlayer, currentMonster);
+                        combatMenu.combatSwitch(playerList, monsterList, currentPlayer, currentMonster, calculatelevel, countRounds);
                         //break;
 
                     } else if (currentPlayer == null) {
 
-                        monsterAttack.monsterStrikePlayer(monsterList, playerList, currentMonster, currentPlayer);
+                        monsterAttack.monsterStrikePlayer(monsterList, playerList, currentMonster, currentPlayer, calculatelevel,countRounds);
                         //break;
 
                     } else {
 
                         if (currentPlayer.getInitiative() < currentMonster.getInitiative()) {
 
-                            combatMenu.combatSwitch(playerList, monsterList, currentPlayer, currentMonster);
+                            combatMenu.combatSwitch(playerList, monsterList, currentPlayer, currentMonster, calculatelevel, countRounds);
 
                         } else {
 
-                            monsterAttack.monsterStrikePlayer(monsterList, playerList, currentMonster, currentPlayer);
+                            monsterAttack.monsterStrikePlayer(monsterList, playerList, currentMonster, currentPlayer, calculatelevel, countRounds);
 
                         }
                     }

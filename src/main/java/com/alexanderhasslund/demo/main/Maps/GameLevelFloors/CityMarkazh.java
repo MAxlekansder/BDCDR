@@ -31,11 +31,11 @@ public class CityMarkazh {
         stringManipulator.manipulateString(StringLore.theInnerCity());
         boolean checkPlayerEncounter = false;
 
-        if (combatController.initiateFight()) {
+        if (combatController.initiateFight(calculateLevels)) {
             stringManipulator.manipulateString(StringLore.bossTheInquisition());
 
             monsterController.chooseBossFight(calculateLevels);
-            checkPlayerEncounter = combatController.initiateFight();
+            checkPlayerEncounter = combatController.initiateFight(calculateLevels);
             stringManipulator.manipulateString(StringLore.theFinalRoomThaal());
         } else System.out.println("As the inquisition have watch you the entire time, in unison you hear the most chilling laugh, maybe another day...");
 

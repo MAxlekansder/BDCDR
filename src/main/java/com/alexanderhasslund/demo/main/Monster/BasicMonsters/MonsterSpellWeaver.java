@@ -1,6 +1,7 @@
 package com.alexanderhasslund.demo.main.Monster.BasicMonsters;
 
 import com.alexanderhasslund.demo.main.Combat.ICombat;
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabaseCombatWriter;
 import com.alexanderhasslund.demo.main.Engine.Input;
 import com.alexanderhasslund.demo.main.Monster.IMonster;
 import com.alexanderhasslund.demo.main.Monster.Monster;
@@ -23,8 +24,8 @@ public class MonsterSpellWeaver extends Monster implements IMonster, ICombat {
 
 
     @Override
-    public void attack(List<Player> playerList, Player currentPlayer, List<Monster> monsterList,  Monster currentMonster) { //insert attack modifiers here?
-
+    public void attack(List<Player> playerList, Player currentPlayer, List<Monster> monsterList,  Monster currentMonster, int calculateLevel,int countRounds) { //insert attack modifiers here?
+        DatabaseCombatWriter databaseCombatWriter = new DatabaseCombatWriter();
 
         Random random = new Random();
 
@@ -42,6 +43,8 @@ public class MonsterSpellWeaver extends Monster implements IMonster, ICombat {
             playerList.get(randPlayer).setHp(playerList.get(randPlayer).getHp()
                     - currentMonster.getDamage());
             System.out.printf("And player: %s %s has %s HP left \n", playerList.get(randPlayer).getClassName(), playerList.get(randPlayer).getName(), playerList.get(randPlayer).getHp());
+            databaseCombatWriter.MonsterAttackPlayer(currentMonster, playerList, randPlayer, currentMonster.getDamage(), calculateLevel,"x","ATTACK", countRounds);
+
         } else {
             System.out.printf("The spellweaver misses %s player %s \n", playerList.get(randPlayer).getClassName(), playerList.get(randPlayer).getName());
 

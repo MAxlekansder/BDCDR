@@ -31,11 +31,11 @@ public class UpperPlateau {
         stringManipulator.manipulateString(StringLore.reachingUpperPlateau());
         boolean checkPlayerEncounter = false;
 
-        if (combatController.initiateFight()) {
+        if (combatController.initiateFight(calculateLevels)) {
             stringManipulator.manipulateString(StringLore.bossTwinBrothers());
 
             monsterController.chooseBossFight(calculateLevels);
-            checkPlayerEncounter = combatController.initiateFight();
+            checkPlayerEncounter = combatController.initiateFight(calculateLevels);
         } else System.out.println("As you run out, a ringing 'OUHM' deafening you, maybe another day...");
 
         return checkPlayerEncounter;

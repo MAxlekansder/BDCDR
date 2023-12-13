@@ -51,7 +51,7 @@ public class DatabaseMapWritter {
         return checkMap;
     }
 
-
+    //this is the biggest bandage in the world for making the logic work...
     public void namingMap() {
         String TheHallsOfKaraz =  "The Halls of Karaz";
         writingMap(TheHallsOfKaraz);
@@ -61,5 +61,10 @@ public class DatabaseMapWritter {
         writingMap(cityMarkazh);
         String finalRoom = "Final Room of Kazarak";
         writingMap(finalRoom);
+        String firstIntro = "Intro floor";
+        writingMap(firstIntro);
     }
+
+
+
 }

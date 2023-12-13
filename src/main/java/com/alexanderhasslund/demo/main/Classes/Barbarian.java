@@ -103,7 +103,8 @@ public class Barbarian extends Player implements IClasses, ICombat, Serializable
 
 
     @Override
-    public void ultimate(List<Player> playerList, Player currentPlayer, List<Monster> monsterList) {
+    public void ultimate(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, int calculateLevel, int countRounds) {
+        DatabaseCombatWriter databaseCombatWriter = new DatabaseCombatWriter();
         int monsterChoice = 1;
 
         for (Monster monster1 : monsterList) {
@@ -118,8 +119,10 @@ public class Barbarian extends Player implements IClasses, ICombat, Serializable
         if (currentPlayer.getResource() >= 100) {
             if (calcBarbarianUltimate <= 25) {
                 System.out.printf("\nThe barbarian executes %s, to even out the odds \n", monsterList.get(monsterIndex).getMonsterName());
+                databaseCombatWriter.playerAttackMonster(currentPlayer, monsterList, monsterIndex, monsterList.get(monsterIndex).getHp(), calculateLevel,"x", "ULTIMATE", countRounds);
                 monsterList.get(monsterIndex).setHp(0);
                 currentPlayer.setResource(currentPlayer.getResource() - 100);
+
             } else {
                 System.out.printf("\nThe barbarian tried to execute %s, but failed\n", monsterList.get(monsterIndex).getMonsterName());
                 System.out.println("No rage was spent");
@@ -133,7 +136,8 @@ public class Barbarian extends Player implements IClasses, ICombat, Serializable
 
 
     @Override
-    public void spells(List<Player> playerList, Player currentPlayer, List<Monster> monsterList) {
+    public void spells(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, int calculateLevel, int countRounds) {
+        DatabaseCombatWriter databaseCombatWriter = new DatabaseCombatWriter();
         System.out.println(PlayerChoice.spellsBarbarian());
         int barbarianSpells = Input.intInput();
         boolean isSpell = true;
@@ -169,17 +173,19 @@ public class Barbarian extends Player implements IClasses, ICombat, Serializable
                     }
             }
         }
+
     }
 
 
     @Override
-    public void attack(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster monster) {
+    public void attack(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster monster, int calculateLevel, int countRounds) {
         DatabaseCombatWriter databaseCombatWriter = new DatabaseCombatWriter();
         int monsterChoice = 1;
 
         for (Monster monster1 : monsterList) {
             System.out.println("CHOICE: "+ monsterChoice+ " " + monster1);
             monsterChoice++;
+
         }
         System.out.print("Decide what monster you want to hit: ");
         int monsterIndex = Input.intInput() -1;
@@ -188,7 +194,7 @@ public class Barbarian extends Player implements IClasses, ICombat, Serializable
         monsterList.get(monsterIndex).setHp(monsterList.get(monsterIndex).getHp() -  barbarianDamage);
 
         System.out.printf("\nThe barbarian attacks with a hard hitting strike, Dealing %s to monster %s \n", barbarianDamage, monsterList.get(monsterIndex).getMonsterName());
-        databaseCombatWriter.playerAttackMonster(currentPlayer, monsterList, monsterIndex, barbarianDamage, "x");
+        databaseCombatWriter.playerAttackMonster(currentPlayer, monsterList, monsterIndex, barbarianDamage, calculateLevel,"x", "ATTACK", countRounds);
     }
 
 
