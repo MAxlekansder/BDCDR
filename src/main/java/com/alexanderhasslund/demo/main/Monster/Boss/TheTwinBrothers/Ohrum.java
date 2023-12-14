@@ -16,7 +16,7 @@ public class Ohrum extends Monster implements IMonster, ICombat {
     }
 
     @Override
-    public void spells(List<Player> playerList, Player player, List<Monster> monsterList, Monster currentMonster) {
+    public void spells(List<Player> playerList, Player player, List<Monster> monsterList, Monster currentMonster,  int calculateLevel, int countRounds) {
         //Twin brother pact
 
         System.out.println("THE TWIN BROTHERS REALIGNS WITH THE STARS");
@@ -56,7 +56,7 @@ public class Ohrum extends Monster implements IMonster, ICombat {
             }
 
         } else {
-            spells(playerList, currentPlayer, monsterList, currentMonster);
+            spells(playerList, currentPlayer, monsterList, currentMonster, calculateLevel, countRounds);
         }
     }
 

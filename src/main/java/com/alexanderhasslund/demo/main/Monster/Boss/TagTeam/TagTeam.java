@@ -18,7 +18,7 @@ public class TagTeam extends Monster implements IMonster, ICombat {
 
 
     @Override
-    public void spells(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster currentMonster) {
+    public void spells(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster currentMonster,  int calculateLevel, int countRounds) {
         Random random = new Random();
       // tag team frenzy
         // either they always attack as 3 or this spell would be doing the tag team damage and have a multiplier?
@@ -56,12 +56,11 @@ public class TagTeam extends Monster implements IMonster, ICombat {
                 System.out.printf("And player: %s has %s HP left \n", playerList.get(randPlayer).getName(), playerList.get(randPlayer).getHp());
 
             } else {
-
                 System.out.printf("The Tag team misses %s player %s \n", playerList.get(randPlayer).getClassName(), playerList.get(randPlayer).getName());
             }
 
         } else {
-            spells(playerList, currentPlayer, monsterList, currentMonster);
+            spells(playerList, currentPlayer, monsterList, currentMonster, calculateLevel, countRounds);
         }
 
     }

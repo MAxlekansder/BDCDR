@@ -18,7 +18,7 @@ public class MonsterSpellWeaver extends Monster implements IMonster, ICombat {
     }
 
     @Override
-    public void spells(List<Player> playerList, Player player, List<Monster> monsterList, Monster monster) {
+    public void spells(List<Player> playerList, Player player, List<Monster> monsterList, Monster monster,  int calculateLevel, int countRounds) {
         //spell fireball
     }
 
@@ -47,7 +47,6 @@ public class MonsterSpellWeaver extends Monster implements IMonster, ICombat {
 
         } else {
             System.out.printf("The spellweaver misses %s player %s \n", playerList.get(randPlayer).getClassName(), playerList.get(randPlayer).getName());
-
         }
     }
 

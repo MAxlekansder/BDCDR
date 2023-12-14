@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface IMonster {
 
-    public void spells(List<Player> playerList, Player player, List<Monster> monsterList, Monster monster);
+    public void spells(List<Player> playerList, Player player, List<Monster> monsterList, Monster monster, int calculateLevel, int countRounds);
 
 }

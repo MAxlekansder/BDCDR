@@ -1,5 +1,6 @@
 package com.alexanderhasslund.demo.main.PlayerInteraction;
 
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabaseGetter;
 import com.alexanderhasslund.demo.main.Player.PlayerController;
 
 import java.nio.file.Files;
@@ -92,9 +93,9 @@ public class PlayerChoice {
     }
 
     public void startMenuChoice() {
-        Path path = Paths.get("Player.txt");
-        //int savedFile = 0; // placeholder
-        if (!Files.exists(path)) {
+        DatabaseGetter databaseGetter = new DatabaseGetter();
+
+        if (databaseGetter.checkIfPlayersExists() == 0) {
             System.out.println("""
                                         
                     1. START NEW GAME 

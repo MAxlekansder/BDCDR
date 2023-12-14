@@ -18,7 +18,7 @@ public class theInquisition extends Monster implements IMonster, ICombat {
 
 
     @Override
-    public void spells(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster monster) {
+    public void spells(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster monster,  int calculateLevel, int countRounds) {
 
         Random random = new Random();
         int randomPlayer = random.nextInt(playerList.size());
@@ -65,7 +65,7 @@ public class theInquisition extends Monster implements IMonster, ICombat {
             }
 
         } else {
-            spells(playerList, currentPlayer, monsterList, currentMonster);
+            spells(playerList, currentPlayer, monsterList, currentMonster, calculateLevel, countRounds);
         }
     }
 }

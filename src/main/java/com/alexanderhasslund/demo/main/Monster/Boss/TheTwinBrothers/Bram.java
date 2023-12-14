@@ -15,7 +15,7 @@ public class Bram extends Monster implements IMonster, ICombat {
     }
 
     @Override
-    public void spells(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster currentMonster) {
+    public void spells(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster currentMonster,  int calculateLevel, int countRounds) {
 
         System.out.println("Bram strengthens him self and his brother, granting staggering damage");
         for (Monster monster : monsterList) {
@@ -52,7 +52,7 @@ public class Bram extends Monster implements IMonster, ICombat {
             }
 
         } else {
-            spells(playerList, currentPlayer, monsterList, currentMonster);
+            spells(playerList, currentPlayer, monsterList, currentMonster, calculateLevel, countRounds);
         }
     }
 

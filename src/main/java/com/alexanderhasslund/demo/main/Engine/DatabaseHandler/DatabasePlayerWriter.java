@@ -14,7 +14,7 @@ public class DatabasePlayerWriter {
 
     public void writtingPlayersToDatabase(List<Player> playerList) {
         try (Connection connection = DatabaseConnector.getConnection()) {
-            String addDataToPlayer = "INSERT INTO dungeonrun.player (PlayerClassId, PlayerName, Experience, Currency, Level, MonsterKilled) VALUES (?,?,?,?,?,?)";
+            String addDataToPlayer = "INSERT INTO dungeonrun.player (PlayerClassId, PlayerName, Currency) VALUES (?,?,?)";
 
 
             try (PreparedStatement statement = connection.prepareStatement(addDataToPlayer)) {
@@ -22,10 +22,8 @@ public class DatabasePlayerWriter {
                 for (Player player : playerList) {
                     statement.setInt(1, player.getId());
                     statement.setString(2, player.getName());
-                    statement.setInt(3, player.getExperience());
-                    statement.setInt(4, player.getCurrency());
-                    statement.setInt(5, player.getLevel());
-                    statement.setInt(6,0);
+                    statement.setInt(3, player.getCurrency());
+                    statement.setInt(4,0);
                     statement.executeUpdate();
 
                 }
@@ -83,7 +81,7 @@ public class DatabasePlayerWriter {
 
         try (Connection connection = DatabaseConnector.getConnection()) {
 
-            String updatePlayer =  "UPDATE dungeonrun.player p join dungeonrun.playerparty p2 on p.PlayerId = p2.PlayerId SET Level = ? WHERE " + "p.playerClassId = ? " + "and p2.BelongsToPartyId = ?";
+            String updatePlayer =  "UPDATE dungeonrun.playeractiveclass p join dungeonrun.playerparty p2 on p.PlayerId = p2.PlayerId SET Level = ? WHERE " + "p.playerClassId = ? " + "and p2.BelongsToPartyId = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(updatePlayer)) {
 
                         preparedStatement.setInt(1, player.getLevel());
@@ -103,7 +101,7 @@ public class DatabasePlayerWriter {
     public void updateMonsterKilledByPlayer(Player player,int monsterKilled) {
 
         try (Connection connection = DatabaseConnector.getConnection()) {
-            String updatePlayer = "UPDATE dungeonrun.player p join dungeonrun.playerparty p2 on p.PlayerId = p2.PlayerId SET MonsterKilled = MonsterKilled + ? WHERE " + "p.playerClassId = ? " + "and p2.BelongsToPartyId = ?";
+            String updatePlayer = "UPDATE dungeonrun.playeractiveclass p join dungeonrun.playerparty p2 on p.PlayerId = p2.PlayerId SET MonsterKilled = MonsterKilled + ? WHERE " + "p.playerClassId = ? " + "and p2.BelongsToPartyId = ?";
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(updatePlayer)) {
 

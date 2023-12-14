@@ -70,12 +70,12 @@ public class GameStartControl {
 
                 }
                 case 2 -> {
-                    Path path = Paths.get("Gamesave.txt");
 
-                    if (Files.exists(path)) {
 
-                        MainGameControl mainGameControl = new MainGameControl(saveFile.loadFilePlayer(), saveFile.loadFilePlayer().size());
-                        mainGameControl.mainSwitch();
+                    if (databaseGetter.checkIfPlayersExists() > 0) {
+
+                        System.out.println("It works!");
+
                     } else {
 
                         System.out.println("No file found");
@@ -84,8 +84,8 @@ public class GameStartControl {
 
                 }
                 case 3 -> {
-                    System.out.println("Feature comming soon!");
-                    databaseGetter.gettingPlayersFromDatabase();
+
+                    databaseGetter.displayingPlayersFromDatabase();
                 }
                 case 4 -> {
                     isPlaying = false;
