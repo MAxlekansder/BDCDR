@@ -311,14 +311,13 @@ public class DatabasePlayerWriter {
         return checkSlot;
     }
 
- /*   public void createNewSaveSlotOrOverride(List<Player> playerList) {
+    public void createNewSaveSlotOrOverride(List<Player> playerList) {
 
 
         System.out.println("Update current slot or create new?");
         System.out.println(saveFileChoice());
 
-
-        if (checkIfFileSlotExists(getPlayerId()) == 0) {
+        if (checkIfFileSlotExists(playerList) == 0) {
             int playerAlternative = Input.intInput();
             switch (playerAlternative) {
                 case 1 -> {
@@ -335,21 +334,21 @@ public class DatabasePlayerWriter {
 
         } else {
             int playerAlternative = Input.intInput();
-            if (checkIfFileSlotExists(playerList) > 0) {
-                switch (playerAlternative) {
-                    case 1 -> {
-                        updateSaveFile(playerList);
-                    }
-                    case 2 -> {
-                        String saveSlot = getSaveFile();
-                        writeSaveFile(playerList, saveSlot);
-                    }
-                    default -> {
-                        System.out.println("Returning to game menu");
-                    }
+            switch (playerAlternative) {
+                case 1 -> {
+                    updateSaveFile(playerList);
+                }
+                case 2 -> {
+                    String saveSlot = getSaveFile();
+                    writeSaveFile(playerList, saveSlot);
+                }
+                default -> {
+                    System.out.println("Returning to game menu");
                 }
             }
         }
-    } */
+    }
 }
+
+
 

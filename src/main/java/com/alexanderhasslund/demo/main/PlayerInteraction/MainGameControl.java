@@ -58,7 +58,7 @@ public class MainGameControl {
                     shopMenu.mainShopMenu();
                 }
                 case 3 -> {
-                    databasePlayerWriter.createNewSaveSlotOrOverride();
+                    databasePlayerWriter.createNewSaveSlotOrOverride(playerList);
                 }
                 case 4 -> {
                     checkPlayerStatus();

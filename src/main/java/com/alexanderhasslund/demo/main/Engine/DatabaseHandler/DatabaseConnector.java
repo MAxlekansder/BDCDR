@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class DatabaseConnector {
 
     //this is setup for laptop connector database
-    private static final String URL = "jdbc:mariadb://localhost:3306/dungeonrun";
+    private static final String URL = "jdbc:mariadb://localhost:3307/dungeonrun";
     private static final String USER = "javaExecuter";
     private static final String PASSWORD = "javaExecuter";
 

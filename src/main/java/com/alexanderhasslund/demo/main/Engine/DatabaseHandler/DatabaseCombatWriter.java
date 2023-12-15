@@ -16,6 +16,7 @@ public class DatabaseCombatWriter {
     public void playerAttackMonster(Player player, List<Monster> monsterList, int monsterIndex, int playerDamageDone, int calculateLevel, String battleId, String typeOfAttack, int countRounds) {
         DatabasePlayerWriter databasePlayerWriter = new DatabasePlayerWriter();
         DatabaseMonsterWriter databaseMonsterWriter = new DatabaseMonsterWriter();
+
         Monster monster = monsterList.get(monsterIndex);
 
         try (Connection connection = DatabaseConnector.getConnection()) {

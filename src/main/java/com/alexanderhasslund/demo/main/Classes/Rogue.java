@@ -1,5 +1,6 @@
 package com.alexanderhasslund.demo.main.Classes;
 
+import com.alexanderhasslund.demo.main.Combat.CombatController.MonsterInitiativeComperator;
 import com.alexanderhasslund.demo.main.Combat.ICombat;
 import com.alexanderhasslund.demo.main.Engine.Color;
 import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabaseCombatWriter;
@@ -10,6 +11,8 @@ import com.alexanderhasslund.demo.main.Player.Player;
 import com.alexanderhasslund.demo.main.PlayerInteraction.PlayerChoice;
 
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -104,17 +107,19 @@ public class Rogue extends Player implements IClasses, ICombat, Serializable {
     @Override
     public void ultimate(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, int calculateLevel, int countRounds) {
         DatabaseCombatWriter databaseCombatWriter = new DatabaseCombatWriter();
+
+
         if (currentPlayer.getResource() >= 100) {
             System.out.println("The rogue strikes in a quick sequence, dealing double damage to: ");
-            int calcRogueUltimate = (currentPlayer.getInventoryList().get(0).getDamage() + currentPlayer.getDamage() + 1000);
+            int calcRogueUltimate = (currentPlayer.getInventoryList().get(0).getDamage() + currentPlayer.getDamage() + 1500);
+            int monsterIndex = 0;
 
-            for (Monster monster : monsterList) {
-
-                monster.setHp(monster.getHp() - calcRogueUltimate); // based on sword damage
-                System.out.println(monster.getMonsterName() + " lost " + calcRogueUltimate + " hp!");
-                databaseCombatWriter.playerAttackMonster(currentPlayer, monsterList, monster.getMonsterId(), calcRogueUltimate, calculateLevel,"x", "ULTIMATE", countRounds);
-
-            }
+                for (Monster monster : monsterList) {
+                    monster.setHp(monster.getHp() - calcRogueUltimate); // based on sword damage
+                    System.out.println(monster.getMonsterName() + " lost " + calcRogueUltimate + " hp!");
+                    databaseCombatWriter.playerAttackMonster(currentPlayer, monsterList, monsterIndex, calcRogueUltimate, calculateLevel, "x", "ULTIMATE", countRounds);
+                    monsterIndex++;
+                }
             currentPlayer.setResource(currentPlayer.getResource() - 100);
         } else {
             System.out.printf("The %s %s doesnt have enough energy to perform Fools elusiveness \n\n", currentPlayer.getClassName(), currentPlayer.getName());

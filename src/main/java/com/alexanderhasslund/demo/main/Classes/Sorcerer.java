@@ -104,11 +104,12 @@ public class Sorcerer extends Player implements IClasses, ICombat, Serializable 
     DatabaseCombatWriter databaseCombatWriter = new DatabaseCombatWriter();
         if (currentPlayer.getResource() >= 100) {
             System.out.println("The sorcerer muster all its power and blast all monster in range: ");
-
+            int monsterIndex = 0;
             for (Monster monster : monsterList) {
                 monster.setHp(monster.getHp() - (int) (currentPlayer.getDamage() + (level * 1.3))); // guessing the damage gets fucked with the multiplier
                 System.out.println("CLEAVING EACH MONSTER FOR: " + ((int) (currentPlayer.getDamage() + (level * 1.3))));
-                databaseCombatWriter.playerAttackMonster(currentPlayer, monsterList, monster.getMonsterId(), (int)(currentPlayer.getDamage() + (level * 1.3)), calculateLevel,"x", "ULTIMATE", countRounds);
+                databaseCombatWriter.playerAttackMonster(currentPlayer, monsterList, monsterIndex, (int)(currentPlayer.getDamage() + (level * 1.3)), calculateLevel,"x", "ULTIMATE", countRounds);
+                monsterIndex++;
             }
             currentPlayer.setResource(currentPlayer.getResource() - 100);
         } else {
