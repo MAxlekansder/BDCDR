@@ -27,7 +27,9 @@ public class DatabasePlayerLoader {
     }
 
 
-    public void chooseRunToLoad() {
+
+
+    public int chooseRunToLoad() {
         try (Connection connection = DatabaseConnector.getConnection()) {
             String selectPlayer = "select distinct SaveSlotName, DATE(RegistrationDate) as SaveDate from dungeonrun.playersave p order by RegistrationDate desc limit 7 ";
 
@@ -38,19 +40,50 @@ public class DatabasePlayerLoader {
                 System.out.println(Color.BLUE +"<--------------------- SAVE SLOTS --------------------->"+ Color.RESET);
 
                 while (resultSet.next()) {
+
                     String saveSlotName = resultSet.getString("SaveSlotName");
                     String saveSlotDate = resultSet.getString("SaveDate");
 
-                    System.out.println(String.format("SLOT: %-5d SAVE SLOT: %-10s  DATE: %s", rowCount, saveSlotName, saveSlotDate));
+                    System.out.println(String.format("SLOT: %-5d SAVE SLOT: %-13s  DATE: %s", rowCount, saveSlotName, saveSlotDate));
                     rowCount++;
                 }
                 System.out.println(Color.BLUE + "<------------------------------------------------------>"+ Color.RESET);
 
+                test();
 
             }  catch(SQLException e){DatabaseConnector.handleSQL(e);}
         } catch (SQLException e) {DatabaseConnector.handleSQL(e);}
+        return 0;
+
+    }
+
+    public int test() {
+
+        System.out.print("Choose a slot to load: ");
+        int saveLoad = Input.intInput();
+        try (Connection connection = DatabaseConnector.getConnection()) {
+            String selectPlayer = "select countRow, saveSlotName\n" +
+                    "FROM (\n" +
+                    "select DENSE_RANK() OVER (ORDER BY p.RegistrationDate DESC) as countRow , SaveSlotName \n" +
+                    "from dungeonrun.playersave p \n" +
+                    "group by SaveSlotName \n" +
+                    "order by p.RegistrationDate desc\n" +
+                    "limit 7\n" +
+                    ") as test1\n" +
+                    "where countRow = ?";
+
+            try (PreparedStatement statement = connection.prepareStatement(selectPlayer)) {
+
+                statement.setInt(1,saveLoad);
+                statement.executeQuery();
+
+            }  catch(SQLException e){DatabaseConnector.handleSQL(e);}
+        } catch (SQLException e) {DatabaseConnector.handleSQL(e);}
+
+        return saveLoad;
     }
 
 
 }
 
+ 

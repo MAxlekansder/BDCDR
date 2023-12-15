@@ -70,8 +70,8 @@ public class GameStartControl {
                 case 2 -> {
 
                     if (databaseGetter.checkIfPlayersExists() > 0) {
-                        System.out.println("It works!");
                         databasePlayerLoader.chooseRunToLoad();
+
                     } else {
                         System.out.println("No file found");
                     }
