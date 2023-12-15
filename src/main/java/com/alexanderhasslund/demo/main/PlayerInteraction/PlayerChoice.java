@@ -1,6 +1,7 @@
 package com.alexanderhasslund.demo.main.PlayerInteraction;
 
 import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabaseGetter;
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabasePlayerWriter;
 import com.alexanderhasslund.demo.main.Player.PlayerController;
 
 import java.nio.file.Files;
@@ -246,6 +247,15 @@ public class PlayerChoice {
     public static String spellsSorcerer() {
         return ("""
                 1. ELEMENTAL BARRIER - shields the player | cost: 40     2. ELEMENTAL BLAST - strikes two targets with elemental force | cost: 60
+                """);
+    }
+
+
+    public static String saveFileChoice() {
+        return ("""
+                -----------------------------------------------------------
+                1. UPDATE CURRENT SLOT      2.WRITE NEW FILE        3.LEAVE
+                -----------------------------------------------------------
                 """);
     }
 }

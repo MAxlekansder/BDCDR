@@ -21,7 +21,7 @@ public class DatabaseClassWriter {
             try (PreparedStatement statement = connection.prepareStatement(addPlayerActiveClass)) {
 
                 for (Player player : playerList) {
-                    statement.setInt(1, databasePlayerWriter.getPlayerId(player));
+                    statement.setInt(1, databasePlayerWriter.writePlayerId(player));
                     statement.setInt(2, player.getId());
                     statement.setInt(3, getClassId(player));
                     statement.setInt(4, player.getMaxHp());

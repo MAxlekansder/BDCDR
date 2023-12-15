@@ -3,6 +3,8 @@ package com.alexanderhasslund.demo.main.PlayerInteraction;
 import com.alexanderhasslund.demo.main.Combat.CombatController.CombatController;
 import com.alexanderhasslund.demo.main.Combat.CombatController.CombatEndingController;
 import com.alexanderhasslund.demo.main.Engine.Color;
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabasePlayerLoader;
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabasePlayerWriter;
 import com.alexanderhasslund.demo.main.Engine.Input;
 import com.alexanderhasslund.demo.main.File.SaveFile;
 import com.alexanderhasslund.demo.main.Monster.MonsterController;
@@ -11,6 +13,8 @@ import com.alexanderhasslund.demo.main.Shop.ShopMenu;
 
 
 import java.util.List;
+
+import static com.alexanderhasslund.demo.main.PlayerInteraction.PlayerChoice.saveFileChoice;
 
 public class MainGameControl {
 
@@ -33,6 +37,8 @@ public class MainGameControl {
         CombatController combatController = new CombatController(playerList, monsterController.getMonsterList());
         CombatEndingController combatEndingController = new CombatEndingController();
         GameLevelMenu gameLevelMenu = new GameLevelMenu(combatEndingController.getCalculateLevels(), playerList, countPlayers);
+        DatabasePlayerWriter databasePlayerWriter = new DatabasePlayerWriter();
+        DatabasePlayerLoader databasePlayerLoader = new DatabasePlayerLoader();
 
 
         boolean isMainPlaying = true;
@@ -52,7 +58,7 @@ public class MainGameControl {
                     shopMenu.mainShopMenu();
                 }
                 case 3 -> {
-                    saveFile.saveFilePlayer(playerList);
+                    databasePlayerWriter.createNewSaveSlotOrOverride();
                 }
                 case 4 -> {
                     checkPlayerStatus();
@@ -89,7 +95,9 @@ public class MainGameControl {
                             " Equipped potions = "  +playerList.get(i).getInventoryList().get(2).getItemName() + "  ||  "
             );
 
-
         }
     }
+
+
+
 }

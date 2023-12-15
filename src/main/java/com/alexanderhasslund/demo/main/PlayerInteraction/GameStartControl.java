@@ -4,10 +4,7 @@ import com.alexanderhasslund.demo.main.Classes.Barbarian;
 import com.alexanderhasslund.demo.main.Classes.Rogue;
 import com.alexanderhasslund.demo.main.Classes.Sorcerer;
 import com.alexanderhasslund.demo.main.Combat.FirstCombatEncounter;
-import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabaseClassWriter;
-import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabaseGetter;
-import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabaseMapWritter;
-import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabaseMonsterWriter;
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.*;
 import com.alexanderhasslund.demo.main.Engine.Input;
 import com.alexanderhasslund.demo.main.Engine.StringManipulator;
 import com.alexanderhasslund.demo.main.File.SaveFile;
@@ -56,6 +53,7 @@ public class GameStartControl {
     public void startUpMenu() {
         PlayerChoice playerChoice = new PlayerChoice();
         DatabaseGetter databaseGetter = new DatabaseGetter();
+        DatabasePlayerLoader databasePlayerLoader = new DatabasePlayerLoader();
         SaveFile saveFile = new SaveFile();
         boolean isPlaying = true;
 
@@ -71,17 +69,12 @@ public class GameStartControl {
                 }
                 case 2 -> {
 
-
                     if (databaseGetter.checkIfPlayersExists() > 0) {
-
                         System.out.println("It works!");
-
+                        databasePlayerLoader.chooseRunToLoad();
                     } else {
-
                         System.out.println("No file found");
-
                     }
-
                 }
                 case 3 -> {
 

@@ -22,7 +22,7 @@ public class DatabaseCombatWriter {
             String addFight = "INSERT INTO dungeonrun.monsterplayerfight (playerId, monsterId, MapId, AttackingUnit, Attacked, MonsterFightId, DamageDone, DamageTaken, TypeOfAbility, HasFled, GameRound, BattleId) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
             try (PreparedStatement statement = connection.prepareStatement(addFight)) {
 
-                statement.setInt(1, databasePlayerWriter.getPlayerId(player));
+                statement.setInt(1, databasePlayerWriter.writePlayerId(player));
                 statement.setInt(2, databaseMonsterWriter.getMonsterId(monster));
                 statement.setInt(3, calculateLevel);
                 statement.setString(4, player.getClassNameSQL());
@@ -89,7 +89,7 @@ public class DatabaseCombatWriter {
             String addFight = "INSERT INTO dungeonrun.monsterplayerfight (playerId, monsterId, MapId, AttackingUnit, Attacked, MonsterFightId, DamageDone, DamageTaken, TypeOfAbility, HasFled, GameRound, BattleId) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
             try (PreparedStatement statement = connection.prepareStatement(addFight)) {
 
-                statement.setInt(1, databasePlayerWriter.getPlayerId(player));
+                statement.setInt(1, databasePlayerWriter.writePlayerId(player));
                 statement.setInt(2, databaseMonsterWriter.getMonsterId(monster));
                 statement.setInt(3, calculateLevel);
                 statement.setString(4, monster.getMonsterName());
@@ -122,11 +122,11 @@ public class DatabaseCombatWriter {
             try (PreparedStatement statement = connection.prepareStatement(addFight)) {
 
                 for(Player player : playerList) {
-                    statement.setInt(1, databasePlayerWriter.getPlayerId(player));
+                    statement.setInt(1, databasePlayerWriter.writePlayerId(player));
                     statement.setInt(2, databaseMonsterWriter.getMonsterId(monster));
                     statement.setInt(3, 0);
                     statement.setInt(4, databaseMonsterWriter.getMonsterId(monster));
-                    statement.setInt(5, databasePlayerWriter.getPlayerId(player));
+                    statement.setInt(5, databasePlayerWriter.writePlayerId(player));
                     statement.setInt(6, monster.getMonsterId());
                     statement.setInt(7, monsterDamageDone);
                     statement.setInt(8, player.getHp() - monsterDamageDone);

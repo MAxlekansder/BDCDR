@@ -37,12 +37,8 @@ public class DatabaseGetter {
                 System.out.println(Color.YELLOW + "<---------------------------------------------------------->"+ Color.RESET);
 
 
-            }  catch(SQLException e){
-                DatabaseConnector.handleSQL(e);
-            }
-        } catch (SQLException e) {
-            DatabaseConnector.handleSQL(e);
-        }
+            }  catch(SQLException e){DatabaseConnector.handleSQL(e);}
+        } catch (SQLException e) {DatabaseConnector.handleSQL(e);}
     }
 
 
@@ -51,7 +47,7 @@ public class DatabaseGetter {
         int checkPlayer = 0;
         try (Connection connection = DatabaseConnector.getConnection()) {
 
-            String checkIfPlayerTableIsempty = "select COUNT(*) from dungeonrun.player";
+            String checkIfPlayerTableIsempty = "select COUNT(*) from dungeonrun.playerSave";
 
             try (PreparedStatement statement = connection.prepareStatement(checkIfPlayerTableIsempty)) {
 
@@ -59,13 +55,8 @@ public class DatabaseGetter {
 
                 while(resultSet.next()) { checkPlayer = resultSet.getInt("count(*)");}
 
-            } catch (SQLException e) {
-                DatabaseConnector.handleSQL(e);
-            }
-
-        } catch (SQLException e) {
-            DatabaseConnector.handleSQL(e);
-        }
+            } catch (SQLException e) {DatabaseConnector.handleSQL(e);}
+        } catch (SQLException e) {DatabaseConnector.handleSQL(e);}
 
         return checkPlayer;
     }
