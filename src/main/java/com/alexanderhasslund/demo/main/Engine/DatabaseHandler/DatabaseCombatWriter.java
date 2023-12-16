@@ -46,7 +46,7 @@ public class DatabaseCombatWriter {
         }
     }
 
-    /*
+
     public void playerAttackManyMonster(Player player, List<Monster> monsterList, int playerDamageDone, int calculateLevel, String battleId, String typeOfAttack, int countRounds) {
         DatabasePlayerWriter databasePlayerWriter = new DatabasePlayerWriter();
         DatabaseMonsterWriter databaseMonsterWriter = new DatabaseMonsterWriter();
@@ -78,7 +78,7 @@ public class DatabaseCombatWriter {
         } catch (SQLException e) {
             DatabaseConnector.handleSQL(e);
         }
-    }*/
+    }
 
 
     public void MonsterAttackPlayer(Monster monster, List<Player> playerList, int playerIndex, int monsterDamageDone, int calculateLevel, String battleId, String typeOfAttack, int countRounds) {
