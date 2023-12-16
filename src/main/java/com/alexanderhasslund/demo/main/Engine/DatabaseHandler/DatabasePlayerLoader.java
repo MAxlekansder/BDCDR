@@ -7,15 +7,12 @@ import com.alexanderhasslund.demo.main.Engine.Color;
 import com.alexanderhasslund.demo.main.Engine.Input;
 import com.alexanderhasslund.demo.main.Player.Player;
 
-import javax.xml.crypto.Data;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.alexanderhasslund.demo.main.PlayerInteraction.PlayerChoice.saveFileChoice;
 
 public class DatabasePlayerLoader {
 
@@ -29,9 +26,11 @@ public class DatabasePlayerLoader {
     }
 
 
-    public String test(int saveLoad) {
-        String saveLoadFile = "";
-        String test = "select saveSlotName\n" +
+    public String selectedSlot() {
+        System.out.print("Choose a slot to load: ");
+        int saveLoad = Input.intInput();
+
+        String saveLoadFile = "select saveSlotName\n" +
                 "FROM (\n" +
                 "select DENSE_RANK() OVER (ORDER BY p.RegistrationDate DESC) as countRow , SaveSlotName\n" +
                 "from dungeonrun.playersave p \n" +
@@ -40,22 +39,33 @@ public class DatabasePlayerLoader {
                 "limit 7\n" +
                 ") as test1\n" +
                 "where countRow = ?";
-        try (Connection connection = DatabaseConnector.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(test)) {
 
-                statement.setInt(1,saveLoad);
+        String selectedSlotName = null;
 
-            } catch (SQLException e) { DatabaseConnector.handleSQL(e); }
-        } catch (SQLException e) {DatabaseConnector.handleSQL(e);}
+        try (Connection connection = DatabaseConnector.getConnection();
+             PreparedStatement statement = connection.prepareStatement(saveLoadFile)) {
 
+            statement.setInt(1, saveLoad);
 
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    selectedSlotName = resultSet.getString("saveSlotName");
 
-        return saveLoadFile;
+                    System.out.println("Selected Slot Name: " + selectedSlotName);
+                } else {
+                    System.out.println("No result found for saveLoad = " + saveLoad);
+                }
+            }
+
+        } catch (SQLException e) {
+            DatabaseConnector.handleSQL(e);
+        }
+
+        return selectedSlotName;
     }
 
 
     public void chooseRunToLoad() {
-       int saveLoad = 0;
         try (Connection connection = DatabaseConnector.getConnection()) {
             String selectPlayer = "select distinct SaveSlotName, DATE(RegistrationDate) as SaveDate from dungeonrun.playersave p order by RegistrationDate desc limit 7 ";
 
@@ -75,31 +85,46 @@ public class DatabasePlayerLoader {
                 }
                 System.out.println(Color.BLUE + "<------------------------------------------------------>"+ Color.RESET);
 
-                System.out.print("Choose a slot to load: ");
-                 saveLoad = Input.intInput();
-
-                test(saveLoad);
             }  catch(SQLException e){DatabaseConnector.handleSQL(e);}
         } catch (SQLException e) {DatabaseConnector.handleSQL(e);}
-
-
     }
 
     public List<Player> setUpPlayerListFromSave() {
         List<Player> playerList = new ArrayList<>();
 
         try (Connection connection =  DatabaseConnector.getConnection()) {
-            String loadPlayer = "SELECT * FROM PLAYER";
+            String loadPlayer = "\n" +
+                    "select  p.PlayerName, className, p2.PlayerClassId, p3.BelongsToPartyId, p4.SaveSlotName  from dungeonrun.player p \n" +
+                    "join dungeonrun.playeractiveclass p2 on p.PlayerId = p2.playerId\n" +
+                    "join dungeonrun.class c on p2.ClassId  = c.classId \n" +
+                    "join dungeonrun.playerparty p3 on p.PlayerId  = p3.PlayerId \n" +
+                    "join dungeonrun.playersave p4 on p.PlayerId = p4.PlayerId \n" +
+                    "where p4.SaveSlotName = ?";
             try (PreparedStatement statement = connection.prepareStatement(loadPlayer)) {
+
+                String saveSlot = selectedSlot();
+                statement.setString(1,saveSlot);
+
                 try (ResultSet resultSet = statement.executeQuery()) {
+
+                    System.out.println("Trying to fill playerlist...");
+
                     while (resultSet.next()) {
-                        //set values for player here...
+                        int playerClassId = resultSet.getInt("PlayerClassId");
+                        String className = resultSet.getString("ClassName");
+                        Player player = formerClass(className);
+                        player.setPlayerId(playerClassId);
+
+                        if (player instanceof Barbarian) { loadBarbarianFromDataBase((Barbarian) player, playerClassId);
+                        } else if (player instanceof Rogue) { loadRogueFromDatabase((Rogue) player, playerClassId);
+                        } else if (player instanceof Sorcerer) { loadSorcererFromDataBase((Sorcerer) player, playerClassId);}
+
+                        player.setName(resultSet.getString("playerName"));
+                        playerList.add(player);
                     }
                 }
-
             } catch (SQLException e) {DatabaseConnector.handleSQL(e); }
         } catch (SQLException e) { DatabaseConnector.handleSQL(e); }
-
         return playerList;
     }
 

@@ -71,6 +71,7 @@ public class GameStartControl {
 
                     if (databaseGetter.checkIfPlayersExists() > 0) {
                         databasePlayerLoader.chooseRunToLoad();
+                        databasePlayerLoader.setUpPlayerListFromSave();
 
                     } else {
                         System.out.println("No file found");
