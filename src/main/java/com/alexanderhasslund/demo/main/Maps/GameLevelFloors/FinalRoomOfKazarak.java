@@ -32,7 +32,7 @@ public class FinalRoomOfKazarak {
         boolean checkPlayerEncounter = false;
 
 
-          monsterController.chooseBossFight(calculateLevels);
+          monsterController.chooseBossFight(playerList);
           if(combatController.initiateFight(calculateLevels)) {
               stringManipulator.manipulateString(StringLore.bossLastBossThaal());
               saveFile.saveHistoricPlayer(playerList);

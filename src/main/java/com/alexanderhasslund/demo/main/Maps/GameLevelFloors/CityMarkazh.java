@@ -34,7 +34,7 @@ public class CityMarkazh {
         if (combatController.initiateFight(calculateLevels)) {
             stringManipulator.manipulateString(StringLore.bossTheInquisition());
 
-            monsterController.chooseBossFight(calculateLevels);
+            monsterController.chooseBossFight(playerList);
             checkPlayerEncounter = combatController.initiateFight(calculateLevels);
             stringManipulator.manipulateString(StringLore.theFinalRoomThaal());
         } else System.out.println("As the inquisition have watch you the entire time, in unison you hear the most chilling laugh, maybe another day...");

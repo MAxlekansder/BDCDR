@@ -2,6 +2,7 @@ package com.alexanderhasslund.demo.main.Combat.CombatController;
 
 import com.alexanderhasslund.demo.main.Classes.IClasses;
 import com.alexanderhasslund.demo.main.Combat.ICombat;
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabasePlayerLoader;
 import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabasePlayerWriter;
 import com.alexanderhasslund.demo.main.Engine.Input;
 import com.alexanderhasslund.demo.main.Monster.Monster;
@@ -39,7 +40,7 @@ public class PlayerAttack {
                         }
                 );
                 currentPlayer.setHasPlayed(true);
-                checkMonsterhasDied(monsterList, playerList, currentPlayer);
+                checkMonsterhasDied(monsterList, playerList, currentPlayer, calculateLevel);
             }
 
             case 2 -> {
@@ -49,7 +50,7 @@ public class PlayerAttack {
                     }
                 });
                 currentPlayer.setHasPlayed(true);
-                checkMonsterhasDied(monsterList, playerList, currentPlayer);
+                checkMonsterhasDied(monsterList, playerList, currentPlayer, calculateLevel);
             }
             case 3 -> {
                 IntStream.range(0, playerList.size()).filter(index -> index == currentPlayer.getId()).forEach(index -> {  //filter(index -> index == playerIndex)
@@ -57,7 +58,7 @@ public class PlayerAttack {
                         ((IClasses) currentPlayer).ultimate(playerList, currentPlayer, monsterList, calculateLevel, countRounds);
 
                         currentPlayer.setHasPlayed(true);
-                        checkMonsterhasDied(monsterList, playerList, currentPlayer);
+                        checkMonsterhasDied(monsterList, playerList, currentPlayer, calculateLevel);
 
                     }
                 });
@@ -69,8 +70,9 @@ public class PlayerAttack {
     }
 
 
-    public void checkMonsterhasDied(List<Monster> monsterList, List<Player> playerList, Player currentPlayer) {
+    public void checkMonsterhasDied(List<Monster> monsterList, List<Player> playerList, Player currentPlayer, int calculateLevels) {
         DatabasePlayerWriter databasePlayerWriter = new DatabasePlayerWriter();
+        DatabasePlayerLoader databasePlayerLoader = new DatabasePlayerLoader();
         int currency = 0;
         //for (int i = 0; i < monsterList.size(); i++) {
         for (int i = monsterList.size() -1; i >=0; i--) {
@@ -88,6 +90,13 @@ public class PlayerAttack {
                 databasePlayerWriter.updateMonsterKilledByPlayer(currentPlayer, 1);
                 databasePlayerWriter.updatePlayerExperience(playerList);
                 databasePlayerWriter.updatePlayerCurrency(playerList);
+
+                for (Monster monster : monsterList) {
+                    if (monster.getTypeName().equals("\033[1;36mBOSS\033[0m") || monster.getTypeName().equals("\033[1;36mFINAL BOSS\033[0m")) {
+                        databasePlayerWriter.insertPlayerClearedLevel(playerList, monster, databasePlayerLoader.getMapLevel(playerList));
+                    }
+                }
+
                 monsterList.remove(monsterList.get(i));
 
             }

@@ -108,7 +108,6 @@ public class CombatController {
             return true;
         }
 
-        // write battleId here?
     }
 
 

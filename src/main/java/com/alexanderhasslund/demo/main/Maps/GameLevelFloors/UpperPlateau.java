@@ -34,7 +34,7 @@ public class UpperPlateau {
         if (combatController.initiateFight(calculateLevels)) {
             stringManipulator.manipulateString(StringLore.bossTwinBrothers());
 
-            monsterController.chooseBossFight(calculateLevels);
+            monsterController.chooseBossFight(playerList);
             checkPlayerEncounter = combatController.initiateFight(calculateLevels);
         } else System.out.println("As you run out, a ringing 'OUHM' deafening you, maybe another day...");
 

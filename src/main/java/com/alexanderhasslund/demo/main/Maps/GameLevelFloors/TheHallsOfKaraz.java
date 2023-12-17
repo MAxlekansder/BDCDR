@@ -36,7 +36,7 @@ public class TheHallsOfKaraz  {
         if (combatController.initiateFight(calculateLevels)) {
             stringManipulator.manipulateString(StringLore.bossTagTeam());
 
-                monsterController.chooseBossFight(calculateLevels);
+                monsterController.chooseBossFight(playerList);
                 checkPlayerEncounter = combatController.initiateFight(calculateLevels);
 
         } else System.out.println("As you run out, you still here the screeches of a horde, maybe another day...");

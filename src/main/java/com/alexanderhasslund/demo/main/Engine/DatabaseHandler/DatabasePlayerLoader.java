@@ -25,6 +25,7 @@ public class DatabasePlayerLoader {
 
 
     public String selectedSlot() {
+
         System.out.print("Choose a slot to load: ");
         int saveLoad = Input.intInput();
 
@@ -64,6 +65,7 @@ public class DatabasePlayerLoader {
 
 
     public void chooseRunToLoad() {
+
         try (Connection connection = DatabaseConnector.getConnection()) {
             String selectPlayer = "select distinct SaveSlotName, DATE(RegistrationDate) as SaveDate from dungeonrun.playersave p order by RegistrationDate desc limit 7 ";
 
@@ -94,7 +96,6 @@ public class DatabasePlayerLoader {
 
     public List<Player> setUpPlayerListFromSave() {
 
-
         try (Connection connection = DatabaseConnector.getConnection()) {
             String loadPlayer = "\n" +
                     "select  p.PlayerName, className, p2.PlayerClassId, p3.BelongsToPartyId, p4.SaveSlotName  from dungeonrun.player p \n" +
@@ -119,19 +120,10 @@ public class DatabasePlayerLoader {
                         Player player = formerClass(className);
                         player.setPlayerId(playerClassId);
 
-                        if (player instanceof Barbarian) {
-                            loadBarbarianFromDataBase((Barbarian) player, playerClassId);
-                        } else if (player instanceof Rogue) {
-                            loadRogueFromDatabase((Rogue) player, playerClassId);
-                        } else if (player instanceof Sorcerer) {
-                            loadSorcererFromDataBase((Sorcerer) player, playerClassId);
-                        }
-
                         player.setName(resultSet.getString("playerName"));
                         player.setPartyId(BelongsToPartyId);
                         playerList.add(player);
                     }
-
                 }
             } catch (SQLException e) {
                 DatabaseConnector.handleSQL(e);
@@ -142,19 +134,9 @@ public class DatabasePlayerLoader {
         return playerList;
     }
 
-    public void loadBarbarianFromDataBase(Barbarian barbarian, int playerId) {
-
-    }
-
-    public void loadRogueFromDatabase(Rogue rogue, int playerId) {
-
-    }
-
-    public void loadSorcererFromDataBase(Sorcerer sorcerer, int PlayerId) {
-
-    }
 
     public Player formerClass(String className) {
+
         switch (className) {
             case "BARBARIAN" -> {
                 return new Barbarian();
@@ -171,6 +153,7 @@ public class DatabasePlayerLoader {
 
 
     public void updatePlayerList(List<Player> playerList) {
+
         try (Connection connection = DatabaseConnector.getConnection()) {
             String getActivePlayerData = "select p.Damage, p.HP, p.Resource, p.Strength, p.Agility, p.Intellect, p.Defence, p.Initiative, p.`level`, p.Experience, p3.Currency from dungeonrun.playeractiveclass p\n" +
                     "join dungeonrun.playerparty p2 on p.playerId = p2.PlayerId \n" +
@@ -222,7 +205,6 @@ public class DatabasePlayerLoader {
 
     public List<Player> updatePlayerListInventory(List<Player> playerList) {
 
-
         for (int i = 0; i < playerList.size(); i++) {
             for (int j = 0; j < 4; j++) {
                 playerList.get(i).getInventoryList().add(j, new Inventory("", 0, 0, 0, 0, 0));
@@ -259,13 +241,29 @@ public class DatabasePlayerLoader {
                         }
                     }
                 }
-            } catch (SQLException e) {
-                DatabaseConnector.handleSQL(e);
-            }
-        } catch (SQLException e) {
-            DatabaseConnector.handleSQL(e);
-        }
+            } catch (SQLException e) {DatabaseConnector.handleSQL(e);}
+        } catch (SQLException e) {DatabaseConnector.handleSQL(e);}
         return playerList;
+    }
+
+
+    public int getMapLevel (List<Player> playerList) {
+        int mapId = 0;
+        try (Connection connection = DatabaseConnector.getConnection()) {
+            //String findMapId = "select distinct max(mapId) as mapId from dungeonrun.maplevelcompleted m join dungeonrun.playerparty p on m.PlayerId = p.PlayerId where p.BelongsToPartyId = ?";
+            String findMapId = "select distinct max(m2.sortingId) as mapId from dungeonrun.maplevelcompleted m join dungeonrun.playerparty p on m.PlayerId = p.PlayerId join dungeonrun.`map` m2 on m.MapId = m2.MapId where p.BelongsToPartyId = ?";
+            try (PreparedStatement statement = connection.prepareStatement(findMapId)) {
+                statement.setString(1, playerList.get(0).getPartyId());
+
+               try (ResultSet resultSet = statement.executeQuery()) {
+                   while (resultSet.next()) {
+                       mapId = resultSet.getInt("mapId");
+                   }
+               }
+
+            } catch (SQLException e) { DatabaseConnector.handleSQL(e); }
+        } catch (SQLException e) { DatabaseConnector.handleSQL(e); }
+        return mapId;
     }
 }
 

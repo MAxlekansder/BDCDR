@@ -370,12 +370,11 @@ public class DatabasePlayerWriter {
         } catch (SQLException e) {
             DatabaseConnector.handleSQL(e);
         }
-
         return checkSlot;
     }
 
-    public void createNewSaveSlotOrOverride(List<Player> playerList) {
 
+    public void createNewSaveSlotOrOverride(List<Player> playerList) {
 
         System.out.println("Update current slot or create new?");
         System.out.println(saveFileChoice());
@@ -444,11 +443,61 @@ public class DatabasePlayerWriter {
     }
 
 
-    public void insertPlayerClearedLevel(List<Player> playerList, List<Monster> monsterList, int mapId) {
+    public void insertPlayerClearedLevel(List<Player> playerList, Monster monster, int mapId) {
+        DatabaseMonsterWriter databaseMonsterWriter = new DatabaseMonsterWriter();
 
         try (Connection connection = DatabaseConnector.getConnection()) {
-        String addClearedLevel = "INSERT INTO dungeonrun.maplevelcompleted (MapLevelNewGamePlus, PlayerId, MonsterId, MapId, HasPartyBeatenLevel) VALUES (?,?,?,?,?)";
+        String addClearedLevel = "INSERT INTO dungeonrun.maplevelcompleted (PlayerId, MonsterId, MapId, HasPartyBeatenLevel) VALUES (?,?,?,?)";
             try (PreparedStatement statement = connection.prepareStatement(addClearedLevel)) {
+
+                for (Player player : playerList) {
+
+                    statement.setInt(1, getPlayerId(player));
+                    statement.setInt(2, databaseMonsterWriter.getMonsterId(monster));
+                    statement.setInt(3, mapId);
+                    statement.setInt(4, 1);
+                    statement.executeUpdate();
+                    updateMapDone(player, mapId);
+                }
+
+            }
+
+        }  catch(SQLException e) {DatabaseConnector.handleSQL(e);}
+
+    }
+
+    public void updateMapDone(Player player, int mapId) {
+
+        try (Connection connection = DatabaseConnector.getConnection()) {
+            String updateSaveFile = "update dungeonrun.maplevelcompleted p join dungeonrun.playerparty p2 on p.PlayerId = p2.PlayerId set mapId = ? where p2.BelongsToPartyId = ?";
+
+            try (PreparedStatement statement = connection.prepareStatement(updateSaveFile)) {
+
+                    statement.setInt(1, mapId + 1);
+                    statement.setString(2, player.getPartyId());
+                    statement.executeUpdate();
+
+                } catch (SQLException e) { DatabaseConnector.handleSQL(e); }
+            } catch (SQLException e) { DatabaseConnector.handleSQL(e); }
+        }
+
+
+
+    public void firstPlayerClearedLevel(List<Player> playerList, Monster monster) {
+        DatabaseMonsterWriter databaseMonsterWriter = new DatabaseMonsterWriter();
+
+        try (Connection connection = DatabaseConnector.getConnection()) {
+            String addClearedLevel = "INSERT INTO dungeonrun.maplevelcompleted (PlayerId, MonsterId, MapId, HasPartyBeatenLevel) VALUES (?,?,?,?)";
+            try (PreparedStatement statement = connection.prepareStatement(addClearedLevel)) {
+
+                for (Player player : playerList) {
+
+                    statement.setInt(1, getPlayerId(player));
+                    statement.setInt(2, databaseMonsterWriter.getMonsterId(monster));
+                    statement.setInt(3,5);
+                    statement.setInt(4, 1);
+                    statement.executeUpdate();
+                }
 
             }
 
@@ -456,6 +505,5 @@ public class DatabasePlayerWriter {
 
     }
 }
-
 
 

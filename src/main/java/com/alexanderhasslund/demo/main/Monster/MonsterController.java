@@ -1,6 +1,7 @@
 package com.alexanderhasslund.demo.main.Monster;
 
 import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabaseMonsterWriter;
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabasePlayerLoader;
 import com.alexanderhasslund.demo.main.Monster.BasicMonsters.MonsterBrute;
 import com.alexanderhasslund.demo.main.Monster.BasicMonsters.MonsterRanger;
 import com.alexanderhasslund.demo.main.Monster.BasicMonsters.MonsterSpellWeaver;
@@ -10,6 +11,7 @@ import com.alexanderhasslund.demo.main.Monster.Boss.TheTwinBrothers.Bram;
 import com.alexanderhasslund.demo.main.Monster.Boss.TheTwinBrothers.Ohrum;
 import com.alexanderhasslund.demo.main.Monster.Boss.theInquisition.theInquisition;
 import com.alexanderhasslund.demo.main.Monster.Monster;
+import com.alexanderhasslund.demo.main.Player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,9 +67,9 @@ public class MonsterController {
         }
     }
 
-    public void chooseBossFight(int calculateLevels) {
-
-        switch(calculateLevels) {
+    public void chooseBossFight(List<Player> playerList) {
+        DatabasePlayerLoader databasePlayerLoader = new DatabasePlayerLoader();
+        switch(databasePlayerLoader.getMapLevel(playerList)) {
             case 1 -> {generateTagTeamBoss();}
             case 2 -> {generateTwinBrotherBoss();}
             case 3 -> {generateTheInquisition();}

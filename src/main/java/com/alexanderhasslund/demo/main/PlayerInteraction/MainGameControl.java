@@ -41,6 +41,8 @@ public class MainGameControl {
         DatabasePlayerLoader databasePlayerLoader = new DatabasePlayerLoader();
 
 
+
+
         boolean isMainPlaying = true;
         while (isMainPlaying) {
             System.out.println(playerChoice.mainMenuChoice());

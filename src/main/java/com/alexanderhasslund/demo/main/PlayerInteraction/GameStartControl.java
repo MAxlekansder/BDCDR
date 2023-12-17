@@ -72,7 +72,9 @@ public class GameStartControl {
                 case 2 -> {
 
                     if (databaseGetter.checkIfPlayersExists() > 0) {
+
                         databasePlayerLoader.chooseRunToLoad();
+                        databasePlayerLoader.getPlayerList().removeAll(databasePlayerLoader.getPlayerList());
                         databasePlayerLoader.updatePlayerList(databasePlayerLoader.setUpPlayerListFromSave());
                         MainGameControl mainGameControl = new MainGameControl(databasePlayerLoader.getPlayerList(), databasePlayerLoader.getPlayerList().size());
                         mainGameControl.mainSwitch();

@@ -13,7 +13,6 @@ public class CombatEndingController {
 
     public void decideCombatWinner(List<Player> playerList, List<Monster> monsterList) {
         DatabasePlayerWriter databasePlayerWriter = new DatabasePlayerWriter();
-        CombatController combatController = new CombatController(playerList, monsterList);
         ResetCombat resetCombat = new ResetCombat();
 
         if (playerList.isEmpty()) {
@@ -30,11 +29,7 @@ public class CombatEndingController {
             System.out.println("Restoring health and resource back to full");
             resetCombat.resetPlayerListBackToNormal(playerList);
 
-            for (Monster monster : monsterList) {
-                if (monster.getTypeName().equals("\033[1;36mBOSS\033[0m") || monster.getTypeName().equals("\033[1;36mFINAL BOSS\033[0m")) {
-                    databasePlayerWriter.insertPlayerClearedLevel(playerList, monsterList, calculateLevels);
-                }
-            }
+
         }
     }
 

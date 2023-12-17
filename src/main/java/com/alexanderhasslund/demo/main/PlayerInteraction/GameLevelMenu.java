@@ -1,6 +1,8 @@
 package com.alexanderhasslund.demo.main.PlayerInteraction;
 
 import com.alexanderhasslund.demo.main.Combat.CombatMenu;
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabasePlayerLoader;
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabasePlayerWriter;
 import com.alexanderhasslund.demo.main.Player.Player;
 import com.alexanderhasslund.demo.main.Maps.GameLevelOptions.GameLevelFour;
 import com.alexanderhasslund.demo.main.Maps.GameLevelOptions.GameLevelOne;
@@ -27,16 +29,26 @@ public class GameLevelMenu {
         GameLevelTwo gameLevelTwo = new GameLevelTwo(calculateLevels, playerList, countPlayers);
         GameLevelThree gameLevelThree = new GameLevelThree(calculateLevels, playerList, countPlayers);
         GameLevelFour gameLevelFour = new GameLevelFour(calculateLevels, playerList, countPlayers);
+        DatabasePlayerLoader databasePlayerLoader = new DatabasePlayerLoader();
 
         boolean isGameLevel = true;
         boolean isPlayerEncounter = true;
 
+        if (calculateLevels == 0) {
+            calculateLevels = databasePlayerLoader.getMapLevel(playerList);
+            if (calculateLevels == 5) {
+                calculateLevels = 1;
+            }
+        }
+
+
         while (isGameLevel) {
-            switch (calculateLevels) {
+            switch (databasePlayerLoader.getMapLevel(playerList)) {
                 case 1 -> {
                     isPlayerEncounter = gameLevelOne.gameSwitchOne();
                     if (isPlayerEncounter) {
-                        calculateLevels++;
+                        //calculateLevels++;
+                        //calculateLevels = calculateLevels + databasePlayerLoader.getMapLevel(playerList);
                         isGameLevel = false;
                     }
                     isGameLevel = false;
@@ -45,7 +57,8 @@ public class GameLevelMenu {
                 case 2 -> {
                     isPlayerEncounter = gameLevelTwo.gameSwitchTwo();
                     if (isPlayerEncounter) {
-                        calculateLevels++;
+                        //calculateLevels++;
+                        //calculateLevels = calculateLevels +  databasePlayerLoader.getMapLevel(playerList);
                         isGameLevel = false;
                     }
                     isGameLevel = false;
@@ -53,7 +66,8 @@ public class GameLevelMenu {
                 case 3 -> {
                     isPlayerEncounter = gameLevelThree.gameSwitchThree();
                     if (isPlayerEncounter) {
-                        calculateLevels++;
+                        //calculateLevels++;
+                        //calculateLevels = calculateLevels +  databasePlayerLoader.getMapLevel(playerList);
                         isGameLevel = false;
                     }
                     isGameLevel = false;
@@ -61,7 +75,8 @@ public class GameLevelMenu {
                 case 4 -> {
                     gameLevelFour.gameSwitchFour();
                     if (isPlayerEncounter) {
-                        calculateLevels++;
+                        //calculateLevels++;
+                        //calculateLevels = calculateLevels +  databasePlayerLoader.getMapLevel(playerList);
                         isGameLevel = false;
                     }
                     isGameLevel = false;
