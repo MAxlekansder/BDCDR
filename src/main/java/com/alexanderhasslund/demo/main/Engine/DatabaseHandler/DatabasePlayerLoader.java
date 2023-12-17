@@ -229,13 +229,13 @@ public class DatabasePlayerLoader {
             }
         }
 
-
         try (Connection connection = DatabaseConnector.getConnection()) {
-            String getActivePlayerData = "select * from dungeonrun.playerinventory p \n" +
+            String getActivePlayerData = "select i.ItemName , i.ItemDamage, i.ItemInitiative, i .ItemLevelLock , i.ItemDefence, i.ItemBlock, p.ItemSlot, max(p.RegistrationDate)  from dungeonrun.playerinventory p \n" +
                     "join dungeonrun.item i on p.itemId = i.ItemId \n" +
                     "join dungeonrun.player p2 on p.PlayerId = p2.PlayerId \n" +
                     "join dungeonrun.playerparty p3 on p.PlayerId  = p3.PlayerId \n" +
-                    "where p.PlayerClassId  = ? and p3.BelongsToPartyId = ?";
+                    "where p.PlayerClassId  = ? and p3.BelongsToPartyId = ?\n" +
+                    "group by i.ItemName , i.ItemDamage, i.ItemInitiative, i .ItemLevelLock , i.ItemDefence, i.ItemBlock, p.ItemSlot";
             try (PreparedStatement statement = connection.prepareStatement(getActivePlayerData)) {
 
                 for (Player player : playerList) {

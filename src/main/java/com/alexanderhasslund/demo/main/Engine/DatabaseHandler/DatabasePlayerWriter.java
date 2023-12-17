@@ -1,6 +1,7 @@
 package com.alexanderhasslund.demo.main.Engine.DatabaseHandler;
 
 import com.alexanderhasslund.demo.main.Engine.Input;
+import com.alexanderhasslund.demo.main.Monster.Monster;
 import com.alexanderhasslund.demo.main.Player.Player;
 
 import java.sql.Connection;
@@ -442,6 +443,18 @@ public class DatabasePlayerWriter {
         }
     }
 
+
+    public void insertPlayerClearedLevel(List<Player> playerList, List<Monster> monsterList, int mapId) {
+
+        try (Connection connection = DatabaseConnector.getConnection()) {
+        String addClearedLevel = "INSERT INTO dungeonrun.maplevelcompleted (MapLevelNewGamePlus, PlayerId, MonsterId, MapId, HasPartyBeatenLevel) VALUES (?,?,?,?,?)";
+            try (PreparedStatement statement = connection.prepareStatement(addClearedLevel)) {
+
+            }
+
+        }  catch(SQLException e) {DatabaseConnector.handleSQL(e);}
+
+    }
 }
 
 

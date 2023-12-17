@@ -1,6 +1,7 @@
 package com.alexanderhasslund.demo.main.Combat.CombatController;
 
 import com.alexanderhasslund.demo.main.Combat.ResetCombat;
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabasePlayerWriter;
 import com.alexanderhasslund.demo.main.Monster.Monster;
 import com.alexanderhasslund.demo.main.Player.Player;
 
@@ -11,6 +12,7 @@ public class CombatEndingController {
     private static int calculateLevels;
 
     public void decideCombatWinner(List<Player> playerList, List<Monster> monsterList) {
+        DatabasePlayerWriter databasePlayerWriter = new DatabasePlayerWriter();
         CombatController combatController = new CombatController(playerList, monsterList);
         ResetCombat resetCombat = new ResetCombat();
 
@@ -26,6 +28,12 @@ public class CombatEndingController {
             calculateLevels++;
             System.out.println("Restoring health and resource back to full");
             resetCombat.resetPlayerListBackToNormal(playerList);
+
+            for (Monster monster : monsterList) {
+                if (monster.getTypeName().equals("\033[1;36mBOSS\033[0m") || monster.getTypeName().equals("\033[1;36mFINAL BOSS\033[0m")) {
+                    databasePlayerWriter.insertPlayerClearedLevel(playerList, monsterList, calculateLevels);
+                }
+            }
         }
     }
 
@@ -38,3 +46,5 @@ public class CombatEndingController {
         this.calculateLevels = calculateLevels;
     }
 }
+
+
