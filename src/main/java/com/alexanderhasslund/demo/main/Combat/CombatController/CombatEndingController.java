@@ -24,6 +24,7 @@ public class CombatEndingController {
         }
         else {
             System.out.println("You made it through the level!");
+            
 
             calculateLevels++;
             System.out.println("Restoring health and resource back to full");
