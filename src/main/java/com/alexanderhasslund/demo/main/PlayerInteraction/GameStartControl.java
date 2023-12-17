@@ -8,11 +8,13 @@ import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.*;
 import com.alexanderhasslund.demo.main.Engine.Input;
 import com.alexanderhasslund.demo.main.Engine.StringManipulator;
 import com.alexanderhasslund.demo.main.File.SaveFile;
+import com.alexanderhasslund.demo.main.Player.Player;
 import com.alexanderhasslund.demo.main.Player.PlayerController;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 
 public class GameStartControl {
@@ -71,8 +73,9 @@ public class GameStartControl {
 
                     if (databaseGetter.checkIfPlayersExists() > 0) {
                         databasePlayerLoader.chooseRunToLoad();
-                        databasePlayerLoader.setUpPlayerListFromSave();
-
+                        databasePlayerLoader.updatePlayerList(databasePlayerLoader.setUpPlayerListFromSave());
+                        MainGameControl mainGameControl = new MainGameControl(databasePlayerLoader.getPlayerList(), databasePlayerLoader.getPlayerList().size());
+                        mainGameControl.mainSwitch();
                     } else {
                         System.out.println("No file found");
                     }

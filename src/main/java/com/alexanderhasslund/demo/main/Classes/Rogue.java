@@ -91,6 +91,7 @@ public class Rogue extends Player implements IClasses, ICombat, Serializable {
 
     @Override
     public void addStatsToPlayer(Player currentPlayer) {
+        DatabasePlayerWriter databasePlayerWriter = new DatabasePlayerWriter();
 
         currentPlayer.setBaseStrength(currentPlayer.getBaseStrength() + (int)(currentPlayer.getLevel() / 5));
         currentPlayer.setBaseAgility(currentPlayer.getBaseAgility() + (int)(currentPlayer.getLevel() / 4));
@@ -100,6 +101,7 @@ public class Rogue extends Player implements IClasses, ICombat, Serializable {
         currentPlayer.setBaseDefence(currentPlayer.getBaseDefence() + (int) (currentPlayer.getBaseStrength() * 9));
         currentPlayer.setMaxHp(currentPlayer.getMaxHp() + (int) (currentPlayer.getBaseStrength() * 0.1));
 
+        databasePlayerWriter.updatePlayer(currentPlayer);
     }
 
 

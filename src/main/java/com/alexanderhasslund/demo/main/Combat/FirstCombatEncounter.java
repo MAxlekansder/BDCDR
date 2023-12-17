@@ -1,6 +1,7 @@
 package com.alexanderhasslund.demo.main.Combat;
 
 import com.alexanderhasslund.demo.main.Combat.CombatController.CombatController;
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabasePlayerWriter;
 import com.alexanderhasslund.demo.main.Engine.Input;
 import com.alexanderhasslund.demo.main.Monster.BasicMonsters.MonsterBrute;
 import com.alexanderhasslund.demo.main.Monster.Monster;
@@ -23,6 +24,7 @@ public class FirstCombatEncounter {
     }
 
     public void firstPlayerFight() {
+        DatabasePlayerWriter databasePlayerWriter = new DatabasePlayerWriter();
         List<Monster> firstMonsterList = new ArrayList<>();
         CombatMenu combatMenu = new CombatMenu();
         firstMonsterList.add(new MonsterBrute());
@@ -71,8 +73,10 @@ public class FirstCombatEncounter {
 
             for (Player player : playerList) {
                 System.out.println(player.getName() + "\033[1;32m gets 200 coins! and some exp\033[0m");
-
+                    player.setCurrency(200);
             }
+
+            databasePlayerWriter.updatePlayerCurrency(playerList);
 
             ResetCombat resetCombat = new ResetCombat();
             resetCombat.resetPlayerListBackToNormal(playerList);

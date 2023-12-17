@@ -109,7 +109,7 @@ public class SwordsShop {
 
 
     public void checkSwordSlot(int swordPrice, int playerIndex) {
-
+    DatabasePlayerWriter databasePlayerWriter = new DatabasePlayerWriter();
             if (swordPrice == 0) {
                 System.out.println("see you around...");
             }
@@ -118,13 +118,7 @@ public class SwordsShop {
                 + " with " +playerList.get(playerIndex).getInventoryList().get(0).getInitiative() + " initiative"
                 + " and " + playerList.get(playerIndex).getInventoryList().get(0).getDamage() + " damage, with a cost of: " + swordPrice);
         System.out.println("Balance left: " + (playerList.get(playerIndex).getCurrency()));
+        databasePlayerWriter.updatePlayerPurchase(playerList.get(playerIndex));
 
-        /*
-        playerList.forEach(player -> {
-            System.out.println(player.getName() + " bought " + playerList.get(playerIndex).getInventoryList().get(0).getItemName()
-                    + " with " +playerList.get(playerIndex).getInventoryList().get(0).getInitiative() + " initiative"
-                    + " and " + playerList.get(playerIndex).getInventoryList().get(0).getDamage() + " damage, with a cost of: " + swordPrice);
-            System.out.println("Balance left: " + (player.getCurrency()));
-        }); */
     }
 }

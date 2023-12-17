@@ -111,6 +111,7 @@ public class ShieldsShop {
 
 
     public void checkShieldSlot(int shieldPrice, int playerIndex) {
+        DatabasePlayerWriter databasePlayerWriter = new DatabasePlayerWriter();
         int shieldIndex = 1;
         if (shieldPrice == 0) {
             System.out.println("see you around...");
@@ -120,6 +121,7 @@ public class ShieldsShop {
                 + " with " +playerList.get(playerIndex).getInventoryList().get(1).getInitiative() + " initiative"
                 + " and " + playerList.get(playerIndex).getInventoryList().get(1).getDamage() + " damage, with a cost of: " + shieldPrice);
         System.out.println("Balance left: " + (playerList.get(playerIndex).getCurrency()));
+        databasePlayerWriter.updatePlayerPurchase(playerList.get(playerIndex));
 
     }
 

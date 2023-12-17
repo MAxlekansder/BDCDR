@@ -100,18 +100,80 @@ public class DatabasePlayerWriter {
         }
     }
 
+    public void updatePlayerExperience (List<Player> playerList) {
+        try (Connection connection = DatabaseConnector.getConnection()) {
+            String updatePlayer = "UPDATE dungeonrun.playeractiveclass p join dungeonrun.playerparty p2 on p.PlayerId = p2.PlayerId \n" +
+                    "SET  Experience = ? WHERE p.playerClassId = ? and p2.BelongsToPartyId = ?";
+
+            try (PreparedStatement statement = connection.prepareStatement(updatePlayer)) {
+
+                for (Player player : playerList) {
+                    statement.setInt(1, player.getExperience());
+                    statement.setInt(2, player.getId());
+                    statement.setString(3, player.getPartyId());
+                    statement.executeUpdate();
+                }
+
+            } catch (SQLException e) {
+                DatabaseConnector.handleSQL(e);
+            }
+        } catch (SQLException e) {
+            DatabaseConnector.handleSQL(e);
+        }
+    }
 
     public void updateMonsterKilledByPlayer(Player player, int monsterKilled) {
 
         try (Connection connection = DatabaseConnector.getConnection()) {
             String updatePlayer = "UPDATE dungeonrun.playeractiveclass p join dungeonrun.playerparty p2 on p.PlayerId = p2.PlayerId SET MonsterKilled = MonsterKilled + ? WHERE " + "p.playerClassId = ? " + "and p2.BelongsToPartyId = ?";
 
+            try (PreparedStatement statement = connection.prepareStatement(updatePlayer)) {
+
+                statement.setInt(1, monsterKilled); // need to get monster kill count from playerAttack
+                statement.setInt(2, player.getId());
+                statement.setString(3, player.getPartyId());
+                statement.executeUpdate();
+
+            } catch (SQLException e) {
+                DatabaseConnector.handleSQL(e);
+            }
+        } catch (SQLException e) {
+            DatabaseConnector.handleSQL(e);
+        }
+    }
+
+    public void updatePlayerCurrency(List<Player> playerList) {
+
+        try (Connection connection = DatabaseConnector.getConnection()) {
+            String updatePlayer = "update dungeonrun.player p set Currency = ? where PlayerId = ?";
+
             try (PreparedStatement preparedStatement = connection.prepareStatement(updatePlayer)) {
 
-                preparedStatement.setInt(1, monsterKilled); // need to get monster kill count from playerAttack
-                preparedStatement.setInt(2, player.getId());
-                preparedStatement.setString(3, player.getPartyId());
-                preparedStatement.executeUpdate();
+                for (Player player : playerList) {
+                    preparedStatement.setInt(1, player.getCurrency());
+                    preparedStatement.setInt(2, getPlayerId(player));
+                    preparedStatement.executeUpdate();
+                }
+
+            } catch (SQLException e) {
+                DatabaseConnector.handleSQL(e);
+            }
+        } catch (SQLException e) {
+            DatabaseConnector.handleSQL(e);
+        }
+    }
+
+
+    public void updatePlayerPurchase(Player player) {
+
+        try (Connection connection = DatabaseConnector.getConnection()) {
+            String updatePlayer = "update dungeonrun.player p set Currency = ? where PlayerId = ?";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(updatePlayer)) {
+
+                    preparedStatement.setInt(1, player.getCurrency());
+                    preparedStatement.setInt(2, getPlayerId(player));
+                    preparedStatement.executeUpdate();
 
             } catch (SQLException e) {
                 DatabaseConnector.handleSQL(e);
@@ -348,6 +410,38 @@ public class DatabasePlayerWriter {
             }
         }
     }
+
+
+    public void updatePlayer(Player player) {
+
+        try (Connection connection = DatabaseConnector.getConnection()) {
+            String updatePlayer = "\n" +
+                    "update dungeonrun.playeractiveclass p join dungeonrun.playerparty p2 on p.playerId = p2.PlayerId \n" +
+                    "set p.HP = ?, p.Damage = ?, p.Resource = ?, p.Strength = ? , p.Agility = ?, p.Intellect = ? , p.Defence = ? , p.Initiative = ?\n" +
+                    "where p.PlayerClassId = ? and p2.BelongsToPartyId = ?\n ";
+
+            try (PreparedStatement statement = connection.prepareStatement(updatePlayer)) {
+
+                statement.setInt(1,player.getMaxHp());
+                statement.setInt(2, player.getBaseDamage());
+                statement.setInt(3, player.getMaxResource());
+                statement.setInt(4,player.getStrength());
+                statement.setInt(5, player.getAgility());
+                statement.setInt(6, player.getIntellect());
+                statement.setInt(7, player.getDefence());
+                statement.setInt(8, player.getInitiative());
+                statement.setInt(9, player.getId());
+                statement.setString(10, player.getPartyId());
+                statement.executeUpdate();
+
+            } catch (SQLException e) {
+                DatabaseConnector.handleSQL(e);
+            }
+        } catch (SQLException e) {
+            DatabaseConnector.handleSQL(e);
+        }
+    }
+
 }
 
 

@@ -71,7 +71,7 @@ public class PlayerAttack {
 
     public void checkMonsterhasDied(List<Monster> monsterList, List<Player> playerList, Player currentPlayer) {
         DatabasePlayerWriter databasePlayerWriter = new DatabasePlayerWriter();
-
+        int currency = 0;
         //for (int i = 0; i < monsterList.size(); i++) {
         for (int i = monsterList.size() -1; i >=0; i--) {
             countDeadMonsters++;
@@ -86,14 +86,17 @@ public class PlayerAttack {
                     playerList.get(j).setExperience( playerList.get(j).getExperience() +monsterList.get(i).getGivesExperience());
                 }
                 databasePlayerWriter.updateMonsterKilledByPlayer(currentPlayer, 1);
+                databasePlayerWriter.updatePlayerExperience(playerList);
+                databasePlayerWriter.updatePlayerCurrency(playerList);
                 monsterList.remove(monsterList.get(i));
+
             }
 
         }
 
         playerList.forEach( player -> ((IClasses) currentPlayer).setLevelUp(player)); //filter(index -> index == playerIndex)
 
-        //((IClasses) currentPlayer).setLevelUp(currentPlayer);
+
 
     }
 

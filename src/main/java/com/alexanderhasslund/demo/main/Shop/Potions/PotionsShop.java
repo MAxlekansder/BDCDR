@@ -6,6 +6,7 @@ import com.alexanderhasslund.demo.main.Engine.Input;
 import com.alexanderhasslund.demo.main.Player.Player;
 import com.alexanderhasslund.demo.main.PlayerInteraction.PlayerChoice;
 
+import javax.xml.crypto.Data;
 import java.util.List;
 
 public class PotionsShop {
@@ -87,6 +88,7 @@ public class PotionsShop {
     }
 
     public void checkPotionSlot(int potionPrice, int playerIndex) {
+        DatabasePlayerWriter databasePlayerWriter = new DatabasePlayerWriter();
         int shieldIndex = 1;
         if (potionPrice == 0) {
             System.out.println("see you around...");
@@ -95,6 +97,7 @@ public class PotionsShop {
         System.out.println(playerList.get(playerIndex).getName()+ " bought " + playerList.get(playerIndex).getInventoryList().get(2).getItemName()
              + " with a cost of: " + potionPrice);
         System.out.println("Balance left: " + (playerList.get(playerIndex).getCurrency()));
+        databasePlayerWriter.updatePlayerPurchase(playerList.get(playerIndex));
 
     }
 }

@@ -88,7 +88,7 @@ public class Barbarian extends Player implements IClasses, ICombat, Serializable
     }
 
     public void addStatsToPlayer(Player currentPlayer) {
-
+        DatabasePlayerWriter databasePlayerWriter = new DatabasePlayerWriter();
 
         currentPlayer.setBaseStrength(currentPlayer.getBaseStrength() + (int)(currentPlayer.getLevel() / 4));
         currentPlayer.setBaseAgility(currentPlayer.getBaseAgility() + (int)(currentPlayer.getLevel() / 4));
@@ -97,7 +97,7 @@ public class Barbarian extends Player implements IClasses, ICombat, Serializable
         currentPlayer.setBaseDamage(currentPlayer.getBaseDamage() + (int)(currentPlayer.getBaseStrength() / 10));
         currentPlayer.setBaseDefence(currentPlayer.getBaseDefence() + (int) (currentPlayer.getBaseStrength()/ 7));
         currentPlayer.setMaxHp(currentPlayer.getMaxHp() + (int) (currentPlayer.getBaseStrength() * 0.5));
-
+        databasePlayerWriter.updatePlayer(currentPlayer);
     }
 
 

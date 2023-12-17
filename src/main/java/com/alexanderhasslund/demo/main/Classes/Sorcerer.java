@@ -86,6 +86,7 @@ public class Sorcerer extends Player implements IClasses, ICombat, Serializable 
 
     @Override
     public void addStatsToPlayer(Player currentPlayer) {
+        DatabasePlayerWriter databasePlayerWriter = new DatabasePlayerWriter();
 
         currentPlayer.setBaseStrength(currentPlayer.getBaseStrength() + (int)(currentPlayer.getLevel() / 10));
         currentPlayer.setBaseAgility(currentPlayer.getBaseAgility() + (int)(currentPlayer.getLevel() / 10));
@@ -95,6 +96,7 @@ public class Sorcerer extends Player implements IClasses, ICombat, Serializable 
         currentPlayer.setMaxResource(currentPlayer.getMaxResource() + (currentPlayer.getIntellect() / 5));
         currentPlayer.setBaseDefence(currentPlayer.getBaseDefence() + (int) (currentPlayer.getIntellect() * 0.2));
         currentPlayer.setMaxHp(currentPlayer.getMaxHp() + (int) (currentPlayer.getBaseStrength() * 0.5));
+        databasePlayerWriter.updatePlayer(currentPlayer);
     }
 
 
