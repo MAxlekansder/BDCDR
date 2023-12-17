@@ -74,8 +74,10 @@ public class PlayerAttack {
         DatabasePlayerWriter databasePlayerWriter = new DatabasePlayerWriter();
         DatabasePlayerLoader databasePlayerLoader = new DatabasePlayerLoader();
         int currency = 0;
+
         //for (int i = 0; i < monsterList.size(); i++) {
         for (int i = monsterList.size() -1; i >=0; i--) {
+            Monster monster = monsterList.get(i);
             countDeadMonsters++;
             if (monsterList.get(i).getHp() <= 0) {
 
@@ -91,11 +93,10 @@ public class PlayerAttack {
                 databasePlayerWriter.updatePlayerExperience(playerList);
                 databasePlayerWriter.updatePlayerCurrency(playerList);
 
-                for (Monster monster : monsterList) {
+
                     if (monster.getTypeName().equals("\033[1;36mBOSS\033[0m") || monster.getTypeName().equals("\033[1;36mFINAL BOSS\033[0m")) {
-                        databasePlayerWriter.insertPlayerClearedLevel(playerList, monster, databasePlayerLoader.getMapLevel(playerList));
+                        databasePlayerWriter.insertPlayerClearedLevel(playerList, monster, databasePlayerLoader.getMapLevel(playerList) + 1);
                     }
-                }
 
                 monsterList.remove(monsterList.get(i));
 

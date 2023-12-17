@@ -74,4 +74,27 @@ public class DatabaseMapWritter {
         sortingId = 1;
         writingMap(firstIntro, sortingId);
     }
+
+
+    public int getMapId(int mapId) {
+        int getMap = 0;
+        try (Connection connection = DatabaseConnector.getConnection()) {
+            String checkEmpty = "select m.mapId from dungeonrun.map m join dungeonrun.maplevelcompleted m2 on m.SortingId = m2.SortingId";
+
+            try (PreparedStatement statement = connection.prepareStatement(checkEmpty)) {
+
+                statement.setInt(1, mapId);
+
+                ResultSet resultSet = statement.executeQuery();
+
+                while(resultSet.next()) { getMap = resultSet.getInt("count(*)");}
+
+            } catch (SQLException e) {
+                DatabaseConnector.handleSQL(e);
+            }
+        } catch (SQLException e) {
+            DatabaseConnector.handleSQL(e);
+        }
+        return getMap;
+    }
 }

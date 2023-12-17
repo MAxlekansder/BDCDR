@@ -445,19 +445,21 @@ public class DatabasePlayerWriter {
 
     public void insertPlayerClearedLevel(List<Player> playerList, Monster monster, int mapId) {
         DatabaseMonsterWriter databaseMonsterWriter = new DatabaseMonsterWriter();
+        DatabaseMapWritter databaseMapWritter = new DatabaseMapWritter();
 
         try (Connection connection = DatabaseConnector.getConnection()) {
-        String addClearedLevel = "INSERT INTO dungeonrun.maplevelcompleted (PlayerId, MonsterId, MapId, HasPartyBeatenLevel) VALUES (?,?,?,?)";
+        String addClearedLevel = "INSERT INTO dungeonrun.maplevelcompleted (PlayerId, MonsterId, MapId, SortingId, HasPartyBeatenLevel) VALUES (?,?,?,?,?)";
             try (PreparedStatement statement = connection.prepareStatement(addClearedLevel)) {
 
                 for (Player player : playerList) {
 
                     statement.setInt(1, getPlayerId(player));
                     statement.setInt(2, databaseMonsterWriter.getMonsterId(monster));
-                    statement.setInt(3, mapId);
-                    statement.setInt(4, 1);
+                    statement.setInt(3, databaseMapWritter.getMapId(mapId));
+                    statement.setInt(4, mapId);
+                    statement.setInt(5, 1);
                     statement.executeUpdate();
-                    updateMapDone(player, mapId);
+                    //updateMapDone(player, mapId);
                 }
 
             }
