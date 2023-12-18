@@ -35,6 +35,7 @@ public class DatabaseCombatWriter {
                 statement.setString(9, typeOfAttack);
                 statement.setInt(10,0);
                 statement.setInt(11,countRounds);
+
                 statement.setString(12, battleId);
                 statement.executeUpdate();
 
