@@ -4,6 +4,7 @@ import com.alexanderhasslund.demo.main.Combat.CombatController.MonsterInitiative
 import com.alexanderhasslund.demo.main.Combat.ICombat;
 import com.alexanderhasslund.demo.main.Engine.Color;
 import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabaseCombatWriter;
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabaseMapWritter;
 import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabasePlayerWriter;
 import com.alexanderhasslund.demo.main.Engine.Input;
 import com.alexanderhasslund.demo.main.Monster.Monster;
@@ -47,7 +48,7 @@ public class Rogue extends Player implements IClasses, ICombat, Serializable {
         this.maxHp = 100;
         this.hp = 100; // change here and check all control values
         this.id = 0;
-        this.damage = 1500;
+        this.damage = 15;
         this.resource = 200;
         this.maxResource = 200;
         this.strength = 8;
@@ -109,6 +110,7 @@ public class Rogue extends Player implements IClasses, ICombat, Serializable {
     @Override
     public void ultimate(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, int calculateLevel, int countRounds) {
         DatabaseCombatWriter databaseCombatWriter = new DatabaseCombatWriter();
+        DatabaseMapWritter databaseMapWritter = new DatabaseMapWritter();
 
 
         if (currentPlayer.getResource() >= 100) {
@@ -121,7 +123,7 @@ public class Rogue extends Player implements IClasses, ICombat, Serializable {
 
                 }
             currentPlayer.setResource(currentPlayer.getResource() - 100);
-            databaseCombatWriter.playerAttackManyMonster(currentPlayer, monsterList, ((int) (currentPlayer.getDamage() + (level * 1.3))), calculateLevel, "x","ULTIMATE", countRounds);
+            databaseCombatWriter.playerAttackManyMonster(currentPlayer, monsterList, ((int) (currentPlayer.getDamage() + (level * 1.3))) ,databaseMapWritter.getMapLevel(playerList), "x","ULTIMATE", countRounds);
 
         } else {
             System.out.printf("The %s %s doesnt have enough energy to perform Fools elusiveness \n\n", currentPlayer.getClassName(), currentPlayer.getName());

@@ -16,6 +16,7 @@ public class DatabaseCombatWriter {
     public void playerAttackMonster(Player player, List<Monster> monsterList, int monsterIndex, int playerDamageDone, int calculateLevel, String battleId, String typeOfAttack, int countRounds) {
         DatabasePlayerWriter databasePlayerWriter = new DatabasePlayerWriter();
         DatabaseMonsterWriter databaseMonsterWriter = new DatabaseMonsterWriter();
+        DatabaseMapWritter databaseMapWritter = new DatabaseMapWritter();
 
         Monster monster = monsterList.get(monsterIndex);
 
@@ -23,9 +24,9 @@ public class DatabaseCombatWriter {
             String addFight = "INSERT INTO dungeonrun.monsterplayerfight (playerId, monsterId, MapId, AttackingUnit, Attacked, MonsterFightId, DamageDone, DamageTaken, TypeOfAbility, HasFled, GameRound, BattleId) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
             try (PreparedStatement statement = connection.prepareStatement(addFight)) {
 
-                statement.setInt(1, databasePlayerWriter.writePlayerId(player));
+                statement.setInt(1, databasePlayerWriter.getPlayerId(player));
                 statement.setInt(2, databaseMonsterWriter.getMonsterId(monster));
-                statement.setInt(3, calculateLevel);
+                statement.setInt(3, databaseMapWritter.getMapLevelPerPlayer(player));
                 statement.setString(4, player.getClassNameSQL());
                 statement.setString(5, monster.getMonsterName());
                 statement.setInt(6,monster.getMonsterId());
@@ -50,6 +51,7 @@ public class DatabaseCombatWriter {
     public void playerAttackManyMonster(Player player, List<Monster> monsterList, int playerDamageDone, int calculateLevel, String battleId, String typeOfAttack, int countRounds) {
         DatabasePlayerWriter databasePlayerWriter = new DatabasePlayerWriter();
         DatabaseMonsterWriter databaseMonsterWriter = new DatabaseMonsterWriter();
+        DatabaseMapWritter databaseMapWritter = new DatabaseMapWritter();
 
         try (Connection connection = DatabaseConnector.getConnection()) {
             String addFight = "INSERT INTO dungeonrun.monsterplayerfight (playerId, monsterId, MapId, AttackingUnit, Attacked, MonsterFightId, DamageDone, DamageTaken, TypeOfAbility, HasFled, GameRound, BattleId) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -58,7 +60,7 @@ public class DatabaseCombatWriter {
                 for (Monster monster : monsterList) {
                     statement.setInt(1, databasePlayerWriter.getPlayerId(player));
                     statement.setInt(2, databaseMonsterWriter.getMonsterId(monster));
-                    statement.setInt(3, calculateLevel);
+                    statement.setInt(3, databaseMapWritter.getMapLevelPerPlayer(player));
                     statement.setString(4, player.getClassNameSQL());
                     statement.setString(5, monster.getMonsterName());
                     statement.setInt(6,monster.getMonsterId());
@@ -84,15 +86,16 @@ public class DatabaseCombatWriter {
     public void MonsterAttackPlayer(Monster monster, List<Player> playerList, int playerIndex, int monsterDamageDone, int calculateLevel, String battleId, String typeOfAttack, int countRounds) {
         DatabasePlayerWriter databasePlayerWriter = new DatabasePlayerWriter();
         DatabaseMonsterWriter databaseMonsterWriter = new DatabaseMonsterWriter();
+        DatabaseMapWritter databaseMapWritter = new DatabaseMapWritter();
         Player player = playerList.get(playerIndex);
 
         try (Connection connection = DatabaseConnector.getConnection()) {
             String addFight = "INSERT INTO dungeonrun.monsterplayerfight (playerId, monsterId, MapId, AttackingUnit, Attacked, MonsterFightId, DamageDone, DamageTaken, TypeOfAbility, HasFled, GameRound, BattleId) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
             try (PreparedStatement statement = connection.prepareStatement(addFight)) {
 
-                statement.setInt(1, databasePlayerWriter.writePlayerId(player));
+                statement.setInt(1, databasePlayerWriter.getPlayerId(player));
                 statement.setInt(2, databaseMonsterWriter.getMonsterId(monster));
-                statement.setInt(3, calculateLevel);
+                statement.setInt(3, databaseMapWritter.getMapLevelPerPlayer(player));
                 statement.setString(4, monster.getMonsterName());
                 statement.setString(5, player.getClassNameSQL());
                 statement.setInt(6,monster.getMonsterId());

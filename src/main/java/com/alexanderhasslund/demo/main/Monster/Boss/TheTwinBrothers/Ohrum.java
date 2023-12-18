@@ -1,6 +1,7 @@
 package com.alexanderhasslund.demo.main.Monster.Boss.TheTwinBrothers;
 
 import com.alexanderhasslund.demo.main.Combat.ICombat;
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabaseCombatWriter;
 import com.alexanderhasslund.demo.main.Monster.IMonster;
 import com.alexanderhasslund.demo.main.Monster.Monster;
 import com.alexanderhasslund.demo.main.Player.Player;
@@ -30,7 +31,7 @@ public class Ohrum extends Monster implements IMonster, ICombat {
 
     @Override
     public void attack(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster currentMonster, int calculateLevel, int countRounds) {
-
+        DatabaseCombatWriter databaseCombatWriter = new DatabaseCombatWriter();
         Random random = new Random();
         int chanceOfSpell = random.nextInt(4);
 
@@ -49,6 +50,7 @@ public class Ohrum extends Monster implements IMonster, ICombat {
                 playerList.get(randPlayer).setHp(playerList.get(randPlayer).getHp()
                         - currentMonster.getDamage());
                 System.out.printf("And player: %s has %s HP left \n", playerList.get(randPlayer).getName(), playerList.get(randPlayer).getHp());
+                databaseCombatWriter.MonsterAttackPlayer(currentMonster, playerList, randPlayer, 20, calculateLevel,"x","SPELL", countRounds);
 
             } else {
 

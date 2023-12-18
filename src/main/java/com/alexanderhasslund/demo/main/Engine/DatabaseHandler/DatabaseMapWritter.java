@@ -129,4 +129,23 @@ public class DatabaseMapWritter {
         } catch (SQLException e) { DatabaseConnector.handleSQL(e); }
         return mapId;
     }
+
+    public int getMapLevelPerPlayer (Player player) {
+        int mapId = 0;
+        try (Connection connection = DatabaseConnector.getConnection()) {
+            //String findMapId = "select distinct max(mapId) as mapId from dungeonrun.maplevelcompleted m join dungeonrun.playerparty p on m.PlayerId = p.PlayerId where p.BelongsToPartyId = ?";
+            String findMapId = "select distinct max(m.MapId) as MapId from dungeonrun.maplevelcompleted m join dungeonrun.playerparty p on m.PlayerId = p.PlayerId join dungeonrun.`map` m2 on m.MapId = m2.MapId where p.BelongsToPartyId = ?";
+            try (PreparedStatement statement = connection.prepareStatement(findMapId)) {
+                statement.setString(1, player.getPartyId());
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        mapId = resultSet.getInt("MapId");
+                    }
+                }
+
+            } catch (SQLException e) { DatabaseConnector.handleSQL(e); }
+        } catch (SQLException e) { DatabaseConnector.handleSQL(e); }
+        return mapId;
+    }
 }

@@ -1,6 +1,7 @@
 package com.alexanderhasslund.demo.main.Monster.Boss.TagTeam;
 
 import com.alexanderhasslund.demo.main.Combat.ICombat;
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabaseCombatWriter;
 import com.alexanderhasslund.demo.main.Monster.IMonster;
 import com.alexanderhasslund.demo.main.Monster.Monster;
 import com.alexanderhasslund.demo.main.Player.Player;
@@ -19,8 +20,9 @@ public class TagTeam extends Monster implements IMonster, ICombat {
 
     @Override
     public void spells(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster currentMonster,  int calculateLevel, int countRounds) {
+        DatabaseCombatWriter databaseCombatWriter = new DatabaseCombatWriter();
         Random random = new Random();
-      // tag team frenzy
+        // tag team frenzy
         // either they always attack as 3 or this spell would be doing the tag team damage and have a multiplier?
         int randPlayer = random.nextInt(playerList.size());
         int randDamage = random.nextInt(1,3) * 5;
@@ -30,12 +32,15 @@ public class TagTeam extends Monster implements IMonster, ICombat {
         for (int i = 0; i < 3; i++) {
             playerList.get(randPlayer).setHp(playerList.get(randPlayer).getHp() - randDamage);
             System.out.println("Damage: " + randDamage);
+            databaseCombatWriter.MonsterAttackPlayer(currentMonster, playerList, randPlayer, randDamage, calculateLevel,"x","SPELL", countRounds);
+
         }
     }
 
 
     @Override
     public void attack(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster currentMonster, int calculateLevel, int countRounds) {
+        DatabaseCombatWriter databaseCombatWriter = new DatabaseCombatWriter();
         Random random = new Random();
         int chanceOfSpell = random.nextInt(10);
 
@@ -51,9 +56,10 @@ public class TagTeam extends Monster implements IMonster, ICombat {
 
             if (dodgeChance < scalingDodgeChance) {
                 System.out.println("The Tag team, strikes one by one, dealing: " + currentMonster.getDamage() + " damage");
-                playerList.get(randPlayer).setHp(playerList.get(randPlayer).getHp()
-                        - (currentMonster.getDamage() - (int) (playerList.get(randPlayer).getDefence() / 8)));
+                int tagTeamDamage = (currentMonster.getDamage() - (int) (playerList.get(randPlayer).getDefence() / 8));
+                playerList.get(randPlayer).setHp(playerList.get(randPlayer).getHp() - tagTeamDamage);
                 System.out.printf("And player: %s has %s HP left \n", playerList.get(randPlayer).getName(), playerList.get(randPlayer).getHp());
+                databaseCombatWriter.MonsterAttackPlayer(currentMonster, playerList, randPlayer, tagTeamDamage, calculateLevel,"x","ATTACK", countRounds);
 
             } else {
                 System.out.printf("The Tag team misses %s player %s \n", playerList.get(randPlayer).getClassName(), playerList.get(randPlayer).getName());

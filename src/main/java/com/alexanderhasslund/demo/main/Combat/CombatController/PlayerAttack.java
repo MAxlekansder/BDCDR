@@ -75,10 +75,10 @@ public class PlayerAttack {
         DatabasePlayerWriter databasePlayerWriter = new DatabasePlayerWriter();
         DatabaseMapWritter databaseMapWritter = new DatabaseMapWritter();
         int currency = 0;
-
+        Monster monster = monsterList.get(0);
         //for (int i = 0; i < monsterList.size(); i++) {
         for (int i = monsterList.size() -1; i >=0; i--) {
-            Monster monster = monsterList.get(i);
+
             countDeadMonsters++;
             if (monsterList.get(i).getHp() <= 0) {
 
@@ -95,14 +95,15 @@ public class PlayerAttack {
                 databasePlayerWriter.updatePlayerCurrency(playerList);
 
 
-                    if (monster.getTypeName().equals("\033[1;36mBOSS\033[0m") || monster.getTypeName().equals("\033[1;36mFINAL BOSS\033[0m")) {
-                        databasePlayerWriter.insertPlayerClearedLevel(playerList, monster, databaseMapWritter.getMapLevel(playerList) + 1);
-                    }
+
 
                 monsterList.remove(monsterList.get(i));
 
             }
 
+        }
+        if (monster.getTypeName().equals("\033[1;36mBOSS\033[0m") || monster.getTypeName().equals("\033[1;36mFINAL BOSS\033[0m")) {
+            databasePlayerWriter.insertPlayerClearedLevel(playerList, monster, databaseMapWritter.getMapLevel(playerList) + 1);
         }
 
         playerList.forEach( player -> ((IClasses) currentPlayer).setLevelUp(player)); //filter(index -> index == playerIndex)

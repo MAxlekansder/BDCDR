@@ -1,6 +1,7 @@
 package com.alexanderhasslund.demo.main.Monster.Boss.theInquisition;
 
 import com.alexanderhasslund.demo.main.Combat.ICombat;
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabaseCombatWriter;
 import com.alexanderhasslund.demo.main.Monster.IMonster;
 import com.alexanderhasslund.demo.main.Monster.Monster;
 import com.alexanderhasslund.demo.main.Player.Player;
@@ -19,7 +20,7 @@ public class theInquisition extends Monster implements IMonster, ICombat {
 
     @Override
     public void spells(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster monster,  int calculateLevel, int countRounds) {
-
+        DatabaseCombatWriter databaseCombatWriter = new DatabaseCombatWriter();
         Random random = new Random();
         int randomPlayer = random.nextInt(playerList.size());
 
@@ -27,13 +28,17 @@ public class theInquisition extends Monster implements IMonster, ICombat {
         playerList.get(randomPlayer).setInitiative(99);
         playerList.get(randomPlayer).setHp(playerList.get(randomPlayer).getHp() - 20);
         System.out.println("Oh... what a shame... ");
+
+        Monster currentMonster = monsterList.get(0);
+        databaseCombatWriter.MonsterAttackPlayer(currentMonster, playerList, randomPlayer, 20, calculateLevel,"x","SPELL", countRounds);
+
     }
 
 
 
     @Override
     public void attack(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster currentMonster, int calculateLevel, int countRounds) {
-
+        DatabaseCombatWriter databaseCombatWriter = new DatabaseCombatWriter();
         Random random = new Random();
         int chanceOfSpell = random.nextInt(15);
 
@@ -58,6 +63,7 @@ public class theInquisition extends Monster implements IMonster, ICombat {
                 }
 
                 System.out.printf("And player: %s has %s HP left \n", playerList.get(randPlayer).getName(), playerList.get(randPlayer).getHp());
+                databaseCombatWriter.MonsterAttackPlayer(currentMonster, playerList, randPlayer, currentMonster.getDamage(), calculateLevel,"x","SPELL", countRounds);
 
             } else {
 
