@@ -1,22 +1,23 @@
 package com.alexanderhasslund.demo.main.Engine.DatabaseHandler;
 
 import com.alexanderhasslund.demo.main.Maps.GameLevelFloors.CityMarkazh;
+import com.alexanderhasslund.demo.main.Player.Player;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class DatabaseMapWritter {
 
-    public void writingMap(String mapName, int sortingId) {
+    public void writingMap(String mapName) {
         if (checkMapExists(mapName) == 0) {
             try (Connection connection = DatabaseConnector.getConnection()) {
-                String addMap = "INSERT INTO dungeonrun.Map (MapName, SortingId) VALUES(?,?)";
+                String addMap = "INSERT INTO dungeonrun.Map (MapName) VALUES(?)";
 
                 try (PreparedStatement statement = connection.prepareStatement(addMap)) {
                     statement.setString(1, mapName);
-                    statement.setInt(2,sortingId);
                     statement.executeUpdate();
 
                 } catch (SQLException e) {
@@ -53,27 +54,39 @@ public class DatabaseMapWritter {
     }
 
     //this is the biggest bandage in the world for making the logic work...
-    public void namingMap() {
-        String TheHallsOfKaraz =  "The Halls of Karaz";
-        int sortingId = 1;
-        writingMap(TheHallsOfKaraz, sortingId);
+    public void TheHallsOfKaraz() {
+        String TheHallsOfKaraz = "The Halls of Karaz";
 
+        writingMap(TheHallsOfKaraz);
+
+    }
+    public void upperPlateau() {
         String upperPlateau = "Upper plateau";
-        sortingId = 2;
-        writingMap(upperPlateau, sortingId);
+
+        writingMap(upperPlateau);
+    }
+
+    public void cityMarkazh() {
 
         String cityMarkazh = "City Markazh";
-        sortingId = 3;
-        writingMap(cityMarkazh, sortingId);
 
-        String finalRoom = "Final Room of Kazarak";
-        sortingId = 4;
-        writingMap(finalRoom, sortingId);
-
-        String firstIntro = "Intro floor";
-        sortingId = 1;
-        writingMap(firstIntro, sortingId);
+        writingMap(cityMarkazh);
     }
+
+    public void finalRoom() {
+        String finalRoom = "Final Room of Kazarak";
+
+        writingMap(finalRoom);
+    }
+
+
+    public void firstIntro() {
+        String firstIntro = "Intro floor";
+
+        writingMap(firstIntro);
+    }
+
+
 
 
     public int getMapId(int mapId) {
@@ -87,7 +100,7 @@ public class DatabaseMapWritter {
 
                 ResultSet resultSet = statement.executeQuery();
 
-                while(resultSet.next()) { getMap = resultSet.getInt("count(*)");}
+                while(resultSet.next()) { getMap = resultSet.getInt("mapId");}
 
             } catch (SQLException e) {
                 DatabaseConnector.handleSQL(e);
@@ -96,5 +109,24 @@ public class DatabaseMapWritter {
             DatabaseConnector.handleSQL(e);
         }
         return getMap;
+    }
+
+    public int getMapLevel (List<Player> playerList) {
+        int mapId = 0;
+        try (Connection connection = DatabaseConnector.getConnection()) {
+            //String findMapId = "select distinct max(mapId) as mapId from dungeonrun.maplevelcompleted m join dungeonrun.playerparty p on m.PlayerId = p.PlayerId where p.BelongsToPartyId = ?";
+            String findMapId = "select distinct max(m.MapId) as MapId from dungeonrun.maplevelcompleted m join dungeonrun.playerparty p on m.PlayerId = p.PlayerId join dungeonrun.`map` m2 on m.MapId = m2.MapId where p.BelongsToPartyId = ?";
+            try (PreparedStatement statement = connection.prepareStatement(findMapId)) {
+                statement.setString(1, playerList.get(0).getPartyId());
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        mapId = resultSet.getInt("MapId");
+                    }
+                }
+
+            } catch (SQLException e) { DatabaseConnector.handleSQL(e); }
+        } catch (SQLException e) { DatabaseConnector.handleSQL(e); }
+        return mapId;
     }
 }

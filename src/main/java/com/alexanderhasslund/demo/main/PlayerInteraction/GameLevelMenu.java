@@ -1,6 +1,7 @@
 package com.alexanderhasslund.demo.main.PlayerInteraction;
 
 import com.alexanderhasslund.demo.main.Combat.CombatMenu;
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabaseMapWritter;
 import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabasePlayerLoader;
 import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabasePlayerWriter;
 import com.alexanderhasslund.demo.main.Player.Player;
@@ -29,21 +30,23 @@ public class GameLevelMenu {
         GameLevelTwo gameLevelTwo = new GameLevelTwo(calculateLevels, playerList, countPlayers);
         GameLevelThree gameLevelThree = new GameLevelThree(calculateLevels, playerList, countPlayers);
         GameLevelFour gameLevelFour = new GameLevelFour(calculateLevels, playerList, countPlayers);
-        DatabasePlayerLoader databasePlayerLoader = new DatabasePlayerLoader();
+        DatabaseMapWritter databaseMapWritter = new DatabaseMapWritter();
 
         boolean isGameLevel = true;
         boolean isPlayerEncounter = true;
 
+        /*
         if (calculateLevels == 0) {
             calculateLevels = databasePlayerLoader.getMapLevel(playerList);
             if (calculateLevels == 5) {
                 calculateLevels = 1;
             }
         }
+        */
 
 
         while (isGameLevel) {
-            switch (databasePlayerLoader.getMapLevel(playerList)) {
+            switch (databaseMapWritter.getMapLevel(playerList)) {
                 case 1 -> {
                     isPlayerEncounter = gameLevelOne.gameSwitchOne();
                     if (isPlayerEncounter) {

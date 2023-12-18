@@ -2,6 +2,7 @@ package com.alexanderhasslund.demo.main.Combat.CombatController;
 
 import com.alexanderhasslund.demo.main.Classes.IClasses;
 import com.alexanderhasslund.demo.main.Combat.ICombat;
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabaseMapWritter;
 import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabasePlayerLoader;
 import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabasePlayerWriter;
 import com.alexanderhasslund.demo.main.Engine.Input;
@@ -72,7 +73,7 @@ public class PlayerAttack {
 
     public void checkMonsterhasDied(List<Monster> monsterList, List<Player> playerList, Player currentPlayer, int calculateLevels) {
         DatabasePlayerWriter databasePlayerWriter = new DatabasePlayerWriter();
-        DatabasePlayerLoader databasePlayerLoader = new DatabasePlayerLoader();
+        DatabaseMapWritter databaseMapWritter = new DatabaseMapWritter();
         int currency = 0;
 
         //for (int i = 0; i < monsterList.size(); i++) {
@@ -95,7 +96,7 @@ public class PlayerAttack {
 
 
                     if (monster.getTypeName().equals("\033[1;36mBOSS\033[0m") || monster.getTypeName().equals("\033[1;36mFINAL BOSS\033[0m")) {
-                        databasePlayerWriter.insertPlayerClearedLevel(playerList, monster, databasePlayerLoader.getMapLevel(playerList) + 1);
+                        databasePlayerWriter.insertPlayerClearedLevel(playerList, monster, databaseMapWritter.getMapLevel(playerList) + 1);
                     }
 
                 monsterList.remove(monsterList.get(i));

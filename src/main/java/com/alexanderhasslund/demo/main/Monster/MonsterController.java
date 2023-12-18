@@ -1,5 +1,6 @@
 package com.alexanderhasslund.demo.main.Monster;
 
+import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabaseMapWritter;
 import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabaseMonsterWriter;
 import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabasePlayerLoader;
 import com.alexanderhasslund.demo.main.Monster.BasicMonsters.MonsterBrute;
@@ -68,8 +69,8 @@ public class MonsterController {
     }
 
     public void chooseBossFight(List<Player> playerList) {
-        DatabasePlayerLoader databasePlayerLoader = new DatabasePlayerLoader();
-        switch(databasePlayerLoader.getMapLevel(playerList)) {
+        DatabaseMapWritter databaseMapWritter = new DatabaseMapWritter();
+        switch(databaseMapWritter.getMapLevel(playerList)) {
             case 1 -> {generateTagTeamBoss();}
             case 2 -> {generateTwinBrotherBoss();}
             case 3 -> {generateTheInquisition();}

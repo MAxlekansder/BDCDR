@@ -45,7 +45,7 @@ public class FirstCombatEncounter {
                         You now have the option to explore every option during combat
                         """);
 
-        databasePlayerWriter.firstPlayerClearedLevel(playerList, firstMonsterList.get(0));
+        databasePlayerWriter.firstPlayerClearedLevel(playerList, firstMonsterList.get(0), 1);
         CombatController combatController = new CombatController(playerList, firstMonsterList);
         boolean isPlaying = combatController.initiateFight(5);
 

@@ -41,7 +41,11 @@ public class GameStartControl {
         databaseMonsterWriter.writingBoss();
         databaseMonsterWriter.writingBasicMonster();
         databaseClassWriter.getClassInformation();
-        databaseMapWritter.namingMap();
+        databaseMapWritter.firstIntro();
+        databaseMapWritter.TheHallsOfKaraz();
+        databaseMapWritter.upperPlateau();
+        databaseMapWritter.cityMarkazh();
+        databaseMapWritter.finalRoom();
 
         System.out.println(stringLore.ultimateClassPresentation());
         //stringManipulator.manipulateString(stringLore.gameIntroductionRules());
