@@ -76,8 +76,15 @@ public class PlayerAttack {
         DatabaseMapWritter databaseMapWritter = new DatabaseMapWritter();
         int currency = 0;
         Monster monster = monsterList.get(0);
-        //for (int i = 0; i < monsterList.size(); i++) {
-        for (int i = monsterList.size() -1; i >=0; i--) {
+
+
+        if (monster.getTypeName().equals("\033[1;36mBOSS\033[0m") && monster.getHp() < 0 || monster.getTypeName().equals("\033[1;36mFINAL BOSS\033[0m") && monster.getHp() < 0) {
+            databasePlayerWriter.insertPlayerClearedLevel(playerList, monster, databaseMapWritter.getMapLevel(playerList) + 1);
+        }
+
+
+        for (int i = monsterList.size() - 1; i >= 0; i--) {
+
 
             countDeadMonsters++;
             if (monsterList.get(i).getHp() <= 0) {
@@ -88,13 +95,11 @@ public class PlayerAttack {
                 for (int j = 0; j < playerList.size(); j++) {
 
                     playerList.get(j).setCurrency(playerList.get(j).getCurrency() + monsterList.get(i).getGivesCurrency());
-                    playerList.get(j).setExperience( playerList.get(j).getExperience() +monsterList.get(i).getGivesExperience());
+                    playerList.get(j).setExperience(playerList.get(j).getExperience() + monsterList.get(i).getGivesExperience());
                 }
                 databasePlayerWriter.updateMonsterKilledByPlayer(currentPlayer, 1);
                 databasePlayerWriter.updatePlayerExperience(playerList);
                 databasePlayerWriter.updatePlayerCurrency(playerList);
-
-
 
 
                 monsterList.remove(monsterList.get(i));
@@ -102,12 +107,9 @@ public class PlayerAttack {
             }
 
         }
-        if (monster.getTypeName().equals("\033[1;36mBOSS\033[0m") || monster.getTypeName().equals("\033[1;36mFINAL BOSS\033[0m")) {
-            databasePlayerWriter.insertPlayerClearedLevel(playerList, monster, databaseMapWritter.getMapLevel(playerList) + 1);
-        }
 
-        playerList.forEach( player -> ((IClasses) currentPlayer).setLevelUp(player)); //filter(index -> index == playerIndex)
 
+        playerList.forEach(player -> ((IClasses) currentPlayer).setLevelUp(player)); //filter(index -> index == playerIndex)
 
 
     }

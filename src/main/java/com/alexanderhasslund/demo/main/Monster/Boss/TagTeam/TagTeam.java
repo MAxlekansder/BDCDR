@@ -32,9 +32,9 @@ public class TagTeam extends Monster implements IMonster, ICombat {
         for (int i = 0; i < 3; i++) {
             playerList.get(randPlayer).setHp(playerList.get(randPlayer).getHp() - randDamage);
             System.out.println("Damage: " + randDamage);
-            databaseCombatWriter.MonsterAttackPlayer(currentMonster, playerList, randPlayer, randDamage, calculateLevel,"x","SPELL", countRounds);
-
         }
+        databaseCombatWriter.MonsterAttackPlayer(currentMonster, playerList, randPlayer, randDamage, calculateLevel,"x","SPELL", countRounds);
+
     }
 
 

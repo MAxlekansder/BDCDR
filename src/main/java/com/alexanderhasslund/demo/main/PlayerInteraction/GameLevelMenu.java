@@ -1,6 +1,7 @@
 package com.alexanderhasslund.demo.main.PlayerInteraction;
 
 import com.alexanderhasslund.demo.main.Combat.CombatMenu;
+import com.alexanderhasslund.demo.main.Engine.Color;
 import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabaseMapWritter;
 import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabasePlayerLoader;
 import com.alexanderhasslund.demo.main.Engine.DatabaseHandler.DatabasePlayerWriter;
@@ -85,6 +86,7 @@ public class GameLevelMenu {
                     isGameLevel = false;
                 }
                 case 5 -> {
+                    System.out.println(Color.YELLOW + "congratulations! You have beaten the game on this save\n" + Color.RESET);
                     isGameLevel = false;
                 }
                 default -> {
