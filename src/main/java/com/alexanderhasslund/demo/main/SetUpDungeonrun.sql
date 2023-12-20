@@ -10,24 +10,24 @@ create table if not exists dungeonrun.Player (
 	#CONSTRAINT player_pk PRIMARY KEY (playerId),
 	PlayerClassId int not null,
 	PlayerName varchar(100) not null,
-	#Experience int not null,
-	Currency int not null,
+	#Experience int not null, 
+	Currency int not null, 
 	#Level int not null,
 	#MonsterKilled int not null,
 	#BelongsToPartyId varchar(100) not null,
 	RegistrationDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
  	ChangeDate TIMESTAMP NOT NULL
-                           DEFAULT CURRENT_TIMESTAMP
+                           DEFAULT CURRENT_TIMESTAMP 
                            ON UPDATE CURRENT_TIMESTAMP,
    ChangeDateTime TIMESTAMP NOT NULL
-                           DEFAULT CURRENT_TIMESTAMP
+                           DEFAULT CURRENT_TIMESTAMP 
                            ON UPDATE CURRENT_TIMESTAMP
-
+                         
 );
 
-
+	
 create table if not exists dungeonrun.Class (
-
+		
 	classId int primary key auto_increment not null,
 	className varchar(100) not null,
 	MaxHP int not null,
@@ -42,14 +42,14 @@ create table if not exists dungeonrun.Class (
 	#BelongsToPartyId varchar(100) not null,
 	RegistrationDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
  	ChangeDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-
+  
 );
 
 
 create table if not exists dungeonrun.PlayerActiveClass (
 
 	PlayerActiveClassId int primary key auto_increment not null,
-	playerId int not null,
+	playerId int not null, 
 	foreign key (PlayerId) references dungeonrun.Player(PlayerId) on delete cascade,
 	PlayerClassId int not null,
 	ClassId int not null,
@@ -63,13 +63,13 @@ create table if not exists dungeonrun.PlayerActiveClass (
 	Defence int not null,
 	Initiative int not null,
 	level int not null,
-	Experience int not null,
+	Experience int not null, 
 	#Currency int not null
-	MonsterKilled int not null,
+	MonsterKilled int not null, 
 	isDead boolean not null,
 	RegistrationDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
  	ChangeDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-
+  
 );
 
 
@@ -80,26 +80,26 @@ create table if not exists dungeonrun.PlayerParty (
 	foreign key (PlayerId) references dungeonrun.Player(PlayerId) on delete cascade,
 	BelongsToPartyId varchar(100) not null,
 	RegistrationDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-
+	
 );
 
 
 
 create table if not exists dungeonrun.Item (
-
+		
 	ItemId INT primary key not null auto_increment,
  	ItemName varchar(100) not null,
- 	ItemDamage int,
- 	ItemInitiative int,
+ 	ItemDamage int, 
+ 	ItemInitiative int, 
  	ItemLevelLock int,
  	ItemDefence int,
- 	ItemBlock int,
+ 	ItemBlock int, 
  	RegistrationDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
  	ChangeDate TIMESTAMP NOT NULL
-                           DEFAULT CURRENT_TIMESTAMP
+                           DEFAULT CURRENT_TIMESTAMP 
                            ON UPDATE CURRENT_TIMESTAMP,
    ChangeDateTime TIMESTAMP NOT NULL
-                           DEFAULT CURRENT_TIMESTAMP
+                           DEFAULT CURRENT_TIMESTAMP 
                            ON UPDATE CURRENT_TIMESTAMP
 );
 
@@ -117,11 +117,11 @@ create table if not exists dungeonrun.PlayerInventory (
 	ItemPrice int,
 	#BelongsToPartyId varchar(100) not null,
 	RegistrationDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-
+	
 );
 
 create table if not exists dungeonrun.Monster (
-
+	
 	MonsterId INT primary key not null auto_increment,
 	MonsterType varchar(100) NOT null,
 	MonsterName varchar(100) not null,
@@ -139,7 +139,7 @@ create table if not exists dungeonrun.Monster (
 	RegistrationDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
  	ChangeDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
    	ChangeDateTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-
+	
 );
 
 
@@ -147,9 +147,11 @@ create table if not exists dungeonrun.Monster (
 create table if not exists dungeonrun.Map (
 
 	MapId INT primary key not null auto_increment,
-	MapName varchar(50) not null
+	MapName varchar(50) not null	
 
 );
+
+
 
 create table if not exists dungeonrun.MonsterPlayerFight (
 
@@ -159,22 +161,22 @@ create table if not exists dungeonrun.MonsterPlayerFight (
 	MonsterId int not null,
 	foreign key (MonsterId) references dungeonrun.monster(MonsterId) on delete cascade,
 	MapId int not null,
-	foreign key (MapId) references dungeonrun.map(MapId) on delete cascade,
+	foreign key (MapId) references dungeonrun.map(MapId) on delete cascade, 
 	AttackingUnit varchar(100) not null,
 	Attacked varchar(100) not null,
 	MonsterFightId int not null,
 	TypeOfAbility varchar(100) not null,
 	DamageDone int,
-	DamageTaken int not null,
+	HealthLeft int not null,
 	HasFled boolean not null,
 	GameRound int not null,
 	BattleId varchar(100) not null,
 	#CurrentLevel int not null,
 	#FacingType varchar(200) not null,
-
+	
 	RegistrationDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
  	ChangeDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-
+	
 );
 
 create table if not exists dungeonrun.playerSave (
@@ -184,13 +186,13 @@ create table if not exists dungeonrun.playerSave (
 	foreign key (PlayerId) references dungeonrun.player(PlayerId) on delete cascade,
 	SaveSlotName varchar(100) not null,
 	RegistrationDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-
+	
 );
 
 
 
 create table if not exists dungeonrun.MapLevelCompleted (
-
+	
 	MapLevelCompletedId int primary key not null auto_increment,
 	#MapLevelNewGamePlus int not null,
 	PlayerId int not null,
@@ -198,7 +200,7 @@ create table if not exists dungeonrun.MapLevelCompleted (
 	MonsterId int not null,
 	foreign key (MonsterId) references dungeonrun.monster(MonsterId) on delete cascade,
 	MapId int not null,
-	foreign key (MapId) references dungeonrun.map(MapId) on delete cascade,
+	foreign key (MapId) references dungeonrun.map(MapId) on delete cascade, 
 	HasPartyBeatenLevel boolean not null,
 	RegistrationDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 
