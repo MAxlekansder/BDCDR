@@ -117,43 +117,12 @@ public class DatabaseCombatWriter {
         }
     }
 
-    public void monsterAttackManyPlayer(Monster monster, List<Player> playerList, int monsterDamageDone) {
-        DatabasePlayerWriter databasePlayerWriter = new DatabasePlayerWriter();
-        DatabaseMonsterWriter databaseMonsterWriter = new DatabaseMonsterWriter();
-
-
-        try (Connection connection = DatabaseConnector.getConnection()) {
-            String addFight = "INSERT INTO dungeonrun.monsterplayerfight (playerId, monsterId, MapId, AttackingUnit, Attacked, MonsterFightId, DamageDone, DamageTaken, BattleId) VALUES(?,?,?,?,?,?,?,?,?)";
-            try (PreparedStatement statement = connection.prepareStatement(addFight)) {
-
-                for(Player player : playerList) {
-                    statement.setInt(1, databasePlayerWriter.writePlayerId(player));
-                    statement.setInt(2, databaseMonsterWriter.getMonsterId(monster));
-                    statement.setInt(3, 0);
-                    statement.setInt(4, databaseMonsterWriter.getMonsterId(monster));
-                    statement.setInt(5, databasePlayerWriter.writePlayerId(player));
-                    statement.setInt(6, monster.getMonsterId());
-                    statement.setInt(7, monsterDamageDone);
-                    statement.setInt(8, player.getHp() - monsterDamageDone);
-                    statement.setString(9, "x");
-                    statement.executeUpdate();
-                }
-
-            } catch (SQLException e) {
-                DatabaseConnector.handleSQL(e);
-            }
-
-        } catch (SQLException e) {
-            DatabaseConnector.handleSQL(e);
-        }
-    }
-
 
     public String getBattleId() {
 
         int leftLimit = 97;
         int rightLimit = 122;
-        int targetStringLength = 10;
+        int targetStringLength = 15;
         Random random = new Random();
 
         String generator = random.ints(leftLimit, rightLimit +1 ).limit(targetStringLength).collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();

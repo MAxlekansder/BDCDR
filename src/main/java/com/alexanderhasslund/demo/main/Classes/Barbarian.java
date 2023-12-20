@@ -81,7 +81,7 @@ public class Barbarian extends Player implements IClasses, ICombat, Serializable
                 System.out.printf("%s %s just leveled up to level %s! \n", currentPlayer.getClassName(), currentPlayer.getName(), currentPlayer.getLevel());
                 currentPlayer.setExperience(0);
                 addStatsToPlayer(currentPlayer);
-                databasePlayerWriter.updatePlayerLevelDatabase(currentPlayer);
+              //  databasePlayerWriter.updatePlayerLevelDatabase(currentPlayer);
 
             }
         }

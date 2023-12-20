@@ -78,7 +78,7 @@ public class Sorcerer extends Player implements IClasses, ICombat, Serializable 
                 currentPlayer.setExperience(0);
 
                 addStatsToPlayer(currentPlayer);
-                databasePlayerWriter.updatePlayerLevelDatabase(currentPlayer);
+               // databasePlayerWriter.updatePlayerLevelDatabase(currentPlayer);
             }
         }
     }

@@ -23,12 +23,13 @@ public class CombatController {
 
 
     public boolean initiateFight(int calculatelevel) {
+
         DatabaseCombatWriter databaseCombatWriter = new DatabaseCombatWriter();
         CombatMenu combatMenu = new CombatMenu();
         MonsterAttack monsterAttack = new MonsterAttack();
         boolean isGameOver = false;
 
-
+        String battleId = databaseCombatWriter.getBattleId();
 
         System.out.println("Enter to start combat ");
         String enter = Input.stringInput();

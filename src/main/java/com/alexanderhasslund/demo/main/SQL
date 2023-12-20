@@ -25,8 +25,6 @@ create table if not exists dungeonrun.Player (
 
 );
 
-# add a inserted by to track if java or localhost
-
 
 create table if not exists dungeonrun.Class (
 

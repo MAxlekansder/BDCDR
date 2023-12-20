@@ -109,7 +109,7 @@ public class PlayerAttack {
         }
 
 
-        playerList.forEach(player -> ((IClasses) currentPlayer).setLevelUp(player)); //filter(index -> index == playerIndex)
+        playerList.forEach(player -> ((IClasses) currentPlayer).setLevelUp(player)); databasePlayerWriter.updatePlayerLevelDatabase(playerList); //filter(index -> index == playerIndex)
 
 
     }

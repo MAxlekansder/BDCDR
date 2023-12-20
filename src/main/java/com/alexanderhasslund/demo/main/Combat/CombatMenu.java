@@ -62,7 +62,7 @@ public class CombatMenu {
                     }
                     case 4 -> {
                         Flee flee = new Flee();
-                        flee.chanceOfFleeing(monsterList);
+                        flee.chanceOfFleeing(monsterList, playerList);
                         isViewing = false;
                         isFighting = false;
                         isFled = true;

@@ -81,18 +81,19 @@ public class DatabasePlayerWriter {
     }
 
 
-    public void updatePlayerLevelDatabase(Player player) {
+    public void updatePlayerLevelDatabase(List<Player> playerList) {
 
         try (Connection connection = DatabaseConnector.getConnection()) {
 
             String updatePlayer = "UPDATE dungeonrun.playeractiveclass p join dungeonrun.playerparty p2 on p.PlayerId = p2.PlayerId SET Level = ? WHERE " + "p.playerClassId = ? " + "and p2.BelongsToPartyId = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(updatePlayer)) {
+                for (Player player : playerList) {
+                    preparedStatement.setInt(1, player.getLevel());
+                    preparedStatement.setInt(2, player.getId());
+                    preparedStatement.setString(3, player.getPartyId());
+                    preparedStatement.executeUpdate();
 
-                preparedStatement.setInt(1, player.getLevel());
-                preparedStatement.setInt(2, player.getId());
-                preparedStatement.setString(3, player.getPartyId());
-                preparedStatement.executeUpdate();
-
+                }
             } catch (SQLException e) {
                 DatabaseConnector.handleSQL(e);
             }
@@ -100,6 +101,7 @@ public class DatabasePlayerWriter {
             DatabaseConnector.handleSQL(e);
         }
     }
+
 
     public void updatePlayerExperience (List<Player> playerList) {
         try (Connection connection = DatabaseConnector.getConnection()) {
@@ -123,6 +125,7 @@ public class DatabasePlayerWriter {
         }
     }
 
+
     public void updateMonsterKilledByPlayer(Player player, int monsterKilled) {
 
         try (Connection connection = DatabaseConnector.getConnection()) {
@@ -142,6 +145,7 @@ public class DatabasePlayerWriter {
             DatabaseConnector.handleSQL(e);
         }
     }
+
 
     public void updatePlayerCurrency(List<Player> playerList) {
 
@@ -324,6 +328,7 @@ public class DatabasePlayerWriter {
         return saveSlot;
     }
 
+
     public int checkIfSaveFileNameExists(String saveSlot) {
         int checkName = 0;
         try (Connection connection = DatabaseConnector.getConnection()) {
@@ -505,6 +510,34 @@ public class DatabasePlayerWriter {
 
         }  catch(SQLException e) {DatabaseConnector.handleSQL(e);}
 
+    }
+
+
+    public void updatePartyHasFled(List<Player> playerList, List<Monster> monsterList) {
+        DatabaseMonsterWriter databaseMonsterWriter = new DatabaseMonsterWriter();
+        try (Connection connection = DatabaseConnector.getConnection()) {
+            String updateSaveFile = "\n" +
+                    "  update dungeonrun.monsterPlayerFight p join dungeonrun.playerparty p2 on p.PlayerId = p2.PlayerId  set p.HasFled = ? \n" +
+                    "  where p.playerId = ? and p2.BelongsToPartyId = ? and p.MonsterId  = ?";
+
+            try (PreparedStatement statement = connection.prepareStatement(updateSaveFile)) {
+
+                for (Player player : playerList) {
+                    for (Monster monster : monsterList) {
+                        statement.setInt(1, 1);
+                        statement.setInt(2, getPlayerId(player));
+                        statement.setString(3, player.getPartyId());
+                        statement.setInt(4, databaseMonsterWriter.getMonsterId(monster));
+                        statement.executeUpdate();
+                    }
+                }
+                System.out.println("Slot successfully saved");
+            } catch (SQLException e) {
+                DatabaseConnector.handleSQL(e);
+            }
+        } catch (SQLException e) {
+            DatabaseConnector.handleSQL(e);
+        }
     }
 }
 
