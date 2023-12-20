@@ -19,7 +19,7 @@ public class theInquisition extends Monster implements IMonster, ICombat {
 
 
     @Override
-    public void spells(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster monster,  int calculateLevel, int countRounds) {
+    public void spells(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster monster,  int calculateLevel, int countRounds, String battleId) {
         DatabaseCombatWriter databaseCombatWriter = new DatabaseCombatWriter();
         Random random = new Random();
         int randomPlayer = random.nextInt(playerList.size());
@@ -30,14 +30,14 @@ public class theInquisition extends Monster implements IMonster, ICombat {
         System.out.println("Oh... what a shame... ");
 
         Monster currentMonster = monsterList.get(0);
-        databaseCombatWriter.MonsterAttackPlayer(currentMonster, playerList, randomPlayer, 20, calculateLevel,"x","SPELL", countRounds);
+        databaseCombatWriter.MonsterAttackPlayer(currentMonster, playerList, randomPlayer, 20, calculateLevel, battleId,"SPELL", countRounds);
 
     }
 
 
 
     @Override
-    public void attack(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster currentMonster, int calculateLevel, int countRounds) {
+    public void attack(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster currentMonster, int calculateLevel, int countRounds, String battleId) {
         DatabaseCombatWriter databaseCombatWriter = new DatabaseCombatWriter();
         Random random = new Random();
         int chanceOfSpell = random.nextInt(15);
@@ -63,7 +63,7 @@ public class theInquisition extends Monster implements IMonster, ICombat {
                 }
 
                 System.out.printf("And player: %s has %s HP left \n", playerList.get(randPlayer).getName(), playerList.get(randPlayer).getHp());
-                databaseCombatWriter.MonsterAttackPlayer(currentMonster, playerList, randPlayer, currentMonster.getDamage(), calculateLevel,"x","SPELL", countRounds);
+                databaseCombatWriter.MonsterAttackPlayer(currentMonster, playerList, randPlayer, currentMonster.getDamage(), calculateLevel, battleId,"SPELL", countRounds);
 
             } else {
 
@@ -71,7 +71,7 @@ public class theInquisition extends Monster implements IMonster, ICombat {
             }
 
         } else {
-            spells(playerList, currentPlayer, monsterList, currentMonster, calculateLevel, countRounds);
+            spells(playerList, currentPlayer, monsterList, currentMonster, calculateLevel, countRounds, battleId);
         }
     }
 }

@@ -102,7 +102,7 @@ public class Sorcerer extends Player implements IClasses, ICombat, Serializable 
 
 
     @Override
-    public void ultimate(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, int calculateLevel, int countRounds) {
+    public void ultimate(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, int calculateLevel, int countRounds, String battleId) {
     DatabaseCombatWriter databaseCombatWriter = new DatabaseCombatWriter();
         if (currentPlayer.getResource() >= 100) {
             System.out.println("The sorcerer muster all its power and blast all monster in range: ");
@@ -112,7 +112,7 @@ public class Sorcerer extends Player implements IClasses, ICombat, Serializable 
                 System.out.println("CLEAVING EACH MONSTER FOR: " + ((int) (currentPlayer.getDamage() + (level * 1.3))));
 
             }
-            databaseCombatWriter.playerAttackManyMonster(currentPlayer, monsterList, ((int) (currentPlayer.getDamage() + (level * 1.3))), calculateLevel, "x","ULTIMATE", countRounds);
+            databaseCombatWriter.playerAttackManyMonster(currentPlayer, monsterList, ((int) (currentPlayer.getDamage() + (level * 1.3))), calculateLevel, battleId,"ULTIMATE", countRounds);
             currentPlayer.setResource(currentPlayer.getResource() - 100);
         } else {
             System.out.printf("The %s %s doesnt have enough mana to perform dragons breath!", currentPlayer.getClassName(), currentPlayer.getName());
@@ -121,7 +121,7 @@ public class Sorcerer extends Player implements IClasses, ICombat, Serializable 
 
 
     @Override
-    public void spells(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, int calculateLevel, int countRounds) {
+    public void spells(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, int calculateLevel, int countRounds, String battleId) {
         DatabaseCombatWriter databaseCombatWriter = new DatabaseCombatWriter();
         System.out.println(PlayerChoice.spellsSorcerer());
         int sorcererSpells = Input.intInput();
@@ -132,7 +132,7 @@ public class Sorcerer extends Player implements IClasses, ICombat, Serializable 
                     System.out.println("Sorcerer gets a barrier, shielding for 30 damage: ");
                     currentPlayer.setHp(currentPlayer.getHp() + 30);
                     currentPlayer.setResource(currentPlayer.getResource() - 40);
-                    databaseCombatWriter.playerAttackMonster(currentPlayer, monsterList, 0, 0, calculateLevel,"x", "SPELL", countRounds);
+                    databaseCombatWriter.playerAttackMonster(currentPlayer, monsterList, 0, 0, calculateLevel,battleId, "SPELL", countRounds);
                 } else {
                     System.out.println("The sorcerer doesnt have enough mana");
                 }
@@ -157,7 +157,7 @@ public class Sorcerer extends Player implements IClasses, ICombat, Serializable 
 
                         monsterList.get(monsterIndex).setHp(monsterList.get(monsterIndex).getHp() - sorcererSpell);
 
-                        databaseCombatWriter.playerAttackMonster(currentPlayer, monsterList, monsterIndex, sorcererSpell, calculateLevel,"x", "SPELL", countRounds);
+                        databaseCombatWriter.playerAttackMonster(currentPlayer, monsterList, monsterIndex, sorcererSpell, calculateLevel,battleId, "SPELL", countRounds);
                     }
                     currentPlayer.setResource(currentPlayer.getResource() - 70);
                 } else {
@@ -172,7 +172,7 @@ public class Sorcerer extends Player implements IClasses, ICombat, Serializable 
 
 
     @Override
-    public void attack(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster monster, int calculateLevel, int countRounds) {
+    public void attack(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster monster, int calculateLevel, int countRounds, String battleId) {
         DatabaseCombatWriter databaseCombatWriter = new DatabaseCombatWriter();
         int monsterChoice = 1;
 
@@ -187,7 +187,7 @@ public class Sorcerer extends Player implements IClasses, ICombat, Serializable 
         monsterList.get(monsterIndex).setHp(monsterList.get(monsterIndex).getHp() - sorcererDamage);
 
         System.out.printf("The Sorcerer attacks with all element aligned, Dealing %s to monster %s \n", sorcererDamage, monsterList.get(monsterIndex).getMonsterName());
-        databaseCombatWriter.playerAttackMonster(currentPlayer, monsterList, monsterIndex, sorcererDamage, calculateLevel,"x", "ATTACK", countRounds);
+        databaseCombatWriter.playerAttackMonster(currentPlayer, monsterList, monsterIndex, sorcererDamage, calculateLevel, battleId, "ATTACK", countRounds);
     }
 
     public int calculateDamage(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, int monsterIndex) {

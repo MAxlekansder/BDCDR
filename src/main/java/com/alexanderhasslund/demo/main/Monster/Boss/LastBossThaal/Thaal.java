@@ -17,13 +17,13 @@ public class Thaal extends Monster implements IMonster, ICombat {
     }
 
     @Override
-    public void spells(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster currentMonster, int calculateLevel, int countRounds) {
+    public void spells(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster currentMonster, int calculateLevel, int countRounds, String battleId) {
         DatabaseCombatWriter databaseCombatWriter = new DatabaseCombatWriter();
         System.out.println("GRASP AND CONSUME - LIFE DRAIN, Thaal grabs every champion and damages everyone, healing himself " );
 
         for (Player player : playerList) {
             player.setHp(player.getHp() - (currentMonster.getDamage() - (player.getDefence() /10)));
-            databaseCombatWriter.MonsterAttackPlayer(currentMonster, playerList, player.getId(), (currentMonster.getDamage() - (player.getDefence() /10)), calculateLevel,"x","ATTACK", countRounds);
+            databaseCombatWriter.MonsterAttackPlayer(currentMonster, playerList, player.getId(), (currentMonster.getDamage() - (player.getDefence() /10)), calculateLevel, battleId,"ATTACK", countRounds);
 
         }
         if (currentMonster.getHp() < 300) {
@@ -32,7 +32,7 @@ public class Thaal extends Monster implements IMonster, ICombat {
     }
 
     @Override
-    public void attack(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster currentMonster, int calculateLevel, int countRounds) {
+    public void attack(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster currentMonster, int calculateLevel, int countRounds, String battleId) {
         DatabaseCombatWriter databaseCombatWriter = new DatabaseCombatWriter();
         Random random = new Random();
         int chanceOfSpell = random.nextInt(10);
@@ -53,7 +53,7 @@ public class Thaal extends Monster implements IMonster, ICombat {
                 playerList.get(randPlayer).setHp(playerList.get(randPlayer).getHp() - thaalDamage);
 
                 System.out.printf("And player: %s has %s HP left \n", playerList.get(randPlayer).getName(), playerList.get(randPlayer).getHp());
-                databaseCombatWriter.MonsterAttackPlayer(currentMonster, playerList, randPlayer, thaalDamage, calculateLevel,"x","ATTACK", countRounds);
+                databaseCombatWriter.MonsterAttackPlayer(currentMonster, playerList, randPlayer, thaalDamage, calculateLevel, battleId,"ATTACK", countRounds);
 
             } else {
 
@@ -61,7 +61,7 @@ public class Thaal extends Monster implements IMonster, ICombat {
             }
 
         } else {
-            spells(playerList, currentPlayer, monsterList, currentMonster, calculateLevel, countRounds);
+            spells(playerList, currentPlayer, monsterList, currentMonster, calculateLevel, countRounds, battleId);
         }
     }
 }

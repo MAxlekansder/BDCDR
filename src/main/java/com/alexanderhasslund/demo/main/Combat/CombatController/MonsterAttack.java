@@ -12,7 +12,7 @@ import java.util.List;
 public class MonsterAttack {
 
 
-    public void monsterStrikePlayer( List<Monster> monsterList, List<Player> playerList, Monster currentMonster, Player currentPlayer, int calculateLevel, int countRounds) {
+    public void monsterStrikePlayer( List<Monster> monsterList, List<Player> playerList, Monster currentMonster, Player currentPlayer, int calculateLevel, int countRounds, String battleId) {
 
         System.out.printf("\n\033[1;36mMONSTER\033[0m %s turn:\n", currentMonster.getMonsterName());
         Iterator<Monster> iterator = monsterList.iterator();
@@ -20,7 +20,7 @@ public class MonsterAttack {
             Monster indexMonster = iterator.next();
             if (indexMonster.getMonsterId() == currentMonster.getMonsterId()) {
                 if (currentMonster instanceof ICombat) {
-                    ((ICombat) currentMonster).attack(playerList, currentPlayer, monsterList, currentMonster, calculateLevel,countRounds);
+                    ((ICombat) currentMonster).attack(playerList, currentPlayer, monsterList, currentMonster, calculateLevel,countRounds ,battleId);
                 }
                 break;
             }

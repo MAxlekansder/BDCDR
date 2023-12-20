@@ -56,23 +56,23 @@ public class CombatController {
 
                     if (currentMonster == null) {
 
-                        combatMenu.combatSwitch(playerList, monsterList, currentPlayer, currentMonster, calculatelevel, countRounds);
+                        combatMenu.combatSwitch(playerList, monsterList, currentPlayer, currentMonster, calculatelevel, countRounds, battleId);
                         //break;
 
                     } else if (currentPlayer == null) {
 
-                        monsterAttack.monsterStrikePlayer(monsterList, playerList, currentMonster, currentPlayer, calculatelevel,countRounds);
+                        monsterAttack.monsterStrikePlayer(monsterList, playerList, currentMonster, currentPlayer, calculatelevel,countRounds, battleId);
                         //break;
 
                     } else {
 
                         if (currentPlayer.getInitiative() < currentMonster.getInitiative()) {
 
-                            combatMenu.combatSwitch(playerList, monsterList, currentPlayer, currentMonster, calculatelevel, countRounds);
+                            combatMenu.combatSwitch(playerList, monsterList, currentPlayer, currentMonster, calculatelevel, countRounds, battleId);
 
                         } else {
 
-                            monsterAttack.monsterStrikePlayer(monsterList, playerList, currentMonster, currentPlayer, calculatelevel, countRounds);
+                            monsterAttack.monsterStrikePlayer(monsterList, playerList, currentMonster, currentPlayer, calculatelevel, countRounds, battleId);
 
                         }
                     }

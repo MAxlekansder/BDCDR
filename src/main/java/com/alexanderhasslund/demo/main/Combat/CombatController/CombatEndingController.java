@@ -19,7 +19,6 @@ public class CombatEndingController {
             System.out.println("Seems like you didnt make it further than here... ");
             System.out.println("too bad... better luck next time, hero");
 
-
         }
         else {
             System.out.println("You made it through the level!");
@@ -28,7 +27,6 @@ public class CombatEndingController {
             calculateLevels++;
             System.out.println("Restoring health and resource back to full");
             resetCombat.resetPlayerListBackToNormal(playerList);
-
 
         }
     }

@@ -24,7 +24,7 @@ public class CombatMenu {
 
 
 
-    public void combatSwitch(List<Player> playerList, List<Monster> monsterList, Player currentPlayer, Monster currentMonster, int calculateLevel, int countRounds) {
+    public void combatSwitch(List<Player> playerList, List<Monster> monsterList, Player currentPlayer, Monster currentMonster, int calculateLevel, int countRounds, String battleId) {
         PlayerChoice playerChoice = new PlayerChoice();
         PlayerAttack playerAttack = new PlayerAttack();
         System.out.printf("Player %s %s turn: Health - \033[1;37m%s\033[0m resoruce - \033[1;37m%s\033[0m"
@@ -44,7 +44,7 @@ public class CombatMenu {
                     case 1 -> {
 
                         System.out.println(playerChoice.abilityChoice());
-                        playerAttack.fightMonster(playerList, monsterList, currentPlayer, currentMonster, calculateLevel, countRounds);
+                        playerAttack.fightMonster(playerList, monsterList, currentPlayer, currentMonster, calculateLevel, countRounds,battleId);
 
                         isFighting = false;
                         isViewing = false;

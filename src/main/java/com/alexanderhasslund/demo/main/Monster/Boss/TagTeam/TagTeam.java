@@ -19,7 +19,7 @@ public class TagTeam extends Monster implements IMonster, ICombat {
 
 
     @Override
-    public void spells(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster currentMonster,  int calculateLevel, int countRounds) {
+    public void spells(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster currentMonster,  int calculateLevel, int countRounds, String battleId) {
         DatabaseCombatWriter databaseCombatWriter = new DatabaseCombatWriter();
         Random random = new Random();
         // tag team frenzy
@@ -33,13 +33,13 @@ public class TagTeam extends Monster implements IMonster, ICombat {
             playerList.get(randPlayer).setHp(playerList.get(randPlayer).getHp() - randDamage);
             System.out.println("Damage: " + randDamage);
         }
-        databaseCombatWriter.MonsterAttackPlayer(currentMonster, playerList, randPlayer, randDamage, calculateLevel,"x","SPELL", countRounds);
+        databaseCombatWriter.MonsterAttackPlayer(currentMonster, playerList, randPlayer, randDamage, calculateLevel, battleId,"SPELL", countRounds);
 
     }
 
 
     @Override
-    public void attack(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster currentMonster, int calculateLevel, int countRounds) {
+    public void attack(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster currentMonster, int calculateLevel, int countRounds, String battleId) {
         DatabaseCombatWriter databaseCombatWriter = new DatabaseCombatWriter();
         Random random = new Random();
         int chanceOfSpell = random.nextInt(10);
@@ -59,14 +59,14 @@ public class TagTeam extends Monster implements IMonster, ICombat {
                 int tagTeamDamage = (currentMonster.getDamage() - (int) (playerList.get(randPlayer).getDefence() / 8));
                 playerList.get(randPlayer).setHp(playerList.get(randPlayer).getHp() - tagTeamDamage);
                 System.out.printf("And player: %s has %s HP left \n", playerList.get(randPlayer).getName(), playerList.get(randPlayer).getHp());
-                databaseCombatWriter.MonsterAttackPlayer(currentMonster, playerList, randPlayer, tagTeamDamage, calculateLevel,"x","ATTACK", countRounds);
+                databaseCombatWriter.MonsterAttackPlayer(currentMonster, playerList, randPlayer, tagTeamDamage, calculateLevel, battleId,"ATTACK", countRounds);
 
             } else {
                 System.out.printf("The Tag team misses %s player %s \n", playerList.get(randPlayer).getClassName(), playerList.get(randPlayer).getName());
             }
 
         } else {
-            spells(playerList, currentPlayer, monsterList, currentMonster, calculateLevel, countRounds);
+            spells(playerList, currentPlayer, monsterList, currentMonster, calculateLevel, countRounds, battleId);
         }
 
     }

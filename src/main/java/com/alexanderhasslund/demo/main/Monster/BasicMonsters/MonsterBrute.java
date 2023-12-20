@@ -20,12 +20,12 @@ public class MonsterBrute extends Monster implements IMonster, ICombat {
     }
 
     @Override
-    public void spells(List<Player> playerList, Player player, List<Monster> monsterList, Monster monster,  int calculateLevel, int countRounds) {
+    public void spells(List<Player> playerList, Player player, List<Monster> monsterList, Monster monster,  int calculateLevel, int countRounds, String battleId) {
         //slam
     }
 
     @Override
-    public void attack(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster currentMonster, int calculateLevel, int countRounds) {
+    public void attack(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster currentMonster, int calculateLevel, int countRounds, String battleId) {
         DatabaseCombatWriter databaseCombatWriter = new DatabaseCombatWriter();
         Random random = new Random();
 
@@ -44,7 +44,7 @@ public class MonsterBrute extends Monster implements IMonster, ICombat {
                     - currentMonster.getDamage());
 
             System.out.printf("And player: %s %s has %s HP left \n", playerList.get(randPlayer).getName(), playerList.get(randPlayer).getClassName(), playerList.get(randPlayer).getHp());
-            databaseCombatWriter.MonsterAttackPlayer(currentMonster, playerList, randPlayer, currentMonster.getDamage(), calculateLevel,"x","ATTACK", countRounds);
+            databaseCombatWriter.MonsterAttackPlayer(currentMonster, playerList, randPlayer, currentMonster.getDamage(), calculateLevel, battleId,"ATTACK", countRounds);
         } else {
             System.out.printf("The brute misses %s player %s \n", playerList.get(randPlayer).getClassName(), playerList.get(randPlayer).getName());
         }

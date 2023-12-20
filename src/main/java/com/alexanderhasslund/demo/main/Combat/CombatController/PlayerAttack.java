@@ -26,7 +26,7 @@ public class PlayerAttack {
 
     private List<Player> playerList;
 
-    public void fightMonster(List<Player> playerList, List<Monster> monsterList, Player currentPlayer, Monster currentMonster, int calculateLevel, int countRounds) {
+    public void fightMonster(List<Player> playerList, List<Monster> monsterList, Player currentPlayer, Monster currentMonster, int calculateLevel, int countRounds, String battleId) {
         PlayerChoice playerChoice = new PlayerChoice();
         playerChoice.abilityChoice();
 
@@ -36,7 +36,7 @@ public class PlayerAttack {
             case 1 -> {
                 IntStream.range(0, playerList.size()).filter(index -> index == currentPlayer.getId()).forEach(index -> {  //filter(index -> index == playerIndex)
                             if (currentPlayer instanceof ICombat) {
-                                ((ICombat) currentPlayer).attack(playerList, currentPlayer, monsterList, currentMonster, calculateLevel, countRounds);
+                                ((ICombat) currentPlayer).attack(playerList, currentPlayer, monsterList, currentMonster, calculateLevel, countRounds, battleId);
                             }
                         }
                 );
@@ -47,7 +47,7 @@ public class PlayerAttack {
             case 2 -> {
                 IntStream.range(0, playerList.size()).filter(index -> index == currentPlayer.getId()).forEach(index -> {  //filter(index -> index == playerIndex)
                     if (currentPlayer instanceof ICombat) {
-                        ((IClasses) currentPlayer).spells(playerList, currentPlayer, monsterList, calculateLevel, countRounds);
+                        ((IClasses) currentPlayer).spells(playerList, currentPlayer, monsterList, calculateLevel, countRounds, battleId);
                     }
                 });
                 currentPlayer.setHasPlayed(true);
@@ -56,7 +56,7 @@ public class PlayerAttack {
             case 3 -> {
                 IntStream.range(0, playerList.size()).filter(index -> index == currentPlayer.getId()).forEach(index -> {  //filter(index -> index == playerIndex)
                     if (currentPlayer instanceof ICombat) {
-                        ((IClasses) currentPlayer).ultimate(playerList, currentPlayer, monsterList, calculateLevel, countRounds);
+                        ((IClasses) currentPlayer).ultimate(playerList, currentPlayer, monsterList, calculateLevel, countRounds, battleId);
 
                         currentPlayer.setHasPlayed(true);
                         checkMonsterhasDied(monsterList, playerList, currentPlayer, calculateLevel);

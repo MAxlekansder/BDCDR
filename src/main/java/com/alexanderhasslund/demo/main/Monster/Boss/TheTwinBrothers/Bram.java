@@ -16,7 +16,7 @@ public class Bram extends Monster implements IMonster, ICombat {
     }
 
     @Override
-    public void spells(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster currentMonster,  int calculateLevel, int countRounds) {
+    public void spells(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster currentMonster,  int calculateLevel, int countRounds, String battleId) {
 
         System.out.println("Bram strengthens him self and his brother, granting staggering damage");
         for (Monster monster : monsterList) {
@@ -27,7 +27,7 @@ public class Bram extends Monster implements IMonster, ICombat {
     }
 
     @Override
-    public void attack(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster currentMonster, int calculateLevel, int countRounds) {
+    public void attack(List<Player> playerList, Player currentPlayer, List<Monster> monsterList, Monster currentMonster, int calculateLevel, int countRounds, String battleId) {
         DatabaseCombatWriter databaseCombatWriter = new DatabaseCombatWriter();
         Random random = new Random();
         int chanceOfSpell = random.nextInt(8);
@@ -47,7 +47,7 @@ public class Bram extends Monster implements IMonster, ICombat {
                 playerList.get(randPlayer).setHp(playerList.get(randPlayer).getHp()
                         - currentMonster.getDamage());
                 System.out.printf("And player: %s %s has %s HP left \n", playerList.get(randPlayer).getClassName(), playerList.get(randPlayer).getName(), playerList.get(randPlayer).getHp());
-                databaseCombatWriter.MonsterAttackPlayer(currentMonster, playerList, randPlayer, currentMonster.getDamage(), calculateLevel,"x","ATTACK", countRounds);
+                databaseCombatWriter.MonsterAttackPlayer(currentMonster, playerList, randPlayer, currentMonster.getDamage(), calculateLevel, battleId,"ATTACK", countRounds);
 
             } else {
 
@@ -55,7 +55,7 @@ public class Bram extends Monster implements IMonster, ICombat {
             }
 
         } else {
-            spells(playerList, currentPlayer, monsterList, currentMonster, calculateLevel, countRounds);
+            spells(playerList, currentPlayer, monsterList, currentMonster, calculateLevel, countRounds, battleId);
         }
     }
 
